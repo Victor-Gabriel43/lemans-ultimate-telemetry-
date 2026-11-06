@@ -84,7 +84,7 @@ button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink
 
 <aside class="panel" id="panel">
   <div>
-    <div class="eyebrow">Projeto 3D · v0.1 · ainda sem carros</div>
+    <div class="eyebrow">Man cave · v0.2 · ainda sem carros</div>
     <h1>Garagem dos Sonhos</h1>
   </div>
   <button class="toggle-panel" id="togglePanel" aria-expanded="true">Esconder painel</button>
@@ -93,6 +93,11 @@ button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink
       <div class="spec"><b>24×16</b><span>metros</span></div>
       <div class="spec"><b>6 m</b><span>pé-direito</span></div>
       <div class="spec"><b>3</b><span>vagas livres</span></div>
+    </div>
+    <div class="specs" style="border-top:0;padding-top:0">
+      <div class="spec"><b>4</b><span>banquetas</span></div>
+      <div class="spec"><b>15</b><span>bolas</span></div>
+      <div class="spec"><b>27</b><span>garrafas</span></div>
     </div>
     <div class="group">
       <div class="group-label">Iluminação</div>
@@ -125,6 +130,8 @@ button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink
   <button data-view="oficina" aria-pressed="false">Oficina</button>
   <button data-view="elevador" aria-pressed="false">Elevador</button>
   <button data-view="lounge" aria-pressed="false">Lounge</button>
+  <button data-view="bar" aria-pressed="false">Bar</button>
+  <button data-view="jogos" aria-pressed="false">Jogos</button>
 </nav>
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
@@ -552,9 +559,157 @@ button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink
   neon.rotation.y = Math.PI / 2; neon.position.set(-W / 2 + 0.12, 2.9, 4.6); scene.add(neon);
   const neonLight = new THREE.PointLight(0xff4a3a, 0.9, 6, 2); neonLight.position.set(-11.2, 2.8, 4.6); scene.add(neonLight);
 
+  // ================= MAN CAVE =================
+  const brass = std(0xc9a14a, { roughness: 0.3, metalness: 0.7 });
+  function neonSign(text, sub, glow, w, h, x, y, z, rotY) {
+    const tex = canvasTex(1024, 320, (g, cw, ch) => {
+      g.textAlign = 'center'; g.textBaseline = 'middle';
+      g.font = '800 170px "Saira Extra Condensed", "Arial Narrow", sans-serif';
+      g.shadowColor = glow; g.shadowBlur = 40; g.fillStyle = '#fff3e6';
+      g.fillText(text, cw / 2, ch * (sub ? 0.42 : 0.5));
+      if (sub) { g.shadowBlur = 24; g.font = '600 50px "Chakra Petch", sans-serif'; g.fillText(sub, cw / 2, ch * 0.86); }
+    });
+    const m = new THREE.Mesh(new THREE.PlaneGeometry(w, h), new THREE.MeshBasicMaterial({ map: tex, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false }));
+    m.position.set(x, y, z); m.rotation.y = rotY; scene.add(m);
+    return m;
+  }
+
+  // ---- Bar (parede esquerda, entre o elevador e o lounge) ----
+  const barX = -9.9;
+  box(scene, 0.6, 1.02, 3.2, M.wood, barX, 0.51, 0.9);
+  box(scene, 0.04, 0.9, 3.0, std(0x3a2618, { roughness: 0.6 }), barX + 0.31, 0.5, 0.9);
+  box(scene, 0.85, 0.06, 3.35, std(0x121316, { roughness: 0.18, metalness: 0.35 }), barX + 0.05, 1.05, 0.9);
+  const rail = cyl(scene, 0.025, 0.025, 3.1, 12, brass, barX + 0.45, 0.22, 0.9); rail.rotation.x = Math.PI / 2;
+  const ledBar = new THREE.MeshBasicMaterial({ color: 0xffa24a });
+  box(scene, 0.02, 0.02, 3.1, ledBar, barX + 0.34, 0.98, 0.9);
+  // chopeira
+  box(scene, 0.16, 0.3, 0.5, brass, barX - 0.05, 1.23, 0.4);
+  [0.25, 0.4, 0.55].forEach(z => { const t = cyl(scene, 0.015, 0.015, 0.16, 8, brass, barX + 0.08, 1.3, z); t.rotation.z = Math.PI / 2; cyl(scene, 0.012, 0.012, 0.12, 8, M.black, barX + 0.16, 1.42, z); });
+  // copos
+  [1.2, 1.5, 1.8].forEach(z => cyl(scene, 0.035, 0.03, 0.12, 12, new THREE.MeshStandardMaterial({ color: 0xffd27a, transparent: true, opacity: 0.55, roughness: 0.1 }), barX + 0.2, 1.14, z));
+  // banquetas
+  [-0.3, 0.5, 1.3, 2.1].forEach(z => {
+    cyl(scene, 0.22, 0.24, 0.03, 20, M.darkMetal, barX + 0.85, 0.015, z);
+    cyl(scene, 0.03, 0.03, 0.75, 10, brass, barX + 0.85, 0.4, z);
+    cyl(scene, 0.21, 0.19, 0.09, 20, std(0x6e2a1c, { roughness: 0.5 }), barX + 0.85, 0.8, z);
+    const ring = new THREE.Mesh(new THREE.TorusGeometry(0.16, 0.012, 6, 24), brass); ring.rotation.x = Math.PI / 2; ring.position.set(barX + 0.85, 0.3, z); scene.add(ring);
+  });
+  // prateleiras de garrafas
+  const bottleCols = [0x8a4a12, 0x1f4d2a, 0xd8e3e6, 0x5a1a12, 0xb5781e, 0x274a6b];
+  [1.45, 1.95, 2.45].forEach((y, row) => {
+    box(scene, 0.3, 0.04, 1.4, M.wood, -W / 2 + 0.25, y, 0.05);
+    box(scene, 0.02, 0.02, 1.36, ledBar, -W / 2 + 0.38, y - 0.03, 0.05);
+    for (let i = 0; i < 9; i++) {
+      const c = bottleCols[(i * 3 + row * 2) % bottleCols.length];
+      const bm = new THREE.MeshStandardMaterial({ color: c, roughness: 0.15, metalness: 0.1, transparent: true, opacity: 0.85 });
+      const hgt = 0.24 + ((i + row) % 3) * 0.04;
+      cyl(scene, 0.04, 0.045, hgt, 14, bm, -W / 2 + 0.24, y + 0.02 + hgt / 2, -0.55 + i * 0.15);
+      cyl(scene, 0.014, 0.02, 0.08, 8, bm, -W / 2 + 0.24, y + 0.06 + hgt, -0.55 + i * 0.15);
+    }
+  });
+  const barLight = new THREE.PointLight(0xffa24a, 0.9, 5, 2); barLight.position.set(-10.9, 2.0, 0.3); scene.add(barLight);
+  const pitBar = neonSign('PIT BAR', 'gelada desde 1923', '#ff8a1f', 2.2, 0.69, -W / 2 + 0.12, 3.35, 0.2, Math.PI / 2);
+  // pendentes sobre o balcão
+  [0.0, 0.9, 1.8].forEach(z => {
+    cyl(scene, 0.006, 0.006, 3.6, 4, M.black, barX + 0.05, 4.2, z);
+    cyl(scene, 0.06, 0.16, 0.18, 20, std(0x1c1d20, { roughness: 0.4, metalness: 0.5 }), barX + 0.05, 2.32, z);
+    const bulb = new THREE.Mesh(new THREE.SphereGeometry(0.05, 12, 8), new THREE.MeshBasicMaterial({ color: 0xffc27a })); bulb.position.set(barX + 0.05, 2.22, z); scene.add(bulb);
+  });
+  const pend = new THREE.PointLight(0xffb36b, 0.7, 4, 2); pend.position.set(barX + 0.05, 2.0, 0.9); scene.add(pend);
+
+  // ---- Mesa de sinuca ----
+  const pool = new THREE.Group(); pool.position.set(-5.4, 0, 4.7); scene.add(pool);
+  box(pool, 2.3, 0.22, 1.2, M.wood, 0, 0.66, 0);
+  box(pool, 2.24, 0.05, 1.14, std(0x1d5a3a, { roughness: 0.95 }), 0, 0.8, 0);
+  [[0, 0.62, 2.5, 0.13], [0, -0.62, 2.5, 0.13]].forEach(([x, z, l, d]) => box(pool, l, 0.1, d, M.wood, x, 0.84, z));
+  [[1.19, 0], [-1.19, 0]].forEach(([x, z]) => box(pool, 0.13, 0.1, 1.37, M.wood, x, 0.84, z));
+  [[-1.0, -0.5], [1.0, -0.5], [-1.0, 0.5], [1.0, 0.5]].forEach(([x, z]) => box(pool, 0.16, 0.56, 0.16, M.wood, x, 0.28, z));
+  [[-1.12, -0.55], [0, -0.58], [1.12, -0.55], [-1.12, 0.55], [0, 0.58], [1.12, 0.55]].forEach(([x, z]) => cyl(pool, 0.055, 0.055, 0.03, 16, M.black, x, 0.83, z));
+  const ballCols = [0xf2c230, 0x1f5fc8, 0xc8221f, 0x5a2a8a, 0xe26a1f, 0x1d7a3a, 0x7a1a12, 0x111111, 0xf2c230, 0x1f5fc8];
+  let bi = 0;
+  for (let r = 0; r < 4; r++) for (let k = 0; k <= r; k++) {
+    const b = new THREE.Mesh(new THREE.SphereGeometry(0.03, 16, 12), std(ballCols[bi++ % ballCols.length], { roughness: 0.15 }));
+    b.position.set(0.5 + r * 0.052, 0.855, (k - r / 2) * 0.062); pool.add(b);
+  }
+  const cue = new THREE.Mesh(new THREE.SphereGeometry(0.03, 16, 12), M.white); cue.position.set(-0.55, 0.855, 0.05); pool.add(cue);
+  const stick = cyl(pool, 0.008, 0.016, 1.45, 10, std(0xc79a5a, { roughness: 0.5 }), -0.2, 0.9, -0.35); stick.rotation.z = Math.PI / 2; stick.rotation.y = 0.15;
+  // luminária da sinuca
+  [-0.7, 0.7].forEach(x => cyl(pool, 0.006, 0.006, 3.4, 4, M.black, x, 3.8, 0));
+  box(pool, 1.9, 0.14, 0.3, std(0x1d3b2a, { roughness: 0.4, metalness: 0.3 }), 0, 2.05, 0);
+  const shadeGlow = new THREE.Mesh(new THREE.PlaneGeometry(1.8, 0.24), new THREE.MeshBasicMaterial({ color: 0xffe0b0, side: THREE.DoubleSide }));
+  shadeGlow.rotation.x = Math.PI / 2; shadeGlow.position.set(0, 1.975, 0); pool.add(shadeGlow);
+  const poolLight = new THREE.PointLight(0xffd9a8, 1.0, 4.5, 2); poolLight.position.set(0, 1.75, 0); pool.add(poolLight);
+  // suporte de tacos
+  box(scene, 0.04, 1.2, 0.6, M.wood, -2.9 + 0, 1.2, 7.83).rotation.y = 0;
+  for (let i = 0; i < 4; i++) cyl(scene, 0.009, 0.016, 1.4, 8, std(0xc79a5a), -3.1 + i * 0.14, 0.85, 7.75);
+
+  // ---- Alvo de dardos (parede da frente) ----
+  const dartTex = canvasTex(512, 512, (g, w) => {
+    const c = w / 2; g.fillStyle = '#111'; g.fillRect(0, 0, w, w);
+    const rings = [[1, 0.95], [0.95, 0.63], [0.63, 0.58], [0.58, 0.1]];
+    for (let s = 0; s < 20; s++) {
+      const a0 = (s / 20) * Math.PI * 2 - Math.PI / 20, a1 = a0 + Math.PI / 10;
+      [[0.78, 0.72, s % 2 ? '#c8221f' : '#1d7a3a'], [0.72, 0.47, s % 2 ? '#111' : '#efe3c0'], [0.47, 0.42, s % 2 ? '#c8221f' : '#1d7a3a'], [0.42, 0.08, s % 2 ? '#111' : '#efe3c0']]
+        .forEach(([ro, ri, col]) => { g.fillStyle = col; g.beginPath(); g.arc(c, c, ro * c, a0, a1); g.arc(c, c, ri * c, a1, a0, true); g.closePath(); g.fill(); });
+    }
+    g.fillStyle = '#1d7a3a'; g.beginPath(); g.arc(c, c, 0.08 * c, 0, 7); g.fill();
+    g.fillStyle = '#c8221f'; g.beginPath(); g.arc(c, c, 0.035 * c, 0, 7); g.fill();
+  });
+  box(scene, 0.8, 0.8, 0.04, M.black, -8.4, 1.73, 7.83);
+  const dart = new THREE.Mesh(new THREE.CylinderGeometry(0.23, 0.23, 0.04, 48), [M.black, std(0xffffff, { map: dartTex, roughness: 0.9 }), M.black]);
+  dart.rotation.x = -Math.PI / 2; dart.position.set(-8.4, 1.73, 7.79); scene.add(dart);
+  box(scene, 1.0, 0.01, 0.05, M.yellow, -8.4, 0.012, 5.48);
+
+  // ---- Fliperama ----
+  const arcade = new THREE.Group(); arcade.position.set(-6.4, 0, 7.4); arcade.rotation.y = Math.PI; scene.add(arcade);
+  box(arcade, 0.7, 1.8, 0.75, std(0x161a2a, { roughness: 0.5 }), 0, 0.9, 0);
+  const arcTex = canvasTex(256, 220, (g, w, h) => {
+    g.fillStyle = '#05060c'; g.fillRect(0, 0, w, h);
+    g.strokeStyle = '#2f8cff'; g.lineWidth = 3; g.beginPath(); g.moveTo(20, h - 20); g.quadraticCurveTo(w / 2, 20, w - 20, h - 30); g.stroke();
+    g.fillStyle = '#f2c230'; g.font = '700 26px "Chakra Petch", sans-serif'; g.textAlign = 'center'; g.fillText('PRESS START', w / 2, h / 2 + 10);
+    g.fillStyle = '#ff4a3d'; g.font = '500 16px "Chakra Petch", sans-serif'; g.fillText('HI 3:27.914', w / 2, 30);
+  });
+  const arcScreen = new THREE.Mesh(new THREE.PlaneGeometry(0.56, 0.48), new THREE.MeshBasicMaterial({ map: arcTex }));
+  arcScreen.position.set(0, 1.35, 0.38); arcScreen.rotation.x = -0.15; arcade.add(arcScreen);
+  const panelBox = box(arcade, 0.7, 0.08, 0.32, std(0x22263a), 0, 1.02, 0.46); panelBox.rotation.x = 0.35;
+  cyl(arcade, 0.012, 0.012, 0.1, 8, M.black, -0.15, 1.1, 0.48);
+  [0.05, 0.15, 0.25].forEach((x, i) => cyl(arcade, 0.03, 0.03, 0.03, 12, new THREE.MeshBasicMaterial({ color: [0xff4a3d, 0xf2c230, 0x2f8cff][i] }), x, 1.07, 0.47));
+  box(arcade, 0.7, 0.2, 0.1, new THREE.MeshBasicMaterial({ color: 0xff6a2a }), 0, 1.75, 0.34);
+  const arcLight = new THREE.PointLight(0x4a7bff, 0.5, 3, 2); arcLight.position.set(-6.4, 1.4, 6.8); scene.add(arcLight);
+
+  // ---- Jukebox ----
+  const juke = new THREE.Group(); juke.position.set(-11.1, 0, 7.3); juke.rotation.y = Math.PI * 0.75; scene.add(juke);
+  box(juke, 0.85, 1.2, 0.6, std(0x4a1f12, { roughness: 0.35 }), 0, 0.6, 0);
+  const arch = new THREE.Mesh(new THREE.CylinderGeometry(0.425, 0.425, 0.6, 32, 1, false, -Math.PI / 2, Math.PI), std(0x4a1f12, { roughness: 0.35 }));
+  arch.rotation.x = Math.PI / 2; arch.rotation.z = Math.PI / 2; arch.position.set(0, 1.2, 0); juke.add(arch);
+  [0xff4a3d, 0xf2c230, 0x2ee66b, 0x2f8cff].forEach((c, i) => {
+    const tube = new THREE.Mesh(new THREE.TorusGeometry(0.39 - i * 0.05, 0.012, 6, 32, Math.PI), new THREE.MeshBasicMaterial({ color: c }));
+    tube.position.set(0, 1.2, 0.305); juke.add(tube);
+  });
+  box(juke, 0.6, 0.35, 0.02, new THREE.MeshBasicMaterial({ color: 0xffd9a0 }), 0, 0.85, 0.305);
+  box(juke, 0.6, 0.3, 0.02, std(0xc9a14a, { roughness: 0.3, metalness: 0.7 }), 0, 0.35, 0.305);
+  const jukeLight = new THREE.PointLight(0xff7a3a, 0.6, 3.5, 2); jukeLight.position.set(-10.6, 1.2, 6.8); scene.add(jukeLight);
+
+  // ---- Poltrona de frente pra plataforma ----
+  const chair = new THREE.Group(); chair.position.set(-8.3, 0, 2.6); chair.rotation.y = -0.9; scene.add(chair);
+  box(chair, 0.85, 0.42, 0.85, M.leather, 0, 0.24, 0);
+  box(chair, 0.85, 0.6, 0.2, M.leather, 0, 0.72, -0.35);
+  [-0.38, 0.38].forEach(x => box(chair, 0.16, 0.6, 0.85, M.leather, x, 0.34, 0));
+
+  // tapete persa sob a sinuca
+  const rugTex = canvasTex(512, 320, (g, w, h) => {
+    g.fillStyle = '#5a1a14'; g.fillRect(0, 0, w, h);
+    g.strokeStyle = '#c9a14a'; g.lineWidth = 8; g.strokeRect(16, 16, w - 32, h - 32);
+    g.strokeStyle = '#1d2a4a'; g.lineWidth = 14; g.strokeRect(40, 40, w - 80, h - 80);
+    g.fillStyle = '#c9a14a'; for (let i = 0; i < 7; i++) { g.save(); g.translate(w / 2, h / 2); g.rotate(i * Math.PI / 3.5); g.fillRect(-4, -90, 8, 180); g.restore(); }
+  });
+  const pRug = new THREE.Mesh(new THREE.PlaneGeometry(4.0, 2.6), std(0xffffff, { map: rugTex, roughness: 1 }));
+  pRug.rotation.x = -Math.PI / 2; pRug.position.set(-5.4, 0.006, 4.7); scene.add(pRug);
+  // ================= fim MAN CAVE =================
+
   // sombras
   scene.traverse(o => {
-    if (o.isMesh && o !== floor && o !== ceiling && o !== glass && o !== tv && o !== neon && o.material !== M.led) {
+    if (o.isMesh && o !== floor && o !== ceiling && o !== glass && o !== tv && o !== neon && o !== pitBar && o.material !== M.led) {
       o.castShadow = true; o.receiveShadow = true;
     }
   });
@@ -567,6 +722,8 @@ button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink
     simulador: { pos: [6.6, 2.1, -1.6], target: [4.5, 1.9, -7.2], info: '<strong>Sim rig.</strong> Chassi de alumínio, direct drive, três monitores e uma TV de 3,5 m com telemetria ao vivo do Le Mans Ultimate.' },
     oficina: { pos: [6.8, 2.6, -0.4], target: [11.6, 1.3, -3.8], info: '<strong>Oficina.</strong> Painel perfurado de ferramentas, bancada de madeira com morsa, gaveteiro vermelho e compressor.' },
     elevador: { pos: [-2.4, 3.4, 2.4], target: [-7.1, 1.6, -4.3], info: '<strong>Vaga 01.</strong> Elevador de 4 colunas: um carro em cima, outro embaixo. Por enquanto, vazio.' },
+    bar: { pos: [-6.6, 2.3, 1.6], target: [-11.2, 1.6, 0.6], info: '<strong>Pit Bar.</strong> Balcão de madeira com tampo preto, chopeira de 3 torneiras, 4 banquetas, prateleira iluminada de garrafas e frigobar atrás do balcão.' },
+    jogos: { pos: [-3.4, 2.6, 0.6], target: [-7.8, 1.1, 7.0], info: '<strong>Jogos.</strong> Mesa de sinuca com luminária, alvo de dardos na parede, fliperama e jukebox no canto.' },
     lounge: { pos: [-5.2, 2.5, 1.2], target: [-10.6, 1.4, 5.0], info: '<strong>Lounge.</strong> Sofá de couro, mesa feita de disco de freio, frigobar retrô com máquina de café e o neon BOX 24.' },
   };
   const info = document.getElementById('info');
