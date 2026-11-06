@@ -74,7 +74,7 @@ button[aria-pressed="true"] { background: var(--light); color: var(--light-ink);
     <div class="eyebrow">Estudo 3D · vagas vazias</div>
     <h1>Galeria Corsa</h1>
   </div>
-  <div class="meta">16 × 54 m · pé-direito 7,20 m · 14 + 1 vagas</div>
+  <div class="meta">16 × 54 m · pé-direito 6,00 m · 14 + 1 vagas</div>
   <button class="toggle" id="toggle" aria-expanded="true">Esconder painel</button>
   <div class="more" style="display:flex;flex-direction:column;gap:14px">
     <div class="group">
@@ -119,10 +119,10 @@ button[aria-pressed="true"] { background: var(--light); color: var(--light-ink);
     return;
   }
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const W = 16, L = 54, H = 7.2;          // largura (x), comprimento (z), pé-direito
+  const W = 16, L = 54, H = 6.0;          // largura (x), comprimento (z), pé-direito
   const ZF = L / 2, ZB = -L / 2;          // frente (entrada) e fundo
-  const CEIL = 6.6;                        // forro de madeira lateral
-  const MEZ = 3.6;                         // nível do mezanino
+  const CEIL = 5.6;                        // forro de madeira lateral
+  const MEZ = 3.0;                         // nível do mezanino
 
   // ---------- renderer ----------
   const canvas = document.getElementById('scene');
@@ -130,7 +130,7 @@ button[aria-pressed="true"] { background: var(--light); color: var(--light-ink);
   renderer.setPixelRatio(Math.min(devicePixelRatio, 1.75));
   renderer.outputEncoding = THREE.sRGBEncoding;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.15;
+  renderer.toneMappingExposure = 1.05;
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(0x050505);
   const camera = new THREE.PerspectiveCamera(55, 1, 0.05, 200);
@@ -157,7 +157,7 @@ button[aria-pressed="true"] { background: var(--light); color: var(--light-ink);
   const M = {
     wallDark: std(0x1a1a1b, { roughness: 0.9 }),
     black: std(0x0e0e0f, { roughness: 0.45, metalness: 0.4 }),
-    steelWhite: std(0xcfcbc2, { roughness: 0.6 }),
+    steelWhite: std(0xa9a59d, { roughness: 0.6, emissive: 0x0e0d0c }),
     oak: std(0xb38a5c, { roughness: 0.55 }),
     walnut: std(0x3b2417, { roughness: 0.6 }),
     stone: std(0x2a2a2b, { roughness: 0.3, metalness: 0.1 }),
@@ -178,7 +178,7 @@ button[aria-pressed="true"] { background: var(--light); color: var(--light-ink);
   // ---------- texturas ----------
   const S = 32;
   const concreteTex = tex(W * S, L * S, (g, w, h) => {
-    g.fillStyle = '#9a978f'; g.fillRect(0, 0, w, h);
+    g.fillStyle = '#8f8c86'; g.fillRect(0, 0, w, h);
     for (let i = 0; i < 1800; i++) {
       const r = rnd(6, 60); const x = rnd(0, w), y = rnd(0, h);
       const gr = g.createRadialGradient(x, y, 0, x, y, r);
@@ -194,8 +194,8 @@ button[aria-pressed="true"] { background: var(--light); color: var(--light-ink);
     [-2.6, 2.6].forEach(x => { g.beginPath(); g.moveTo((x + 8) * S, 0); g.lineTo((x + 8) * S, h); g.stroke(); });
   });
   const walnutTex = tex(512, 512, (g, w, h) => {
-    g.fillStyle = '#3a2416'; g.fillRect(0, 0, w, h);
-    for (let i = 0; i < 400; i++) { g.strokeStyle = `rgba(${Math.random() < 0.5 ? '90,58,36' : '25,15,9'},${rnd(0.1, 0.35)})`; g.lineWidth = rnd(0.5, 2); const y = rnd(0, h); g.beginPath(); g.moveTo(0, y); g.bezierCurveTo(w * 0.3, y + rnd(-6, 6), w * 0.6, y + rnd(-6, 6), w, y + rnd(-4, 4)); g.stroke(); }
+    g.fillStyle = '#6e4529'; g.fillRect(0, 0, w, h);
+    for (let i = 0; i < 400; i++) { g.strokeStyle = `rgba(${Math.random() < 0.5 ? '140,95,60' : '45,27,15'},${rnd(0.1, 0.35)})`; g.lineWidth = rnd(0.5, 2); const y = rnd(0, h); g.beginPath(); g.moveTo(0, y); g.bezierCurveTo(w * 0.3, y + rnd(-6, 6), w * 0.6, y + rnd(-6, 6), w, y + rnd(-4, 4)); g.stroke(); }
     g.fillStyle = 'rgba(0,0,0,0.75)'; g.fillRect(0, 0, w, 6); g.fillRect(0, 0, 6, h);
   }, [5, 45]);
   const deckTex = tex(64, 64, (g, w, h) => {
@@ -206,7 +206,7 @@ button[aria-pressed="true"] { background: var(--light); color: var(--light-ink);
   const flutedTex = tex(128, 64, (g, w, h) => {
     for (let i = 0; i < 4; i++) {
       const gr = g.createLinearGradient(i * 32, 0, i * 32 + 32, 0);
-      gr.addColorStop(0, '#1b1c1e'); gr.addColorStop(0.45, '#3a3c3f'); gr.addColorStop(0.55, '#34363a'); gr.addColorStop(1, '#151618');
+      gr.addColorStop(0, '#2a2b2e'); gr.addColorStop(0.45, '#55585c'); gr.addColorStop(0.55, '#4a4d51'); gr.addColorStop(1, '#232427');
       g.fillStyle = gr; g.fillRect(i * 32, 0, 32, h);
     }
   }, [L / 0.2 / 4, 1]);
@@ -258,7 +258,7 @@ button[aria-pressed="true"] { background: var(--light); color: var(--light-ink);
     floorMirror = new THREE.Reflector(new THREE.PlaneGeometry(W, L), { clipBias: 0.003, textureWidth: 1024, textureHeight: 2048, color: 0xb0b0b0 });
     floorMirror.rotation.x = -Math.PI / 2; scene.add(floorMirror);
   }
-  const floorMat = std(0xffffff, { map: concreteTex, roughness: 0.28, metalness: 0.0, transparent: true, opacity: 0.8 });
+  const floorMat = std(0xffffff, { map: concreteTex, roughness: 0.28, metalness: 0.0, transparent: true, opacity: 0.86 });
   const floor = plane(scene, W, L, floorMat, 0, 0.004, 0, -Math.PI / 2);
 
   // ---------- paredes ----------
@@ -278,7 +278,7 @@ button[aria-pressed="true"] { background: var(--light); color: var(--light-ink);
   box(walls.north, 0.44, 0.05, mirrorLen, M.stone, -W / 2 + 0.22, 1.125, (mirrorZ0 + mirrorZ1) / 2);
   box(walls.north, 0.02, 0.02, mirrorLen, lineMat(), -W / 2 + 0.43, 1.085, (mirrorZ0 + mirrorZ1) / 2);
   {
-    const gm = basic(0xffffff, { map: glowVTex, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, opacity: 0.9 });
+    const gm = basic(0xffffff, { map: glowVTex, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, opacity: 0.6 });
     L3glow.push(gm);
     plane(walls.north, mirrorLen, 0.9, gm, -W / 2 + 0.395, 0.62, (mirrorZ0 + mirrorZ1) / 2, 0, Math.PI / 2);
     const fg = basic(0xffffff, { map: glowVTex, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false, opacity: 0.35 });
@@ -296,7 +296,7 @@ button[aria-pressed="true"] { background: var(--light); color: var(--light-ink);
   for (let z = 25.8; z > -26.5; z -= 1.2) {
     if (z < -14.6 && z > -21.2) continue; // mezanino
     const top = z < -14.6 ? MEZ - 0.15 : CEIL;
-    const hgt = z < -14.6 ? 2.6 : 3.8;
+    const hgt = z < -14.6 ? 2.2 : 3.2;
     plane(walls.south, 1.05, hgt, scallopMat, W / 2 - 0.02, top - hgt / 2, z, 0, -Math.PI / 2);
     cyl(walls.south, 0.05, 0.05, 0.02, 12, basic(0xfff0dc), W / 2 - 0.3, top - 0.005, z);
   }
@@ -326,8 +326,8 @@ button[aria-pressed="true"] { background: var(--light); color: var(--light-ink);
   box(walls.front, 0.06, doorH, 0.08, M.black, -doorW / 2, doorH / 2, ZF);
   box(walls.front, 0.06, doorH, 0.08, M.black, doorW / 2, doorH / 2, ZF);
   // óculos e janelas altas
-  [-5.5, 5.5].forEach(x => { const r = new THREE.Mesh(new THREE.CircleGeometry(0.45, 32), basic(0x1d2a33)); r.position.set(x, 5.8, ZF - 0.16); r.rotation.y = Math.PI; walls.front.add(r); });
-  [-3, -1, 1, 3].forEach(x => plane(walls.front, 1.6, 0.9, basic(0x1a252d), x, 5.8, ZF - 0.16, 0, Math.PI));
+  [-5.5, 5.5].forEach(x => { const r = new THREE.Mesh(new THREE.CircleGeometry(0.45, 32), basic(0x1d2a33)); r.position.set(x, 5.0, ZF - 0.16); r.rotation.y = Math.PI; walls.front.add(r); });
+  [-3, -1, 1, 3].forEach(x => plane(walls.front, 1.6, 0.9, basic(0x1a252d), x, 5.0, ZF - 0.16, 0, Math.PI));
 
   // fundo
   plane(walls.back, W, H, M.wallDark, 0, H / 2, ZB);
@@ -336,7 +336,7 @@ button[aria-pressed="true"] { background: var(--light); color: var(--light-ink);
   const ceiling = new THREE.Group(); scene.add(ceiling);
   plane(ceiling, 4, L, std(0xffffff, { map: deckTex, roughness: 0.6, metalness: 0.5 }), 0, H - 0.01, 0, Math.PI / 2);
   [-1, 1].forEach(sgn => {
-    const p = plane(ceiling, 6, L, std(0xffffff, { map: walnutTex, roughness: 0.6 }), sgn * 5, CEIL, 0, Math.PI / 2);
+    const p = plane(ceiling, 6, L, std(0xffffff, { map: walnutTex, emissiveMap: walnutTex, emissive: 0xffffff, emissiveIntensity: 0.32, roughness: 0.6 }), sgn * 5, CEIL, 0, Math.PI / 2);
     box(ceiling, 0.06, H - CEIL, L, M.walnut, sgn * 2, (H + CEIL) / 2, 0);
   });
   // vigas transversais claras na faixa central
@@ -355,9 +355,33 @@ button[aria-pressed="true"] { background: var(--light); color: var(--light-ink);
     for (let i = 0; i < 5; i++) { const b = box(fan, 1.55, 0.015, 0.16, std(0x1f1f20, { roughness: 0.5 }), 0.85, 0, 0); const piv = new THREE.Group(); piv.rotation.y = i * Math.PI * 2 / 5; piv.add(b); fan.add(piv); }
     fans.push(fan);
   });
+
+  // grade de spots pretos embutidos no forro de madeira (como nas fotos)
+  {
+    const list = [];
+    [-7.2, -3.0, 3.0, 7.2].forEach(x => { for (let z = ZF - 1; z > ZB + 0.5; z -= 1.6) list.push([x, z]); });
+    const cans = new THREE.InstancedMesh(new THREE.CylinderGeometry(0.07, 0.07, 0.12, 14), M.black, list.length);
+    const lens = new THREE.InstancedMesh(new THREE.CircleGeometry(0.05, 14), basic(0xfff1dc), list.length);
+    const d = new THREE.Object3D();
+    list.forEach(([x, z], i) => {
+      d.position.set(x, CEIL - 0.06, z); d.rotation.set(0, 0, 0); d.updateMatrix(); cans.setMatrixAt(i, d.matrix);
+      d.position.set(x, CEIL - 0.121, z); d.rotation.set(Math.PI / 2, 0, 0); d.updateMatrix(); lens.setMatrixAt(i, d.matrix);
+    });
+    ceiling.add(cans, lens);
+  }
+  // TVs grandes penduradas e inclinadas na parede canelada
+  [19.4, 12.8, 6.4, 0].forEach((z, i) => {
+    const tv = new THREE.Group(); tv.position.set(W / 2 - 0.6, 3.9, z); tv.rotation.order = 'YXZ'; tv.rotation.set(0.28, -Math.PI / 2, 0); walls.south.add(tv);
+    box(tv, 2.5, 1.45, 0.07, M.black, 0, 0, 0);
+    plane(tv, 2.4, 1.35, basic(0xffffff, { map: artTex(i + 1) }), 0, 0, 0.037);
+    [-0.9, 0.9].forEach(dx => cyl(walls.south, 0.012, 0.012, CEIL - 4.5, 6, M.black, W / 2 - 0.62, (CEIL + 4.5) / 2, z + dx));
+  });
+  // janelas altas e óculos na parede do fundo
+  [-4.5, -1.5, 1.5, 4.5].forEach(x => plane(walls.back, 2.2, 0.9, basic(0x3c5563), x, 4.7, ZB + 0.02));
+  [-7, 7].forEach(x => { const o = new THREE.Mesh(new THREE.CircleGeometry(0.42, 32), basic(0x4a6675)); o.position.set(x, 4.7, ZB + 0.02); walls.back.add(o); });
   // viga diagonal de madeira com LED (gesto da referência)
   {
-    const a = new THREE.Vector3(-7.4, 6.15, 24), b = new THREE.Vector3(-2.4, 6.45, -9);
+    const a = new THREE.Vector3(-7.4, 5.2, 24), b = new THREE.Vector3(-2.4, 5.45, -9);
     const len = a.distanceTo(b), mid = a.clone().add(b).multiplyScalar(0.5);
     const beam = new THREE.Group(); beam.position.copy(mid); beam.lookAt(b); ceiling.add(beam);
     box(beam, 0.3, 0.35, len, M.walnut, 0, 0, 0);
@@ -369,9 +393,9 @@ button[aria-pressed="true"] { background: var(--light); color: var(--light-ink);
   const spotHead = new THREE.CylinderGeometry(0.06, 0.05, 0.18, 12);
   bayZ.forEach((z, i) => {
     [-1, 1].forEach(sgn => {
-      const s = new THREE.SpotLight(0xfff2e0, 2.3, 16, 0.36, 0.75, 1.4);
+      const s = new THREE.SpotLight(0xfff2e0, 1.3, 14, 0.5, 1.0, 1.4);
       s.position.set(sgn * 2.3, CEIL - 0.15, z); s.target.position.set(sgn * 4.9, 0.5, z);
-      scene.add(s, s.target); L1.push({ l: s, base: 2.3 });
+      scene.add(s, s.target); L1.push({ l: s, base: 1.3 });
       [-0.6, 0.6].forEach(dz => { const h = new THREE.Mesh(spotHead, M.black); h.position.set(sgn * 2.3, CEIL - 0.17, z + dz); h.rotation.z = sgn * 0.55; ceiling.add(h); });
       // placa técnica
       const n = sgn < 0 ? i + 1 : i + 8;
@@ -387,6 +411,7 @@ button[aria-pressed="true"] { background: var(--light); color: var(--light-ink);
   // ---------- chegada ----------
   const tt1 = cyl(scene, 2.5, 2.5, 0.06, 96, std(0x1b1b1c, { roughness: 0.3, metalness: 0.5 }), 0, 0.03, 23.5);
   const ttRing1 = new THREE.Mesh(new THREE.TorusGeometry(2.52, 0.015, 6, 128), lineMat()); ttRing1.rotation.x = Math.PI / 2; ttRing1.position.set(0, 0.065, 23.5); scene.add(ttRing1);
+  tt1.visible = false; ttRing1.visible = false; // giratória da chegada fica rente ao piso, sem destaque
   const arriveSpot = new THREE.SpotLight(0xfff2e0, 1.8, 14, 0.5, 0.8, 1.4); arriveSpot.position.set(0, CEIL, 23.5); arriveSpot.target.position.set(0, 0, 23.5); scene.add(arriveSpot, arriveSpot.target); L1.push({ l: arriveSpot, base: 1.8 });
 
   // ---------- rotunda ----------
@@ -471,14 +496,14 @@ button[aria-pressed="true"] { background: var(--light); color: var(--light-ink);
   const soffit2 = new THREE.PointLight(0xffd2a0, 0.8, 7, 2); soffit2.position.set(3, 3.0, -18); mezz.add(soffit2); L4.push({ l: soffit2, base: 0.8 });
   // escritório envidraçado
   const officeY = MEZ;
-  plane(mezz, 8, 3.2, M.glass, 0, officeY + 1.6, MZ0 - 0.25);
-  [-4, 4].forEach(x => box(mezz, 0.05, 3.2, 0.05, M.black, x, officeY + 1.6, MZ0 - 0.25));
-  box(mezz, 8, 0.05, 0.05, M.black, 0, officeY + 3.2, MZ0 - 0.25);
+  plane(mezz, 8, 2.5, M.glass, 0, officeY + 1.25, MZ0 - 0.25);
+  [-4, 4].forEach(x => box(mezz, 0.05, 2.5, 0.05, M.black, x, officeY + 1.25, MZ0 - 0.25));
+  box(mezz, 8, 0.05, 0.05, M.black, 0, officeY + 2.5, MZ0 - 0.25);
   box(mezz, 2.2, 0.05, 0.9, M.walnut, 0, officeY + 0.75, -17.2);
   [-0.95, 0.95].forEach(x => box(mezz, 0.05, 0.72, 0.8, M.walnut, x, officeY + 0.37, -17.2));
   box(mezz, 0.6, 0.12, 0.6, M.leather, 0, officeY + 0.48, -18.1);
   box(mezz, 0.6, 0.7, 0.1, M.leather, 0, officeY + 0.85, -18.4);
-  const desk = new THREE.PointLight(0xffd2a0, 0.6, 5, 2); desk.position.set(0, officeY + 2.4, -17.5); mezz.add(desk); L4.push({ l: desk, base: 0.6 });
+  const desk = new THREE.PointLight(0xffd2a0, 0.6, 5, 2); desk.position.set(0, officeY + 2.2, -17.5); mezz.add(desk); L4.push({ l: desk, base: 0.6 });
   // acervo: vitrines iluminadas nas laterais do mezanino (visíveis do eixo)
   [-6, 6].forEach(x => {
     box(mezz, 3.6, 2.6, 0.5, M.walnut, x, officeY + 1.3, -15.6);
@@ -491,11 +516,11 @@ button[aria-pressed="true"] { background: var(--light); color: var(--light-ink);
   // ---------- escada ----------
   for (let i = 0; i < 20; i++) {
     const z = -10.2 - i * 0.29;
-    box(scene, 1.2, 0.05, 0.3, M.walnut, 7.2, 0.18 * (i + 1) - 0.025, z);
-    box(scene, 0.03, 0.01, 0.3, lineMat(), 6.62, 0.18 * (i + 1) - 0.06, z);
+    box(scene, 1.2, 0.05, 0.3, M.walnut, 7.2, 0.15 * (i + 1) - 0.025, z);
+    box(scene, 0.03, 0.01, 0.3, lineMat(), 6.62, 0.15 * (i + 1) - 0.06, z);
   }
   const stairGlass = new THREE.Mesh(new THREE.PlaneGeometry(5.9, 1.0), M.glass);
-  stairGlass.position.set(6.58, 2.3, -13.1); stairGlass.rotation.y = Math.PI / 2; stairGlass.rotation.x = Math.atan2(3.6, 5.8); scene.add(stairGlass);
+  stairGlass.position.set(6.58, 2.0, -13.1); stairGlass.rotation.y = Math.PI / 2; stairGlass.rotation.x = Math.atan2(3.0, 5.8); scene.add(stairGlass);
 
   // ---------- lounge e cinema ----------
   const SZ = -21;
@@ -506,8 +531,8 @@ button[aria-pressed="true"] { background: var(--light); color: var(--light-ink);
     g.fillStyle = 'rgba(155,146,133,0.9)'; g.font = '400 22px "IBM Plex Mono", monospace'; g.fillText('sessão privada · 24 heures', w / 2, h / 2 + 56);
   });
   const screenMat = basic(0xffffff, { map: screenTex });
-  box(scene, 5.2, 2.3, 0.06, M.black, 0, 1.85, SZ + 0.14);
-  plane(scene, 5.0, 2.13, screenMat, 0, 1.85, SZ + 0.175);
+  box(scene, 4.6, 2.0, 0.06, M.black, 0, 1.55, SZ + 0.14);
+  plane(scene, 4.4, 1.87, screenMat, 0, 1.55, SZ + 0.175);
   // sofá em L
   const sofa = new THREE.Group(); sofa.position.set(0, 0, -16.6); scene.add(sofa);
   box(sofa, 3.8, 0.38, 1.0, M.leather, 0, 0.22, 0);
@@ -521,16 +546,16 @@ button[aria-pressed="true"] { background: var(--light); color: var(--light-ink);
   const screenGlow = new THREE.PointLight(0x9fb0c8, 0.0, 7, 2); screenGlow.position.set(0, 1.8, -20); scene.add(screenGlow);
 
   // ---------- luz base ----------
-  const hemi = new THREE.HemisphereLight(0xd8d2c8, 0x1a1612, 0.09); scene.add(hemi);
+  const hemi = new THREE.HemisphereLight(0xe6dccb, 0x4a423b, 0.18); scene.add(hemi);
   const serviceLights = [];
-  for (let z = 20; z > -26; z -= 9) { const p = new THREE.PointLight(0xf2f4f8, 0, 22, 1.4); p.position.set(0, CEIL - 0.3, z); scene.add(p); serviceLights.push(p); }
+  for (let z = 20; z > -26; z -= 9) { const p = new THREE.PointLight(0xffe9d2, 0, 20, 1.2); p.position.set(0, CEIL - 0.6, z); scene.add(p); serviceLights.push(p); }
 
   // ---------- cenas de luz ----------
   const scenes = {
-    galeria: { l1: 1, l2: 1, l3: 1, l4: 0.6, base: 0.09, svc: 0, screen: 0.35, info: '<b>Galeria.</b> A cena padrão de exposição. Spots de 3000K nas vagas, arcos na parede canelada e linhas âmbar no rodapé e na viga.' },
-    clube: { l1: 0.35, l2: 0.55, l3: 1.25, l4: 1.4, base: 0.06, svc: 0, screen: 0.5, info: '<b>Noite de clube.</b> Os carros ficam em segundo plano e o bar, o lounge e o mezanino esquentam.' },
+    galeria: { l1: 1, l2: 1, l3: 1, l4: 0.6, base: 0.18, svc: 0.32, screen: 0.35, info: '<b>Galeria.</b> A cena padrão de exposição. Spots de 3000K nas vagas, arcos na parede canelada e linhas âmbar no rodapé e na viga.' },
+    clube: { l1: 0.35, l2: 0.55, l3: 1.25, l4: 1.4, base: 0.14, svc: 0.15, screen: 0.5, info: '<b>Noite de clube.</b> Os carros ficam em segundo plano e o bar, o lounge e o mezanino esquentam.' },
     cinema: { l1: 0.05, l2: 0.1, l3: 0.25, l4: 0.08, base: 0.02, svc: 0, screen: 1, info: '<b>Cinema.</b> Só as linhas de rodapé e a tela ficam acesas.' },
-    servico: { l1: 0.8, l2: 0.3, l3: 0.6, l4: 0.6, base: 0.55, svc: 1.1, screen: 0.35, info: '<b>Serviço.</b> Luz geral de 4000K para limpeza, manutenção e fotos.' },
+    servico: { l1: 0.8, l2: 0.3, l3: 0.6, l4: 0.6, base: 0.8, svc: 1.3, screen: 0.35, info: '<b>Serviço.</b> Luz geral de 4000K para limpeza, manutenção e fotos.' },
   };
   let currentScene = 'galeria';
   function applyScene(name) {
@@ -555,7 +580,7 @@ button[aria-pressed="true"] { background: var(--light); color: var(--light-ink);
     if (floorMirror) floorMirror.visible = on;
     if (wallMirror) wallMirror.visible = on;
     mirrorFallback.visible = !on || !wallMirror;
-    floorMat.opacity = on && floorMirror ? 0.8 : 1;
+    floorMat.opacity = on && floorMirror ? 0.86 : 1;
     floorMat.transparent = on && !!floorMirror;
     floorMat.needsUpdate = true;
   }
@@ -569,7 +594,7 @@ button[aria-pressed="true"] { background: var(--light); color: var(--light-ink);
     galeria: { pos: [-1.2, 1.05, 15.5], target: [4.6, 1.5, 9.5], info: 'Vagas de 3,20 m com placa técnica, spots no trilho e arcos de luz na parede canelada.' },
     rotunda: { pos: [3.6, 1.7, 0.6], target: [0, 0.6, -6], info: 'Plataforma Ø5,5 m para o carro principal, sob o anel de luz do forro circular.' },
     bar: { pos: [-1.6, 1.65, -9.2], target: [-6.6, 1.6, -14.2], info: 'Balcão de mármore escuro de 7,2 m, seis banquetas e cristaleira retroiluminada.' },
-    lounge: { pos: [0.3, 1.35, -11.2], target: [0, 1.6, -21], info: 'Sofá em L de couro, poltronas de bouclé e tela de 5 m, sob o mezanino de 3,40 m.' },
+    lounge: { pos: [0.3, 1.35, -11.2], target: [0, 1.6, -21], info: 'Sofá em L de couro, poltronas de bouclé e tela de 5 m, sob o mezanino de 2,70 m.' },
     escritorio: { pos: [0.2, MEZ + 1.5, -17.8], target: [0, 1.6, 6], info: 'Do escritório envidraçado no mezanino: a vista para a coleção inteira.' },
     aerea: { pos: [21, 30, 34], target: [0, 0, -2], info: 'Corte sem teto: chegada, galeria, rotunda, clube e serviço em um único eixo.' },
   };
