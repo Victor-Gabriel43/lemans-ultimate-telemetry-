@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ORBIT</title>
+    <meta name="description" content="ORBIT — landing page experimental." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;600;800&family=Geist+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- loader: só um contador -->
+    <div class="loader" id="loader" aria-hidden="true">
+      <span class="loader-count" id="loader-count">000</span>
+    </div>
+
+    <!-- a cena inteira é fixa; a rolagem só dirige o tempo -->
+    <canvas id="scene" aria-hidden="true"></canvas>
+
+    <!-- palavra gigante: a câmera atravessa a primeira letra -->
+    <div class="word-wrap" aria-hidden="true">
+      <div class="word" id="word"></div>
+    </div>
+
+    <!-- visor: texto só nos cantos -->
+    <header class="corner tl"><span id="brand"></span></header>
+    <div class="corner tr">
+      <button class="retro" id="retro" type="button" aria-pressed="false">
+        <span class="sw"><span></span></span>1984
+      </button>
+    </div>
+    <div class="corner bl">
+      <span class="idx" id="idx">00 / 05</span>
+      <p class="line" id="line"></p>
+    </div>
+    <div class="corner br"><span class="pct" id="pct">000</span></div>
+
+    <!-- fim: um único campo -->
+    <section class="cta" id="cta">
+      <h1 class="cta-title" id="cta-title"></h1>
+      <form class="cta-form" id="cta-form">
+        <label class="sr" for="email">E-mail</label>
+        <input id="email" type="email" required placeholder="seu@email.com" autocomplete="email" />
+        <button type="submit" aria-label="Enviar">→</button>
+      </form>
+      <p class="hello" id="hello" aria-live="off"></p>
+    </section>
+
+    <!-- altura que dá o "tempo" da rolagem -->
+    <div class="track" aria-hidden="true"></div>
+
+    <script src="main.js"></script>
+  </body>
+</html>

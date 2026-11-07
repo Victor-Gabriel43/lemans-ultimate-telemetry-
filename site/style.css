@@ -1,0 +1,288 @@
+:root {
+  --bg: #050304;
+  --ink: #f2ece8;
+  --dim: rgba(242, 236, 232, 0.42);
+  --red: #ff2a1f;
+  --sans: "Geist", system-ui, sans-serif;
+  --mono: "Geist Mono", ui-monospace, monospace;
+}
+
+html.retro {
+  --bg: #ecebe4;
+  --ink: #0b0b0b;
+  --dim: rgba(11, 11, 11, 0.5);
+  --red: #0b0b0b;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+::selection {
+  background: var(--red);
+  color: var(--bg);
+}
+
+.track {
+  height: 700vh;
+}
+
+/* luz vermelha vinda de cima — o único "efeito" de fundo */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(55% 45% at 50% -8%, rgba(255, 42, 31, 0.28), transparent 70%),
+    radial-gradient(40% 30% at 50% 110%, rgba(255, 42, 31, 0.1), transparent 70%);
+  transition: opacity 0.6s;
+}
+html.retro body::before {
+  opacity: 0;
+}
+
+#scene {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  touch-action: pan-y;
+}
+html.retro #scene {
+  image-rendering: pixelated;
+}
+
+/* ---- palavra-máscara -------------------------------------------------- */
+.word-wrap {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  overflow: hidden;
+}
+.word {
+  font-weight: 800;
+  font-size: clamp(6rem, 30vw, 34rem);
+  letter-spacing: -0.07em;
+  line-height: 0.8;
+  color: var(--red);
+  will-change: transform, opacity;
+  white-space: nowrap;
+}
+html.retro .word {
+  font-family: var(--mono);
+  font-weight: 500;
+  letter-spacing: -0.04em;
+}
+
+/* ---- cantos ----------------------------------------------------------- */
+.corner {
+  position: fixed;
+  z-index: 5;
+  padding: clamp(16px, 2.6vw, 36px);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.tl {
+  top: 0;
+  left: 0;
+  font-weight: 500;
+}
+.tr {
+  top: 0;
+  right: 0;
+}
+.bl {
+  bottom: 0;
+  left: 0;
+  max-width: min(440px, 78vw);
+}
+.br {
+  bottom: 0;
+  right: 0;
+}
+.idx,
+.pct {
+  color: var(--dim);
+  font-variant-numeric: tabular-nums;
+}
+.line {
+  margin-top: 14px;
+  font-family: var(--sans);
+  font-size: clamp(18px, 2vw, 26px);
+  font-weight: 300;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  text-transform: none;
+  min-height: 2.4em;
+}
+.line .w {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+}
+.line .w > span {
+  display: inline-block;
+  transform: translateY(105%);
+  animation: rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+@keyframes rise {
+  to {
+    transform: none;
+  }
+}
+
+.retro {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: none;
+  border: 0;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  cursor: pointer;
+}
+.sw {
+  position: relative;
+  width: 26px;
+  height: 14px;
+  border: 1px solid currentColor;
+  border-radius: 99px;
+}
+.sw > span {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 8px;
+  height: 8px;
+  border-radius: 99px;
+  background: currentColor;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+html.retro .sw > span {
+  transform: translateX(12px);
+}
+html.retro .sw,
+html.retro .sw > span,
+html.retro .cta-form {
+  border-radius: 0;
+}
+
+/* ---- fim -------------------------------------------------------------- */
+.cta {
+  position: fixed;
+  inset: 0;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 34px;
+  padding: 24px;
+  text-align: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.6s, visibility 0.6s;
+}
+.cta.on {
+  opacity: 1;
+  visibility: visible;
+}
+.cta-title {
+  font-size: clamp(44px, 8vw, 120px);
+  font-weight: 300;
+  letter-spacing: -0.05em;
+  line-height: 0.92;
+}
+.cta-title b {
+  font-weight: 800;
+  color: var(--red);
+}
+.cta-form {
+  display: flex;
+  width: min(460px, 100%);
+  border-bottom: 1px solid var(--ink);
+}
+.cta-form input {
+  flex: 1;
+  min-width: 0;
+  background: none;
+  border: 0;
+  padding: 14px 0;
+  color: var(--ink);
+  font: 400 18px var(--mono);
+  outline: none;
+}
+.cta-form input::placeholder {
+  color: var(--dim);
+}
+.cta-form button {
+  background: none;
+  border: 0;
+  color: var(--red);
+  font-size: 26px;
+  cursor: pointer;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.cta-form button:hover {
+  transform: translateX(6px);
+}
+.hello {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--dim);
+  height: 1em;
+}
+
+/* ---- loader ----------------------------------------------------------- */
+.loader {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  background: var(--bg);
+  transition: clip-path 1s cubic-bezier(0.77, 0, 0.18, 1);
+  clip-path: inset(0 0 0 0);
+}
+.loader.out {
+  clip-path: inset(50% 0 50% 0);
+}
+.loader-count {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.3em;
+  font-variant-numeric: tabular-nums;
+}
+
+.sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .line .w > span {
+    animation: none;
+    transform: none;
+  }
+}
