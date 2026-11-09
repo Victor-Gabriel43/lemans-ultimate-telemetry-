@@ -19,42 +19,30 @@ export default function FilterBar({ filters, search = true, sort }: { filters: F
     start(() => router.replace(`${pathname}${next.size ? `?${next}` : ""}`, { scroll: false }));
   };
   const active = filters.filter((f) => params.get(f.name)).length + (params.get("q") ? 1 : 0);
+  const field = "rounded-full border rule bg-black px-4 py-2 text-[15px] focus:border-chalk focus:outline-none";
 
   return (
-    <div className={`border-y hairline py-4 transition-opacity ${pending ? "opacity-60" : ""}`}>
-      <div className="flex flex-wrap items-end gap-3">
-        {search ? (
-          <label className="flex min-w-[220px] flex-1 flex-col gap-1">
-            <span className="eyebrow">Search</span>
-            <input
-              defaultValue={params.get("q") ?? ""}
-              onChange={(e) => set("q", e.target.value)}
-              placeholder="Name, sponsor, number…"
-              className="border-b hairline bg-transparent py-1.5 text-sm placeholder:text-mute focus:border-paper focus:outline-none"
-            />
-          </label>
-        ) : null}
-        {[...filters, ...(sort ? [sort] : [])].map((f) => (
-          <label key={f.name} className="flex min-w-[140px] flex-col gap-1">
-            <span className="eyebrow">{f.label}</span>
-            <select
-              value={params.get(f.name) ?? ""}
-              onChange={(e) => set(f.name, e.target.value)}
-              className="cursor-pointer border-b hairline bg-ink py-1.5 text-sm focus:border-paper focus:outline-none"
-            >
-              {f.name !== "sort" ? <option value="">All</option> : null}
-              {f.options.map((o) => (
-                <option key={o.value} value={o.value}>{o.label}</option>
-              ))}
-            </select>
-          </label>
-        ))}
-        {active ? (
-          <button onClick={() => start(() => router.replace(pathname, { scroll: false }))} className="eyebrow pb-2 hover:text-paper">
-            Clear ({active})
-          </button>
-        ) : null}
-      </div>
+    <div className={`flex flex-wrap items-center gap-2 border-y rule py-4 transition-opacity ${pending ? "opacity-60" : ""}`}>
+      {search ? (
+        <input
+          defaultValue={params.get("q") ?? ""}
+          onChange={(e) => set("q", e.target.value)}
+          placeholder="Search by name, sponsor or number"
+          aria-label="Search"
+          className={`${field} min-w-[240px] flex-1 placeholder:text-fog`}
+        />
+      ) : null}
+      {[...filters, ...(sort ? [sort] : [])].map((f) => (
+        <select key={f.name} aria-label={f.label} value={params.get(f.name) ?? ""} onChange={(e) => set(f.name, e.target.value)} className={`${field} cursor-pointer`}>
+          {f.name !== "sort" ? <option value="">{f.label}: all</option> : null}
+          {f.options.map((o) => <option key={o.value} value={o.value}>{f.name === "sort" ? `Sort: ${o.label}` : o.label}</option>)}
+        </select>
+      ))}
+      {active ? (
+        <button onClick={() => start(() => router.replace(pathname, { scroll: false }))} className="px-3 text-[15px] text-fog underline underline-offset-4 hover:text-chalk">
+          Clear {active} {active === 1 ? "filter" : "filters"}
+        </button>
+      ) : null}
     </div>
   );
 }

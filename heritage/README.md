@@ -22,7 +22,7 @@ Production: `npm run build && npm start`. Set `ADMIN_PASSWORD` and `SITE_URL`. I
 | Layer | Choice | Why |
 |---|---|---|
 | Framework | **Next.js 16 (App Router) + React 19 + TypeScript** | Server components render database pages to HTML (fast, SEO-friendly), and interactive parts are small client islands. |
-| Styling | **Tailwind CSS 4** with design tokens in `app/globals.css` | Dark archival look: charcoal palette, Instrument Serif display type, Inter body, JetBrains Mono metadata. |
+| Styling | **Tailwind CSS 4** with design tokens in `app/globals.css` | Photography-first: a black stage for photos, condensed Archivo for titles and race numbers, Source Serif for archival text. |
 | Data | **Prisma 6 + SQLite** (dev), PostgreSQL-ready | The schema avoids enums, scalar lists and `Json` columns, so switching `provider` to `postgresql` needs no model changes. |
 | Admin | Server actions + one generic CRUD UI driven by `lib/admin-schema.ts` | To add an entity or field you edit one config block, not new pages. |
 
@@ -41,7 +41,7 @@ heritage/
 │  ├─ admin-schema.ts        declarative admin model definitions
 │  ├─ admin-actions.ts       server actions: save/delete/cite, login
 │  └─ auth.ts                password-cookie auth for /admin
-├─ components/               LiveryArt (SVG livery renderer), Gallery (zoom lightbox),
+├─ components/               Photo (plates, credits, exhibit labels), Gallery (zoom lightbox),
 │                            TimelineExplorer, CompareTool, FilterBar, cards, citations
 └─ app/                      routes (below)
 ```
@@ -76,7 +76,7 @@ SEO: per-page metadata and canonical URLs, Schema.org `Vehicle` JSON-LD, `sitema
 - Source priority: manufacturer and team archives (Porsche Newsroom, Team Penske), FIA / ACO / IMSA / WEC, photo agencies, then reputable publications. Wikipedia is used only for cross-checking.
 - The Porsche 963 dataset cites **56 sources**, with 157 citations across its records.
 - Where sources disagree (for example the 2023 Daytona classification), or only one outlet reported something, the record is marked **reported**. Where a detail is plausible but not yet confirmed (for example some 2024 WEC line-ups), it is marked **unverified**. The JDC-Miller livery history is an explicit placeholder.
-- **Images.** No photographs are bundled, because press images need licensing. Galleries and timelines instead show **archival illustrations** drawn from each livery's palette, always captioned *"colours approximate, not a photograph"*. Credited photos can be added in the dashboard (URL, credit and licence are required). Once a front, rear, side or top view is attached, its slot on the livery page is marked as filled.
+- **Photographs.** Every image is a real photograph from Wikimedia Commons, used under its free licence (CC BY, CC BY-SA or public domain). The photographer, licence and source page show beside each image wherever it appears. The files sit in `public/photos/` as optimised WebP. Their metadata lives in `prisma/data/porsche-963-photos.ts`, generated from the Commons API, with captions based on each photographer's own description. Liveries with no free photograph yet (the 2022 test camouflage, the 2025–2026 factory seasons, and the 2026 Mobil 1 and Apple designs) say so plainly instead of showing a stand-in. Curators can add photos from the dashboard: source page, credit and licence are required.
 
 ## Switching to PostgreSQL
 

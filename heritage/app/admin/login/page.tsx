@@ -9,7 +9,7 @@ export default function Login() {
     <div className="mx-auto max-w-sm px-4 py-24">
       <h1 className="display text-4xl">Curator sign-in</h1>
       {mode === "locked" ? (
-        <p className="mt-4 text-sm text-soft">The dashboard is locked. Set the <code className="font-mono">ADMIN_PASSWORD</code> environment variable to enable it.</p>
+        <p className="mt-4 text-sm text-fog">The dashboard is locked. Set the <code className="">ADMIN_PASSWORD</code> environment variable to enable it.</p>
       ) : (
         <LoginForm />
       )}

@@ -28,20 +28,20 @@ export default async function DriverPage({ params }: Props) {
   const entries = d.entries.map((x) => x.entry).sort((a, b) => a.season - b.season);
   return (
     <Container className="py-16">
-      <nav className="eyebrow mb-6"><Link href="/drivers" className="hover:text-paper">Drivers</Link> / {d.name}</nav>
-      <SectionHeading eyebrow={country(d.nationality)} title={d.name} />
+      <nav className="text-sm text-fog mb-6"><Link href="/drivers" className="hover:text-chalk">Drivers</Link> / {d.name}</nav>
+      <SectionHeading title={d.name}>{country(d.nationality)}</SectionHeading>
       <div className="overflow-x-auto">
         <table className="w-full min-w-[720px] text-left text-sm">
-          <thead className="eyebrow"><tr className="border-b hairline">{["Season", "Vehicle", "Car", "Team", "Championship", "Major results", ""].map((h) => <th key={h} className="py-2 pr-4 font-normal">{h}</th>)}</tr></thead>
+          <thead className="text-sm text-fog"><tr className="border-b rule">{["Season", "Vehicle", "Car", "Team", "Championship", "Major results", ""].map((h) => <th key={h} className="py-2 pr-4 font-normal">{h}</th>)}</tr></thead>
           <tbody>
             {entries.map((e) => (
-              <tr key={e.id} className="border-b hairline align-top">
-                <td className="py-3 pr-4 font-mono">{e.season}</td>
+              <tr key={e.id} className="border-b rule align-top">
+                <td className="py-3 pr-4">{e.season}</td>
                 <td className="py-3 pr-4"><Link href={`/vehicles/${e.vehicle.slug}`} className="hover:underline">{e.vehicle.fullName}</Link></td>
-                <td className="py-3 pr-4 font-mono">#{e.carNumber}</td>
+                <td className="py-3 pr-4">#{e.carNumber}</td>
                 <td className="py-3 pr-4"><Link href={`/teams/${e.team.slug}`} className="hover:underline">{e.team.name}</Link></td>
                 <td className="py-3 pr-4">{e.championship.shortName}</td>
-                <td className="py-3 pr-4 text-soft">{e.results.map(resultLabel).join("; ") || "—"}</td>
+                <td className="py-3 pr-4 text-fog">{e.results.map(resultLabel).join("; ") || "—"}</td>
                 <td className="py-3"><VerificationBadge status={e.verification} compact /></td>
               </tr>
             ))}
@@ -50,7 +50,7 @@ export default async function DriverPage({ params }: Props) {
       </div>
       {d.liveries.length ? (
         <>
-          <h2 className="eyebrow mt-12 mb-3">Liveries raced</h2>
+          <h2 className="text-sm text-fog mt-12 mb-3">Liveries raced</h2>
           <ul className="space-y-1">
             {d.liveries.map(({ livery: l }) => (
               <li key={l.id}><Link className="hover:underline" href={`/vehicles/${l.vehicle.slug}/liveries/${l.slug}`}>{l.year} — {l.name}</Link></li>

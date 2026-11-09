@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { MANUFACTURERS, IN_RESEARCH } from "./data/collection";
 import * as P963 from "./data/porsche-963";
+import { PHOTOS } from "./data/porsche-963-photos";
 
 const db = new PrismaClient();
 
@@ -116,6 +117,26 @@ async function main() {
       },
     });
     await cite("TimelineEntry", te.id, keys, src);
+  }
+
+  // ── Photographs (real, credited, licensed) ──
+  const timelineByTitle = new Map((await db.timelineEntry.findMany({ where: { vehicleId: vehicle.id } })).map((t) => [t.title, t.id]));
+  for (const [i, p] of PHOTOS.entries()) {
+    const liveryId = p.livery ? livery.get(p.livery) : null;
+    if (p.livery && !liveryId) throw new Error(`Photo references unknown livery ${p.livery}`);
+    const timelineEntryId = p.timeline ? timelineByTitle.get(p.timeline) : null;
+    if (p.timeline && !timelineEntryId) throw new Error(`Photo references unknown timeline entry ${p.timeline}`);
+    await db.photo.create({
+      data: {
+        url: p.file.startsWith("http") ? p.file : `/photos/${p.file}`, alt: p.alt, caption: p.caption, credit: p.credit, license: p.license, licenseUrl: p.licenseUrl,
+        sourceUrl: p.sourceUrl, takenAt: p.takenAt, width: p.width, height: p.height, focal: p.focal ?? "50% 50%",
+        view: p.view, order: i, vehicleId: vehicle.id, liveryId, timelineEntryId,
+      },
+    });
+  }
+  if (P963.HERO_PHOTO) {
+    const hero = await db.photo.findFirst({ where: { url: `/photos/${P963.HERO_PHOTO}` } });
+    if (hero) await db.photo.update({ where: { id: hero.id }, data: { order: -1 } });
   }
 
   // ── Collection records still in research ──

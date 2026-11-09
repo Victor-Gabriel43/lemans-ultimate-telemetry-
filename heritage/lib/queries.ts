@@ -54,7 +54,7 @@ export const getLivery = cache(async (slug: string) =>
 );
 
 export const getTimeline = cache(async (vehicleId: string) =>
-  db.timelineEntry.findMany({ where: { vehicleId }, include: { team: true, livery: true, photos: true }, orderBy: { date: "asc" } }),
+  db.timelineEntry.findMany({ where: { vehicleId }, include: { team: true, livery: { include: { photos: true } }, photos: true }, orderBy: { date: "asc" } }),
 );
 
 export type CatalogFilters = {

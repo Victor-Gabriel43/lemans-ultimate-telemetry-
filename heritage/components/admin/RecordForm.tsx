@@ -6,7 +6,7 @@ import type { ActionState } from "@/lib/admin-actions";
 
 export type Option = { value: string; label: string };
 
-const input = "w-full border hairline bg-carbon px-3 py-2 text-sm focus:border-mute focus:outline-none";
+const input = "w-full border rule bg-pit px-3 py-2 text-sm focus:border-fog focus:outline-none";
 
 export default function RecordForm({
   fields, values, options, action, submitLabel,
@@ -32,11 +32,11 @@ export default function RecordForm({
               </>
             ) : (
               <>
-                <label htmlFor={id} className="eyebrow">{f.label}{f.required ? " *" : ""}</label>
+                <label htmlFor={id} className="text-sm text-fog">{f.label}{f.required ? " *" : ""}</label>
                 {f.type === "textarea" ? (
                   <textarea id={id} name={f.name} defaultValue={String(v ?? "")} rows={5} className={input} />
                 ) : f.type === "json" ? (
-                  <textarea id={id} name={f.name} defaultValue={String(v ?? "{}")} rows={3} className={`${input} font-mono text-xs`} />
+                  <textarea id={id} name={f.name} defaultValue={String(v ?? "{}")} rows={3} className={`${input} text-xs`} />
                 ) : f.type === "select" ? (
                   <select id={id} name={f.name} defaultValue={String(v ?? "")} className={input}>
                     {!f.required ? <option value="">—</option> : null}
@@ -60,15 +60,15 @@ export default function RecordForm({
                     className={input}
                   />
                 )}
-                {f.help ? <p className="text-xs text-mute">{f.help}</p> : null}
-                {f.type === "multi" ? <p className="text-xs text-mute">Hold Ctrl/⌘ to select several.</p> : null}
+                {f.help ? <p className="text-xs text-fog">{f.help}</p> : null}
+                {f.type === "multi" ? <p className="text-xs text-fog">Hold Ctrl/⌘ to select several.</p> : null}
               </>
             )}
           </div>
         );
       })}
-      {state.error ? <p role="alert" className="border border-signal/50 bg-signal/10 px-3 py-2 text-sm">{state.error}</p> : null}
-      {state.ok ? <p role="status" className="text-sm text-verified">Saved.</p> : null}
+      {state.error ? <p role="alert" className="border border-flag/50 bg-flag/10 px-3 py-2 text-sm">{state.error}</p> : null}
+      {state.ok ? <p role="status" className="text-sm text-green">Saved.</p> : null}
       <button disabled={pending} className="rounded-full bg-paper px-6 py-2.5 text-sm text-ink hover:bg-white disabled:opacity-50">
         {pending ? "Saving…" : submitLabel}
       </button>

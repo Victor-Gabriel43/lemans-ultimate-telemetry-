@@ -27,20 +27,20 @@ export default async function TeamPage({ params }: Props) {
   if (!t) notFound();
   return (
     <Container className="py-16">
-      <nav className="eyebrow mb-6"><Link href="/teams" className="hover:text-paper">Teams</Link> / {t.name}</nav>
-      <SectionHeading eyebrow={`${TEAM_KINDS[t.kind]} team · ${country(t.country)}`} title={t.name}>{t.description}</SectionHeading>
-      <h2 className="eyebrow mb-3">Season entries</h2>
+      <nav className="text-sm text-fog mb-6"><Link href="/teams" className="hover:text-chalk">Teams</Link> / {t.name}</nav>
+      <SectionHeading title={t.name}>{TEAM_KINDS[t.kind]} team from {country(t.country)}. {t.description}</SectionHeading>
+      <h2 className="text-sm text-fog mb-3">Season entries</h2>
       <div className="overflow-x-auto">
         <table className="w-full min-w-[640px] text-left text-sm">
-          <thead className="eyebrow"><tr className="border-b hairline">{["Season", "Car", "Vehicle", "Championship", "Drivers", ""].map((h) => <th key={h} className="py-2 pr-4 font-normal">{h}</th>)}</tr></thead>
+          <thead className="text-sm text-fog"><tr className="border-b rule">{["Season", "Car", "Vehicle", "Championship", "Drivers", ""].map((h) => <th key={h} className="py-2 pr-4 font-normal">{h}</th>)}</tr></thead>
           <tbody>
             {t.entries.map((e) => (
-              <tr key={e.id} className="border-b hairline align-top">
-                <td className="py-3 pr-4 font-mono">{e.season}</td>
-                <td className="py-3 pr-4 font-mono">#{e.carNumber}</td>
+              <tr key={e.id} className="border-b rule align-top">
+                <td className="py-3 pr-4">{e.season}</td>
+                <td className="py-3 pr-4">#{e.carNumber}</td>
                 <td className="py-3 pr-4"><Link className="hover:underline" href={`/vehicles/${e.vehicle.slug}`}>{e.vehicle.fullName}</Link></td>
                 <td className="py-3 pr-4">{e.championship.shortName}</td>
-                <td className="py-3 pr-4">{e.drivers.map((d) => d.driver.name).join(", ") || <span className="text-mute">Not documented</span>}</td>
+                <td className="py-3 pr-4">{e.drivers.map((d) => d.driver.name).join(", ") || <span className="text-fog">Not documented</span>}</td>
                 <td className="py-3"><VerificationBadge status={e.verification} compact /></td>
               </tr>
             ))}
@@ -49,7 +49,7 @@ export default async function TeamPage({ params }: Props) {
       </div>
       {t.liveries.length ? (
         <>
-          <h2 className="eyebrow mt-14 mb-4">Liveries</h2>
+          <h2 className="text-sm text-fog mt-14 mb-4">Liveries</h2>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">{t.liveries.map((l) => <LiveryCard key={l.id} l={l} vehicleSlug={l.vehicle.slug} />)}</div>
         </>
       ) : null}

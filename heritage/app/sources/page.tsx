@@ -20,21 +20,21 @@ export default async function Sources() {
   const kinds = [...new Set(sources.map((s) => s.kind))];
   return (
     <Container className="py-16">
-      <SectionHeading eyebrow="Research & data accuracy" title="Method">
+      <SectionHeading title="Method">
         The archive never fabricates history. Each record cites its sources and carries one of three statuses.
       </SectionHeading>
-      <div className="grid gap-px bg-line md:grid-cols-3">
-        {[["verified", verified, "Confirmed by an official source — manufacturer, team, FIA, ACO, IMSA — or by several independent reputable outlets."],
+      <div className="grid gap-px bg-asphalt md:grid-cols-3">
+        {[["verified", verified, "Confirmed by an official source (manufacturer, team, FIA, ACO, IMSA) or by several independent reputable outlets."],
           ["reported", reported, "Published by one reputable source, or sources that disagree on a detail. Displayed with a notice until cross-checked."],
           ["unverified", unverified, "Plausible but unconfirmed. Kept so researchers can resolve it; always shown with a warning and never presented as fact."]].map(([s, n, text]) => (
-          <div key={s as string} className="bg-ink p-6">
+          <div key={s as string} className="bg-black p-6">
             <VerificationBadge status={s as string} />
             <p className="display mt-4 text-5xl tabular-nums">{n}</p>
-            <p className="mt-3 text-sm text-soft">{text}</p>
+            <p className="mt-3 text-sm text-fog">{text}</p>
           </div>
         ))}
       </div>
-      <div className="prose-archive mt-12 max-w-3xl">
+      <div className="essay mt-12 max-w-3xl">
         <p>Source priority: official manufacturer and team archives; FIA, ACO, IMSA and WEC publications and classifications; motorsport photography agencies; then reputable motorsport publications. Encyclopaedic sources are used only for cross-checking.</p>
         <p>Liveries: a genuinely new design is its own record. Seasonal sponsor or detail updates are stored as variations linked to their parent design, so minor changes are never mistaken for new liveries.</p>
         <p>Imagery: colour illustrations are generated from each livery&apos;s recorded palette and are labelled as approximate. Photographs are published only with a recorded credit and licence.</p>
@@ -42,12 +42,12 @@ export default async function Sources() {
       </div>
       {kinds.map((k) => (
         <section key={k} className="mt-14">
-          <h2 className="eyebrow mb-3">{KIND_LABEL[k] ?? k}</h2>
-          <ul className="divide-y divide-line border-y hairline">
+          <h2 className="text-sm text-fog mb-3">{KIND_LABEL[k] ?? k}</h2>
+          <ul className="divide-y divide-asphalt border-y rule">
             {sources.filter((s) => s.kind === k).map((s) => (
               <li key={s.id} className="grid gap-1 py-3 text-sm md:grid-cols-[1fr_auto]">
-                <a href={s.url} target="_blank" rel="noreferrer noopener" className="hover:text-amber">{s.title}<span className="block text-xs text-mute">{s.publisher}{s.published ? ` · ${formatDate(s.published)}` : ""}</span></a>
-                <span className="font-mono text-xs text-mute">cited {s._count.refs}×</span>
+                <a href={s.url} target="_blank" rel="noreferrer noopener" className="hover:text-lamp">{s.title}<span className="block text-xs text-fog">{s.publisher}{s.published ? `, ${formatDate(s.published)}` : ""}</span></a>
+                <span className=" text-xs text-fog">cited {s._count.refs}×</span>
               </li>
             ))}
           </ul>

@@ -8,7 +8,7 @@ export const metadata: Metadata = { title: "Livery archive", description: "Every
 export default async function AllLiveries({ searchParams }: { searchParams: Promise<LiveryFilters> }) {
   return (
     <Container className="py-16">
-      <SectionHeading eyebrow="Livery archive" title="Every colour scheme">
+      <SectionHeading title="Every colour scheme">
         The archive&apos;s complete livery database across all vehicles.
       </SectionHeading>
       <LiveryArchive filters={await searchParams} />

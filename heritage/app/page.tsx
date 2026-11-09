@@ -1,205 +1,165 @@
 import Link from "next/link";
 import { db } from "@/lib/db";
 import { Container, SectionHeading } from "@/components/Section";
-import LiveryArt from "@/components/LiveryArt";
+import { Plate, PhotoFrame, NoPhoto } from "@/components/Photo";
 import { LiveryCard, VehicleCard } from "@/components/Cards";
-import { parseDesign, formatDate } from "@/lib/format";
-import { TIMELINE_CATEGORIES } from "@/lib/vocab";
+import { formatDate, splitList } from "@/lib/format";
+import { liveryCovers, vehicleCovers } from "@/lib/photos";
 
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
   const [featured, vehicles, recent, liveries, milestones, manufacturers, counts] = await Promise.all([
-    db.vehicle.findFirst({ where: { featured: true, status: "published" }, include: { manufacturer: true, _count: { select: { liveries: true, results: true, timeline: true, entries: true } } } }),
-    db.vehicle.findMany({ include: { manufacturer: true, _count: { select: { liveries: true, timeline: true, results: true } } }, orderBy: [{ status: "desc" }, { era: "asc" }, { debutYear: "asc" }], take: 6 }),
-    db.vehicle.findMany({ include: { manufacturer: true }, orderBy: { createdAt: "desc" }, take: 5 }),
-    db.livery.findMany({ where: { isVariation: false }, include: { team: true, vehicle: true }, orderBy: [{ year: "desc" }, { firstUsed: "desc" }], take: 8 }),
-    db.timelineEntry.findMany({ where: { milestone: true }, include: { vehicle: true }, orderBy: { date: "asc" } }),
+    db.vehicle.findFirst({ where: { featured: true, status: "published" }, include: { manufacturer: true, _count: { select: { liveries: true, results: true, entries: true } } } }),
+    db.vehicle.findMany({ include: { manufacturer: true, _count: { select: { liveries: true, timeline: true, results: true } } }, orderBy: [{ status: "desc" }, { era: "asc" }, { debutYear: "asc" }] }),
+    db.vehicle.findMany({ orderBy: { createdAt: "desc" }, take: 6 }),
+    db.livery.findMany({ where: { isVariation: false }, include: { team: true, vehicle: true }, orderBy: [{ year: "desc" }, { firstUsed: "desc" }] }),
+    db.timelineEntry.findMany({ where: { milestone: true }, include: { vehicle: true, livery: true }, orderBy: { date: "asc" } }),
     db.manufacturer.findMany({ include: { _count: { select: { vehicles: true } } }, orderBy: { name: "asc" } }),
-    Promise.all([db.vehicle.count(), db.livery.count(), db.source.count(), db.timelineEntry.count()]),
+    Promise.all([db.vehicle.count(), db.livery.count(), db.timelineEntry.count(), db.photo.count(), db.source.count()]),
   ]);
 
-  const featuredTeams = featured
-    ? await db.team.findMany({ where: { entries: { some: { vehicleId: featured.id } } }, select: { kind: true } })
-    : [];
-  const factoryCount = featuredTeams.filter((t) => t.kind === "factory").length;
-  const heroLivery = featured?.heroLiveryId ? await db.livery.findUnique({ where: { id: featured.heroLiveryId } }) : null;
-  const designMap = new Map<string, string>();
-  for (const v of vehicles) if (v.heroLiveryId) designMap.set(v.id, (await db.livery.findUnique({ where: { id: v.heroLiveryId } }))?.design ?? "");
+  const covers = await liveryCovers([...liveries.map((l) => l.id), ...(milestones.map((m) => m.liveryId).filter(Boolean) as string[])]);
+  const vCovers = await vehicleCovers(vehicles);
+  const researching = vehicles.filter((v) => v.status === "in-research").sort((a, b) => a.debutYear - b.debutYear);
+  const heroPhoto = featured ? (await vehicleCovers([featured])).get(featured.id) : undefined;
+  const photographed = liveries.filter((l) => covers.has(l.id));
+  const [lead, ...rest] = photographed;
+  const leadNumbers = lead ? splitList(lead.carNumbers) : [];
+  const leadNumber = leadNumbers.length === 1 ? leadNumbers[0] : undefined;
 
   return (
     <>
-      {/* ── Hero ── */}
-      <section className="grain relative overflow-hidden border-b hairline">
-        <div aria-hidden className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_60%,rgba(208,2,27,0.16),transparent_55%),radial-gradient(ellipse_at_20%_10%,rgba(255,255,255,0.06),transparent_50%)]" />
-        <Container className="relative grid min-h-[78vh] content-center gap-10 py-20">
-          <div className="max-w-4xl">
-            <p className="eyebrow rise">Digital museum of historic motorsport cars · Est. 2026</p>
-            <h1 className="display rise rise-2 mt-6 text-[clamp(3.2rem,9vw,8.5rem)]">
-              Every car.<br />
-              Every livery. <em className="text-mute">Every source.</em>
-            </h1>
-            <p className="rise rise-3 mt-8 max-w-xl text-lg text-soft">
-              An authoritative archive of racing machines — their engineering, the teams and drivers who raced them, the results they
-              earned and every colour scheme they wore.
-            </p>
-            <form action="/search" className="rise rise-3 mt-10 flex max-w-xl items-center border-b border-mute focus-within:border-paper">
+      {heroPhoto ? (
+        <Plate p={heroPhoto} priority className="h-[calc(100svh-3.5rem)] min-h-[620px]" labelTitle={featured?.fullName}>
+          <Container className="absolute inset-x-0 bottom-0 pb-10 md:pb-14">
+            <h1 className="display text-[clamp(4.5rem,13vw,13rem)]">Racing Heritage<br />Archive</h1>
+            <p className="lede mt-5">Racing cars, the crews who drove them and every colour they wore. Photographed, dated and sourced.</p>
+            <form action="/search" className="mt-8 flex max-w-lg items-center rounded-full bg-chalk p-1 pl-5 text-black">
               <label htmlFor="hero-q" className="sr-only">Search the archive</label>
-              <input id="hero-q" name="q" placeholder="Search cars, liveries, drivers, races…" className="w-full bg-transparent py-3 text-lg placeholder:text-mute focus:outline-none" />
-              <button className="eyebrow px-2 py-3 hover:text-paper">Search →</button>
+              <input id="hero-q" name="q" placeholder="Search a car, livery, driver or race" className="w-full min-w-0 bg-transparent py-2 placeholder:text-black/50 focus:outline-none" />
+              <button className="rounded-full bg-black px-5 py-2 text-chalk">Search</button>
             </form>
-          </div>
-          {heroLivery ? (
-            <div className="drift pointer-events-none relative -mr-[10%] ml-auto w-[min(1100px,110%)] opacity-95 lg:-mt-24">
-              <LiveryArt design={parseDesign(heroLivery.design)} title={heroLivery.name} />
-            </div>
-          ) : null}
-        </Container>
-        <Container className="relative grid grid-cols-2 border-t hairline md:grid-cols-4">
-          {[
-            ["Vehicles catalogued", counts[0]],
-            ["Liveries documented", counts[1]],
-            ["Timeline records", counts[3]],
-            ["Cited sources", counts[2]],
-          ].map(([label, n]) => (
-            <div key={label as string} className="border-r hairline py-6 pr-4 last:border-r-0 [&:nth-child(2)]:border-r-0 md:[&:nth-child(2)]:border-r">
-              <p className="display text-4xl tabular-nums">{n}</p>
-              <p className="eyebrow mt-1">{label}</p>
-            </div>
-          ))}
-        </Container>
-      </section>
+          </Container>
+        </Plate>
+      ) : null}
 
-      {/* ── Featured: Porsche 963 ── */}
       {featured ? (
-        <section className="py-24">
-          <Container>
-            <SectionHeading index="01" eyebrow="First complete collection" title={featured.fullName}>
-              {featured.tagline}
-            </SectionHeading>
-            <div className="grid gap-12 lg:grid-cols-[1.2fr_1fr]">
-              <div className="prose-archive">
-                <p>{featured.summary}</p>
-                <p>{featured.unveiling}</p>
-              </div>
-              <div className="grid content-start gap-px bg-line">
-                {[
-                  ["Debut season", String(featured.debutYear)],
-                  ["Category", featured.category],
-                  ["Teams documented", `${factoryCount} factory · ${featuredTeams.length - factoryCount} customer`],
-                  ["Season entries", String(featured._count.entries)],
-                  ["Results recorded", String(featured._count.results)],
-                  ["Liveries archived", String(featured._count.liveries)],
-                ].map(([k, val]) => (
-                  <div key={k} className="flex items-baseline justify-between gap-6 bg-ink py-3">
-                    <span className="eyebrow">{k}</span>
-                    <span className="text-right text-sm">{val}</span>
-                  </div>
-                ))}
-                <div className="flex flex-wrap gap-3 bg-ink pt-6">
-                  <Link href={`/vehicles/${featured.slug}`} className="rounded-full bg-paper px-5 py-2.5 text-sm text-ink hover:bg-white">Open the profile</Link>
-                  <Link href={`/vehicles/${featured.slug}/liveries`} className="rounded-full border hairline px-5 py-2.5 text-sm hover:border-mute">Livery archive</Link>
-                  <Link href={`/vehicles/${featured.slug}/timeline`} className="rounded-full border hairline px-5 py-2.5 text-sm hover:border-mute">Timeline</Link>
-                </div>
+        <section className="py-28">
+          <Container className="grid gap-14 lg:grid-cols-[1fr_1.1fr]">
+            <div>
+              <p className="text-fog">The first complete collection</p>
+              <h2 className="display mt-2 text-[clamp(4rem,9vw,8.5rem)]">{featured.fullName}</h2>
+              <dl className="mt-10 grid max-w-md grid-cols-2 gap-x-8 gap-y-5 text-[15px]">
+                <div><dt className="text-fog">Raced</dt><dd className="mt-0.5 text-lg">{featured.debutYear} to today</dd></div>
+                <div><dt className="text-fog">Class</dt><dd className="mt-0.5 text-lg">Hypercar and GTP</dd></div>
+                <div><dt className="text-fog">Liveries archived</dt><dd className="mt-0.5 text-lg">{featured._count.liveries}</dd></div>
+                <div><dt className="text-fog">Results recorded</dt><dd className="mt-0.5 text-lg">{featured._count.results}</dd></div>
+              </dl>
+            </div>
+            <div>
+              <p className="lede">{featured.summary}</p>
+              <div className="mt-10 flex flex-wrap gap-3">
+                <Link href={`/vehicles/${featured.slug}`} className="rounded-full bg-chalk px-6 py-3 text-black hover:bg-white">Read the full history</Link>
+                <Link href={`/vehicles/${featured.slug}/liveries`} className="rounded-full border rule px-6 py-3 hover:border-fog">See every livery</Link>
+                <Link href={`/vehicles/${featured.slug}/timeline`} className="rounded-full border rule px-6 py-3 hover:border-fog">Year by year</Link>
               </div>
             </div>
           </Container>
         </section>
       ) : null}
 
-      {/* ── Featured liveries ── */}
-      <section className="py-16">
-        <Container>
-          <SectionHeading index="02" eyebrow="Featured liveries" title="Colours of competition">
-            Launch schemes, anniversary designs, historic tributes and customer colours. Seasonal sponsor updates are archived as variations of
-            their parent design, never as new liveries.
-          </SectionHeading>
-        </Container>
-        <div className="scrollbar-none flex snap-x gap-4 overflow-x-auto px-4 pb-4 sm:px-6 lg:px-[max(2.5rem,calc((100vw-1400px)/2+2.5rem))]">
-          {liveries.map((l) => (
-            <div key={l.id} className="w-[300px] shrink-0 snap-start sm:w-[340px]">
-              <LiveryCard l={l} vehicleSlug={l.vehicle.slug} />
+      {lead ? (
+        <section className="py-10">
+          <Container>
+            <SectionHeading title="Liveries" aside={<Link href="/liveries" className="text-fog underline underline-offset-4 hover:text-chalk">All {liveries.length} liveries</Link>}>
+              Launch colours, anniversary designs, tributes and customer schemes, each photographed where it raced.
+            </SectionHeading>
+            <div className="grid gap-x-4 gap-y-10 md:grid-cols-2 xl:grid-cols-4">
+              <div className="md:col-span-2 xl:row-span-2">
+                <Link href={`/vehicles/${lead.vehicle.slug}/liveries/${lead.slug}`} className="group block">
+                  <PhotoFrame p={covers.get(lead.id)!} credit="plain" ratio="aspect-[4/3]" sizes="(min-width: 1280px) 50vw, 100vw"
+                    overlay={leadNumber ? <span aria-hidden className="race-number absolute right-5 bottom-2 text-[12rem]">{leadNumber}</span> : null} />
+                  <p className="mt-3 text-sm text-fog">{lead.year}, {lead.event}</p>
+                  <h3 className="display mt-1 text-4xl group-hover:underline group-hover:underline-offset-4">{lead.name}</h3>
+                </Link>
+              </div>
+              {rest.slice(0, 4).map((l) => <LiveryCard key={l.id} l={l} vehicleSlug={l.vehicle.slug} photo={covers.get(l.id)} />)}
             </div>
-          ))}
-          <Link href="/liveries" className="flex w-[220px] shrink-0 items-center justify-center rounded-sm border border-dashed hairline text-sm text-soft hover:text-paper">
-            All liveries →
-          </Link>
-        </div>
-      </section>
+          </Container>
+        </section>
+      ) : null}
 
-      {/* ── Collection ── */}
-      <section className="py-16">
+      <section className="py-24">
         <Container>
-          <SectionHeading index="03" eyebrow="Featured racing cars" title="The collection">
-            The Porsche 963 is the first fully documented profile. The cars below are catalogued and their histories are being researched to
-            the same standard before publication.
-          </SectionHeading>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {vehicles.map((v) => (
-              <VehicleCard key={v.id} v={v} design={designMap.get(v.id)} />
-            ))}
-          </div>
+          <SectionHeading title="Moments">Turning points in the archive, in the order they happened.</SectionHeading>
         </Container>
-      </section>
-
-      {/* ── Timeline ── */}
-      <section className="py-16">
-        <Container>
-          <SectionHeading index="04" eyebrow="Motorsport timeline" title="Milestones">
-            Key moments across the archive, in chronological order.
-          </SectionHeading>
-        </Container>
-        <ol className="scrollbar-none flex gap-0 overflow-x-auto px-4 pb-6 sm:px-6 lg:px-[max(2.5rem,calc((100vw-1400px)/2+2.5rem))]">
-          {milestones.map((m) => (
-            <li key={m.id} className="w-[260px] shrink-0 border-l hairline pr-6 pl-5">
-              <Link href={`/vehicles/${m.vehicle.slug}/timeline#${m.id}`} className="group block">
-                <p className="font-mono text-xs text-amber">{formatDate(m.date, m.datePrecision)}</p>
-                <p className="eyebrow mt-1">{TIMELINE_CATEGORIES[m.category]}</p>
-                <h3 className="mt-3 text-lg leading-snug group-hover:underline">{m.title}</h3>
-                <p className="mt-2 text-sm text-mute">{m.description}</p>
-              </Link>
-            </li>
-          ))}
+        <ol className="scrollbar-none flex snap-x gap-5 overflow-x-auto px-4 pb-4 sm:px-6 lg:px-[max(2.5rem,calc((100vw-1480px)/2+2.5rem))]">
+          {milestones.map((m) => {
+            const p = m.liveryId ? covers.get(m.liveryId) : undefined;
+            return (
+              <li key={m.id} className="w-[300px] shrink-0 snap-start sm:w-[360px]">
+                <Link href={`/vehicles/${m.vehicle.slug}/timeline#${m.id}`} className="group block">
+                  {p ? <PhotoFrame p={p} credit="plain" sizes="360px" /> : <NoPhoto note="No photograph of this moment archived yet" />}
+                  <p className="mt-3 text-sm text-lamp">{formatDate(m.date, m.datePrecision)}</p>
+                  <h3 className="mt-1 text-xl leading-tight font-semibold group-hover:underline group-hover:underline-offset-4">{m.title}</h3>
+                  <p className="mt-2 font-serif text-[15px] leading-snug text-fog">{m.description}</p>
+                </Link>
+              </li>
+            );
+          })}
         </ol>
       </section>
 
-      {/* ── Recently added + browse ── */}
       <section className="py-16">
-        <Container className="grid gap-16 lg:grid-cols-2">
+        <Container>
+          <SectionHeading title="The collection" aside={<Link href="/vehicles" className="text-fog underline underline-offset-4 hover:text-chalk">Browse all cars</Link>}>
+            One car is fully documented so far. The others are catalogued, and nothing about them is published until it has been sourced.
+          </SectionHeading>
+          <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr]">
+            <div>{vehicles.filter((v) => v.status === "published").map((v) => <VehicleCard key={v.id} v={v} photo={vCovers.get(v.id)} />)}</div>
+            <div>
+              <h3 className="text-lg font-semibold">Being researched next</h3>
+              <ul className="mt-3 divide-y divide-asphalt border-y rule">
+                {researching.map((v) => (
+                  <li key={v.id}>
+                    <Link href={`/vehicles/${v.slug}`} className="flex items-baseline justify-between gap-4 py-3 hover:text-white">
+                      <span className="display text-3xl">{v.fullName}</span>
+                      <span className="text-sm whitespace-nowrap text-fog">{v.category}, {v.debutYear}</span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      <section className="py-16">
+        <Container className="grid gap-16 border-t rule pt-14 lg:grid-cols-3">
           <div>
-            <SectionHeading eyebrow="Recently added" title="New to the archive" />
-            <ul className="divide-y divide-line border-y hairline">
-              {recent.map((v) => (
-                <li key={v.id}>
-                  <Link href={`/vehicles/${v.slug}`} className="flex items-baseline justify-between gap-4 py-4 hover:text-white">
-                    <span>
-                      <span className="text-lg">{v.fullName}</span>
-                      <span className="ml-3 text-xs text-mute">{v.category}</span>
-                    </span>
-                    <span className="font-mono text-xs text-mute">{v.status === "in-research" ? "in research" : formatDate(v.createdAt)}</span>
-                  </Link>
+            <h2 className="display text-5xl">By maker</h2>
+            <ul className="mt-6 space-y-2 text-lg">
+              {manufacturers.map((m) => (
+                <li key={m.id}>
+                  <Link href={`/vehicles?manufacturer=${m.slug}`} className="hover:underline hover:underline-offset-4">{m.name}</Link>
+                  <span className="ml-2 text-sm text-fog">{m._count.vehicles}</span>
                 </li>
               ))}
             </ul>
           </div>
           <div>
-            <SectionHeading eyebrow="Browse the collection" title="By manufacturer" />
-            <ul className="grid grid-cols-2 border-t border-l hairline sm:grid-cols-3">
-              {manufacturers.map((m) => (
-                <li key={m.id} className="border-r border-b hairline">
-                  <Link href={`/vehicles?manufacturer=${m.slug}`} className="block p-4 hover:bg-carbon">
-                    <span className="block">{m.name}</span>
-                    <span className="font-mono text-[11px] text-mute">{m._count.vehicles} {m._count.vehicles === 1 ? "car" : "cars"}</span>
-                  </Link>
-                </li>
-              ))}
+            <h2 className="display text-5xl">Recently added</h2>
+            <ul className="mt-6 space-y-2 text-lg">
+              {recent.map((v) => <li key={v.id}><Link href={`/vehicles/${v.slug}`} className="hover:underline hover:underline-offset-4">{v.fullName}</Link></li>)}
             </ul>
-            <div className="mt-6 flex flex-wrap gap-2 text-sm">
-              <Link href="/vehicles?era=historic" className="rounded-full border hairline px-4 py-2 hover:border-mute">Historic cars</Link>
-              <Link href="/vehicles?era=modern" className="rounded-full border hairline px-4 py-2 hover:border-mute">Modern cars</Link>
-              <Link href="/vehicles?championship=wec" className="rounded-full border hairline px-4 py-2 hover:border-mute">WEC</Link>
-              <Link href="/vehicles?championship=imsa" className="rounded-full border hairline px-4 py-2 hover:border-mute">IMSA</Link>
-            </div>
+          </div>
+          <div>
+            <h2 className="display text-5xl">In numbers</h2>
+            <p className="mt-6 font-serif text-lg leading-relaxed text-fog">
+              {counts[0]} cars catalogued, {counts[1]} liveries, {counts[2]} dated events, {counts[3]} credited photographs and {counts[4]} cited sources.
+            </p>
+            <Link href="/sources" className="mt-4 inline-block underline underline-offset-4 hover:text-white">How records are verified</Link>
           </div>
         </Container>
       </section>

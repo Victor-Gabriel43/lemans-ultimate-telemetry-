@@ -208,6 +208,12 @@ model Photo {
   caption         String         @default("")
   credit          String         @default("")
   license         String         @default("")
+  licenseUrl      String         @default("")
+  sourceUrl       String         @default("") // page the image and its licence were taken from
+  takenAt         String         @default("") // as stated by the source, free text
+  width           Int            @default(0)
+  height          Int            @default(0)
+  focal           String         @default("50% 50%") // CSS object-position for crops
   view            String         @default("main") // main | front | rear | side | top | detail | action
   order           Int            @default(0)
   vehicleId       String?

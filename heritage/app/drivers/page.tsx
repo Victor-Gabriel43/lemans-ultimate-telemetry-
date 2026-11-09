@@ -9,12 +9,12 @@ export default async function Drivers() {
   const drivers = await db.driver.findMany({ include: { _count: { select: { entries: true } } }, orderBy: { name: "asc" } });
   return (
     <Container className="py-16">
-      <SectionHeading eyebrow="Drivers" title="Drivers in the archive">{drivers.length} drivers documented.</SectionHeading>
-      <ul className="grid gap-px bg-line sm:grid-cols-2 lg:grid-cols-4">
+      <SectionHeading title="Drivers in the archive">{drivers.length} drivers documented.</SectionHeading>
+      <ul className="grid gap-px bg-asphalt sm:grid-cols-2 lg:grid-cols-4">
         {drivers.map((d) => (
-          <li key={d.id} className="bg-ink">
-            <Link href={`/drivers/${d.slug}`} className="flex items-baseline justify-between p-4 hover:bg-carbon">
-              <span>{d.name}</span><span className="font-mono text-[11px] text-mute">{d.nationality} · {d._count.entries}</span>
+          <li key={d.id} className="bg-black">
+            <Link href={`/drivers/${d.slug}`} className="flex items-baseline justify-between p-4 hover:bg-pit">
+              <span>{d.name}</span><span className=" text-[11px] text-fog">{d.nationality}, {d._count.entries} {d._count.entries === 1 ? "entry" : "entries"}</span>
             </Link>
           </li>
         ))}

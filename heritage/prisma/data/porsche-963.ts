@@ -17,6 +17,9 @@
 
 export type V = "verified" | "reported" | "unverified";
 
+/** Photograph used to open the car's profile and the homepage. */
+export const HERO_PHOTO = "porsche963night-cropped.webp";
+
 export const SOURCES: Record<string, { title: string; publisher: string; url: string; kind: string; published?: string }> = {
   "pn-goodwood-2022": { title: "Global quest for Porsche Penske Motorsport with the new 963", publisher: "Porsche Newsroom", url: "https://newsroom.porsche.com/en_US/2022/motorsport/porsche-penske-motorsport-963-presentation-goodwood-lmdh-reglement-fia-wec-imsa-28851.html", kind: "official", published: "2022-06-24" },
   "imsa-goodwood-2022": { title: "Porsche's newest magic number: 963 will be GTP prototype", publisher: "IMSA", url: "https://imsa.com/news/2022/06/24/porsches-newest-magic-number-963-will-be-gtp-prototype", kind: "governing-body", published: "2022-06-24" },
@@ -60,6 +63,9 @@ export const SOURCES: Record<string, { title: string; publisher: string; url: st
   "pn-imsa-2025-titles": { title: "Porsche defends all titles in the 2025 IMSA Championship", publisher: "Porsche Newsroom", url: "https://newsroom.porsche.com/en/ppdb/2025/10/porsche-defends-all-titles-in-the-2025-imsa-championship.html", kind: "official", published: "2025-10-11" },
   "penske-2025-review": { title: "Porsche Penske Motorsport 2025 IMSA season review", publisher: "Team Penske", url: "https://www.teampenske.com/news/index.cfm/c/730/55422/Porsche_Penske_Motorsport_2025_IMSA_Season_Review", kind: "official" },
   "imsa-jdc-2025": { title: "JDC-Miller MotorSports Porsche GTP confirmed for 2025 season", publisher: "IMSA", url: "https://www.imsa.com/news/2024/09/11/jdc-miller-motorsports-porsche-gtp-confirmed-for-2025-season/", kind: "governing-body", published: "2024-09-11" },
+  "commons-jdc-2023": { title: "Porsche 963 of JDC-Miller MotorSports, Watkins Glen 2023 (photograph and caption)", publisher: "Wikimedia Commons", url: "https://commons.wikimedia.org/wiki/File:JDC_Porsche_963_WGI23_07.jpg", kind: "publication", published: "2023-06-23" },
+  "commons-proton-2023": { title: "No. 99 Porsche 963 during the 2023 6 Hours of Monza (photograph)", publisher: "Wikimedia Commons", url: "https://commons.wikimedia.org/wiki/File:99_Porsche_963_during_2023_Monza_6h_2.jpg", kind: "publication", published: "2023-07-09" },
+  "commons-proton-wgi-2024": { title: "Porsche 963 of Proton Competition, Watkins Glen 2024 (photograph and caption)", publisher: "Wikimedia Commons", url: "https://commons.wikimedia.org/wiki/File:Proton_963_WGI24_04.jpg", kind: "publication", published: "2024-06-23" },
   "racer-proton-exit": { title: "Proton forced to shutter privateer Porsche 963 program in FIA WEC", publisher: "RACER", url: "https://racer.com/2025/12/05/proton-forced-to-shutter-privateer-porsche-963-program-in-fia-wec", kind: "publication", published: "2025-12-05" },
   "pn-daytona-2026-preview": { title: "Nine Porsche race cars tackle the 24 Hours of Daytona", publisher: "Porsche Newsroom", url: "https://newsroom.porsche.com/en_US/2026/motorsport/nine-porsche-race-cars-tackle-the-24-hours-of-daytona.html", kind: "official", published: "2026-01-20" },
   "pn-daytona-2026": { title: "Another victory for Porsche Penske Motorsport at the 24 Hours of Daytona", publisher: "Porsche Newsroom", url: "https://newsroom.porsche.com/en_US/2026/motorsport/another-victory-for-porsche-penske-motorsport-at-the-24-hours-of-daytona-41604.html", kind: "official", published: "2026-01-25" },
@@ -100,7 +106,7 @@ export const DRIVERS: [string, string, string][] = [
   ["oliver-rasmussen", "Oliver Rasmussen", "DNK"], ["neel-jani", "Neel Jani", "CHE"], ["harry-tincknell", "Harry Tincknell", "GBR"],
   ["julien-andlauer", "Julien Andlauer", "FRA"], ["gianmaria-bruni", "Gianmaria Bruni", "ITA"], ["tijmen-van-der-helm", "Tijmen van der Helm", "NLD"],
   ["nico-pino", "Nico Pino", "CHL"], ["kaylen-frederick", "Kaylen Frederick", "USA"], ["laurin-heinrich", "Laurin Heinrich", "DEU"],
-  ["nico-muller", "Nico Müller", "CHE"],
+  ["nico-muller", "Nico Müller", "CHE"], ["mike-rockenfeller", "Mike Rockenfeller", "DEU"], ["bent-viscaal", "Bent Viscaal", "NLD"],
 ];
 
 export const VEHICLE = {
@@ -151,7 +157,8 @@ export const ENTRIES: [string, string, number, string, string[], string, V, stri
   ["porsche-penske-motorsport", "wec", 2023, "6", ["kevin-estre", "andre-lotterer", "laurens-vanthoor"], "full-season", "verified", ["pn-lemans-livery-2023"]],
   ["porsche-penske-motorsport", "wec", 2023, "75", ["felipe-nasr", "nick-tandy", "mathieu-jaminet"], "one-off", "verified", ["pn-lemans-livery-2023"], "Third car for the 24 Hours of Le Mans centenary only, crewed by the IMSA drivers."],
   ["hertz-team-jota", "wec", 2023, "38", ["antonio-felix-da-costa", "will-stevens", "yifei-ye"], "full-season", "verified", ["pn-spa-2023", "thedrive-jota-2023"], "Joined from round 3 (6 Hours of Spa) after the customer car was delivered in mid-April 2023."],
-  ["jdc-miller-motorsports", "imsa", 2023, "85", [], "full-season", "reported", ["imsa-jdc-2025"], "Joined the GTP class at round four of 2023. Driver line-up not yet documented in this archive."],
+  ["jdc-miller-motorsports", "imsa", 2023, "5", ["tijmen-van-der-helm", "mike-rockenfeller"], "full-season", "reported", ["imsa-jdc-2025", "commons-jdc-2023"], "Joined the GTP class at round four of 2023. Raced as No. 5 that year, as captioned in dated photographs from Watkins Glen and Road America; later seasons as No. 85."],
+  ["proton-competition", "wec", 2023, "99", [], "one-off", "reported", ["commons-proton-2023"], "Documented by a dated photograph at the 2023 6 Hours of Monza. Full 2023 programme and line-up not yet researched."],
   ["porsche-penske-motorsport", "imsa", 2024, "6", ["mathieu-jaminet", "nick-tandy"], "full-season", "verified", ["pn-imsa-2024-titles"], "Kévin Estre joined for Petit Le Mans."],
   ["porsche-penske-motorsport", "imsa", 2024, "7", ["dane-cameron", "felipe-nasr"], "full-season", "verified", ["pn-imsa-2024-titles", "pn-daytona-2024"], "Josef Newgarden was part of the Daytona-winning crew."],
   ["porsche-penske-motorsport", "wec", 2024, "6", ["kevin-estre", "andre-lotterer", "laurens-vanthoor"], "full-season", "verified", ["pn-success-2024", "pn-lemans-pole-2024"]],
@@ -364,10 +371,10 @@ export const LIVERIES: LiverySeed[] = [
     verification: "verified", sources: ["pn-laguna-2026", "porsche-apple-story"],
   },
   {
-    slug: "963-jdc-miller-85", name: "JDC-Miller MotorSports — #85", kind: "customer",
+    slug: "963-jdc-miller-85", name: "JDC-Miller MotorSports customer livery", kind: "customer",
     year: 2023, season: "2023–2026", team: "jdc-miller-motorsports", champ: "imsa", carNumbers: "85", event: "IMSA GTP from round four of 2023",
-    sponsors: "", drivers: ["gianmaria-bruni", "tijmen-van-der-helm", "nico-pino", "kaylen-frederick"],
-    background: "IMSA's privateer 963. This record is a placeholder for the team's livery history: seasonal designs, sponsors and colours have not yet been researched to archive standard.",
+    sponsors: "", drivers: ["tijmen-van-der-helm", "mike-rockenfeller", "gianmaria-bruni", "nico-pino", "kaylen-frederick"],
+    background: "IMSA's privateer 963, raced as No. 5 in 2023 and No. 85 from 2025. This record groups the team's colours until each season's design and sponsors are researched to archive standard; the photographs show how the car looked at each event.",
     inspiration: "Not yet documented.",
     design: { base: "#3a3a3a", accents: ["#6b6b6b"], pattern: "neutral", note: "Palette not documented — neutral placeholder." },
     verification: "unverified", sources: ["imsa-jdc-2025", "pn-daytona-2026-preview"],

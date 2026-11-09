@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import { db } from "@/lib/db";
+import { vehicleCovers } from "@/lib/photos";
 import { catalogFacets, searchVehicles, type CatalogFilters } from "@/lib/queries";
 import { Container, SectionHeading } from "@/components/Section";
 import FilterBar from "@/components/FilterBar";
@@ -9,18 +9,17 @@ import { country, ERAS } from "@/lib/vocab";
 
 export const metadata: Metadata = {
   title: "Vehicle collection",
-  description: "Searchable catalogue of racing cars — filter by manufacturer, category, year, championship, team, country and era.",
+  description: "Searchable catalogue of racing cars. Filter by manufacturer, category, year, championship, team, country and era.",
 };
 
 export default async function Vehicles({ searchParams }: { searchParams: Promise<CatalogFilters> }) {
   const f = await searchParams;
   const [vehicles, facets] = await Promise.all([searchVehicles(f), catalogFacets()]);
-  const heroIds = vehicles.map((v) => v.heroLiveryId).filter(Boolean) as string[];
-  const designs = new Map((await db.livery.findMany({ where: { id: { in: heroIds } }, select: { id: true, design: true } })).map((l) => [l.id, l.design]));
+  const covers = await vehicleCovers(vehicles);
 
   return (
     <Container className="py-16">
-      <SectionHeading eyebrow="Vehicle database" title="The collection">
+      <SectionHeading title="The collection">
         {vehicles.length} {vehicles.length === 1 ? "vehicle" : "vehicles"} match. A year filter shows cars that were racing in that season.
       </SectionHeading>
       <Suspense>
@@ -39,12 +38,12 @@ export default async function Vehicles({ searchParams }: { searchParams: Promise
           ] }}
         />
       </Suspense>
-      <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-12 grid gap-x-6 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
         {vehicles.map((v) => (
-          <VehicleCard key={v.id} v={v} design={v.heroLiveryId ? designs.get(v.heroLiveryId) : null} />
+          <VehicleCard key={v.id} v={v} photo={covers.get(v.id)} />
         ))}
       </div>
-      {!vehicles.length ? <p className="mt-16 text-center text-mute">No vehicles match these filters.</p> : null}
+      {!vehicles.length ? <p className="mt-16 text-center text-fog">No vehicles match these filters.</p> : null}
     </Container>
   );
 }

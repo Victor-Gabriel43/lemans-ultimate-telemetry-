@@ -13,17 +13,17 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   return (
     <div className="mx-auto grid max-w-[1400px] gap-8 px-4 py-10 sm:px-6 lg:grid-cols-[220px_1fr] lg:px-10">
       <aside className="space-y-1 text-sm lg:sticky lg:top-24 lg:h-fit">
-        <Link href="/admin" className="eyebrow mb-4 block text-paper">Curator dashboard</Link>
+        <Link href="/admin" className="text-sm text-fog mb-4 block text-chalk">Curator dashboard</Link>
         {MODELS.map((m) => (
-          <Link key={m.key} href={`/admin/${m.key}`} className="block rounded px-2 py-1.5 text-soft hover:bg-carbon hover:text-paper">{m.plural}</Link>
+          <Link key={m.key} href={`/admin/${m.key}`} className="block rounded px-2 py-1.5 text-fog hover:bg-pit hover:text-chalk">{m.plural}</Link>
         ))}
         {mode === "password" ? (
-          <form action={logout} className="pt-4"><button className="eyebrow hover:text-paper">Sign out</button></form>
+          <form action={logout} className="pt-4"><button className="text-sm text-fog hover:text-chalk">Sign out</button></form>
         ) : null}
       </aside>
       <div>
         {mode === "open-dev" ? (
-          <p className="mb-6 border border-amber/40 bg-amber/5 px-4 py-2 text-xs text-amber">
+          <p className="mb-6 border border-lamp/40 bg-lamp/5 px-4 py-2 text-xs text-lamp">
             Development mode: no ADMIN_PASSWORD is set, so the dashboard is open. In production it is locked until a password is configured.
           </p>
         ) : null}

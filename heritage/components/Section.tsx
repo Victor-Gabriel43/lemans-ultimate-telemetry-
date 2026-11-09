@@ -1,18 +1,15 @@
-export function SectionHeading({ index, eyebrow, title, children }: { index?: string; eyebrow: string; title: string; children?: React.ReactNode }) {
+export function SectionHeading({ title, children, id, aside }: { title: string; children?: React.ReactNode; id?: string; aside?: React.ReactNode }) {
   return (
-    <header className="mb-10 grid gap-4 border-t hairline pt-6 md:grid-cols-[180px_1fr]">
-      <p className="eyebrow">
-        {index ? <span className="mr-3 text-paper">{index}</span> : null}
-        {eyebrow}
-      </p>
+    <header id={id} className="mb-10 flex scroll-mt-32 flex-wrap items-end justify-between gap-x-10 gap-y-4">
       <div>
-        <h2 className="display text-4xl md:text-5xl">{title}</h2>
-        {children ? <div className="mt-4 max-w-2xl text-soft">{children}</div> : null}
+        <h2 className="display text-[clamp(2.75rem,6vw,5rem)]">{title}</h2>
+        {children ? <div className="lede mt-4 text-[1.2rem] text-fog">{children}</div> : null}
       </div>
+      {aside}
     </header>
   );
 }
 
 export function Container({ children, className = "" }: { children: React.ReactNode; className?: string }) {
-  return <div className={`mx-auto w-full max-w-[1400px] px-4 sm:px-6 lg:px-10 ${className}`}>{children}</div>;
+  return <div className={`mx-auto w-full max-w-[1480px] px-4 sm:px-6 lg:px-10 ${className}`}>{children}</div>;
 }

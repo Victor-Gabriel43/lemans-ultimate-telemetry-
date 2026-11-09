@@ -25,22 +25,22 @@ export default async function Dashboard() {
   return (
     <div>
       <h1 className="display text-5xl">Archive overview</h1>
-      <ul className="mt-8 grid grid-cols-2 gap-px bg-line sm:grid-cols-3 xl:grid-cols-4">
+      <ul className="mt-8 grid grid-cols-2 gap-px bg-asphalt sm:grid-cols-3 xl:grid-cols-4">
         {MODELS.map((m, i) => (
-          <li key={m.key} className="bg-ink">
-            <Link href={`/admin/${m.key}`} className="block p-5 hover:bg-carbon">
+          <li key={m.key} className="bg-black">
+            <Link href={`/admin/${m.key}`} className="block p-5 hover:bg-pit">
               <p className="display text-4xl tabular-nums">{counts[i]}</p>
-              <p className="eyebrow mt-1">{m.plural}</p>
+              <p className="text-sm text-fog mt-1">{m.plural}</p>
             </Link>
           </li>
         ))}
       </ul>
-      <h2 className="eyebrow mt-14 mb-3">Research queue — {queue.length} records awaiting verification</h2>
-      <ul className="divide-y divide-line border-y hairline">
+      <h2 className="text-sm text-fog mt-14 mb-3">Research queue — {queue.length} records awaiting verification</h2>
+      <ul className="divide-y divide-asphalt border-y rule">
         {queue.map((q) => (
           <li key={q.href}>
             <Link href={q.href} className="flex items-center justify-between gap-4 py-2.5 text-sm hover:text-white">
-              <span><span className="mr-3 font-mono text-xs text-mute">{q.type}</span>{q.label}</span>
+              <span><span className="mr-3 text-xs text-fog">{q.type}</span>{q.label}</span>
               <VerificationBadge status={q.v} />
             </Link>
           </li>
@@ -48,7 +48,7 @@ export default async function Dashboard() {
       </ul>
       {uncitedLiveries.length ? (
         <>
-          <h2 className="eyebrow mt-10 mb-3 text-signal">Liveries without any source</h2>
+          <h2 className="text-sm text-fog mt-10 mb-3 text-flag">Liveries without any source</h2>
           <ul className="space-y-1 text-sm">{uncitedLiveries.map((l) => <li key={l.id}><Link className="hover:underline" href={`/admin/livery/${l.id}`}>{l.name}</Link></li>)}</ul>
         </>
       ) : null}

@@ -6,34 +6,26 @@ const NAV = [
   { href: "/liveries", label: "Liveries" },
   { href: "/vehicles/porsche-963/timeline", label: "Timeline" },
   { href: "/vehicles/porsche-963/compare", label: "Compare" },
-  { href: "/sources", label: "Method" },
+  { href: "/sources", label: "Sources" },
 ];
 
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-40 border-b hairline bg-ink/80 backdrop-blur-md">
-      <Container className="flex h-16 items-center justify-between gap-6">
-        <Link href="/" className="group flex items-baseline gap-3">
-          <span className="display text-xl tracking-tight">Racing Heritage</span>
-          <span className="eyebrow hidden sm:inline group-hover:text-paper">Archive</span>
+    <header className="sticky top-0 z-40 border-b rule bg-black/85 backdrop-blur-md">
+      <Container className="flex h-14 items-center justify-between gap-6">
+        <Link href="/" className="display text-[1.6rem] leading-none whitespace-nowrap">
+          Racing Heritage Archive
         </Link>
-        <nav aria-label="Primary" className="scrollbar-none -mr-2 flex items-center gap-1 overflow-x-auto text-sm">
+        <nav aria-label="Primary" className="hidden items-center gap-6 text-[15px] md:flex">
           {NAV.map((n) => (
-            <Link key={n.href} href={n.href} className="hidden whitespace-nowrap rounded-full px-3 py-1.5 text-soft transition-colors hover:text-paper md:block">
-              {n.label}
-            </Link>
+            <Link key={n.href} href={n.href} className="text-fog transition-colors hover:text-chalk">{n.label}</Link>
           ))}
-          <Link href="/search" aria-label="Search the archive" className="rounded-full border hairline px-3 py-1.5 text-soft transition-colors hover:border-mute hover:text-paper">
-            Search
-          </Link>
+          <Link href="/search" className="rounded-full bg-chalk px-4 py-1.5 text-black hover:bg-white">Search</Link>
         </nav>
+        <Link href="/search" className="rounded-full bg-chalk px-3 py-1 text-sm text-black md:hidden">Search</Link>
       </Container>
-      <nav aria-label="Primary mobile" className="scrollbar-none flex gap-1 overflow-x-auto border-t hairline px-4 py-2 text-sm md:hidden">
-        {NAV.map((n) => (
-          <Link key={n.href} href={n.href} className="whitespace-nowrap rounded-full px-3 py-1 text-soft hover:text-paper">
-            {n.label}
-          </Link>
-        ))}
+      <nav aria-label="Primary mobile" className="scrollbar-none flex gap-5 overflow-x-auto border-t rule px-4 py-2 text-sm md:hidden">
+        {NAV.map((n) => <Link key={n.href} href={n.href} className="whitespace-nowrap text-fog hover:text-chalk">{n.label}</Link>)}
       </nav>
     </header>
   );
@@ -41,32 +33,32 @@ export function SiteHeader() {
 
 export function SiteFooter() {
   return (
-    <footer className="mt-32 border-t hairline">
-      <Container className="grid gap-10 py-14 md:grid-cols-[2fr_1fr_1fr]">
+    <footer className="mt-32 border-t rule bg-pit">
+      <Container className="grid gap-10 py-16 md:grid-cols-[2fr_1fr_1fr]">
         <div>
-          <p className="display text-3xl">Racing Heritage Archive</p>
-          <p className="mt-3 max-w-md text-sm text-mute">
-            A digital museum and technical encyclopaedia of racing cars. Every record carries its sources and a verification
-            status; information that could not be confirmed is marked as such and never presented as fact.
+          <p className="display text-5xl">Racing Heritage Archive</p>
+          <p className="mt-4 max-w-md font-serif text-fog">
+            Racing cars, the people who raced them and every colour they wore. Each record names its sources, and anything not yet
+            confirmed is marked as such.
           </p>
         </div>
-        <div className="space-y-2 text-sm">
-          <p className="eyebrow mb-3">Archive</p>
-          <Link className="block text-soft hover:text-paper" href="/vehicles">Vehicle collection</Link>
-          <Link className="block text-soft hover:text-paper" href="/liveries">Livery archive</Link>
-          <Link className="block text-soft hover:text-paper" href="/teams">Teams</Link>
-          <Link className="block text-soft hover:text-paper" href="/drivers">Drivers</Link>
+        <div className="space-y-2 text-[15px]">
+          <p className="mb-3 font-semibold">Archive</p>
+          <Link className="block text-fog hover:text-chalk" href="/vehicles">Vehicle collection</Link>
+          <Link className="block text-fog hover:text-chalk" href="/liveries">Livery archive</Link>
+          <Link className="block text-fog hover:text-chalk" href="/teams">Teams</Link>
+          <Link className="block text-fog hover:text-chalk" href="/drivers">Drivers</Link>
         </div>
-        <div className="space-y-2 text-sm">
-          <p className="eyebrow mb-3">Research</p>
-          <Link className="block text-soft hover:text-paper" href="/sources">Method &amp; sources</Link>
-          <Link className="block text-soft hover:text-paper" href="/admin">Curator dashboard</Link>
+        <div className="space-y-2 text-[15px]">
+          <p className="mb-3 font-semibold">Research</p>
+          <Link className="block text-fog hover:text-chalk" href="/sources">How we verify</Link>
+          <Link className="block text-fog hover:text-chalk" href="/admin">Curator dashboard</Link>
         </div>
       </Container>
-      <Container className="border-t hairline py-6">
-        <p className="font-mono text-[11px] text-mute">
-          Independent archive — not affiliated with any manufacturer, team or series organiser. Trademarks belong to their owners.
-          Livery images are archival illustrations unless credited as photographs.
+      <Container className="border-t rule py-6">
+        <p className="text-[13px] text-fog">
+          Independent archive, not affiliated with any manufacturer, team or series organiser. Photographs are credited to their authors
+          and used under the licence shown with each image.
         </p>
       </Container>
     </footer>
