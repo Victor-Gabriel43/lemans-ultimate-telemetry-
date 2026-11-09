@@ -504,7 +504,7 @@ export const PHOTOS: PhotoSeed[] = [
     "timeline": null
   },
   {
-    "file": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/99_Porsche_963_during_2023_Monza_6h_2.jpg/1920px-99_Porsche_963_during_2023_Monza_6h_2.jpg",
+    "file": "99-porsche-963-during-2023-monza-6h-2.webp",
     "title": "99 Porsche 963 during 2023 Monza 6h 2.jpg",
     "alt": "Proton Competition's No. 99 at the 2023 6 Hours of Monza, before the F.A.T. livery.",
     "caption": "Proton Competition's No. 99 at the 2023 6 Hours of Monza, before the F.A.T. livery.",
@@ -521,7 +521,7 @@ export const PHOTOS: PhotoSeed[] = [
     "timeline": null
   },
   {
-    "file": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/2024_6_Hours_of_Spa-Francorchamps_Proton_Competition_Porsche_963_No.99_%28DSC04153%29.jpg/1920px-2024_6_Hours_of_Spa-Francorchamps_Proton_Competition_Porsche_963_No.99_%28DSC04153%29.jpg",
+    "file": "2024-6-hours-of-spa-francorchamps-proton-competition-porsche-963-no-99-dsc04153.webp",
     "title": "2024 6 Hours of Spa-Francorchamps Proton Competition Porsche 963 No.99 (DSC04153).jpg",
     "alt": "Proton's No. 99 in the F.A.T. colours of the 1994 Dauer 962 at the 2024 6 Hours of Spa-Francorchamps.",
     "caption": "Proton's No. 99 in the F.A.T. colours of the 1994 Dauer 962 at the 2024 6 Hours of Spa-Francorchamps.",
@@ -538,7 +538,7 @@ export const PHOTOS: PhotoSeed[] = [
     "timeline": "Proton reveals Dauer 962 tribute"
   },
   {
-    "file": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Proton_Competition_Porsche_963_WEC_Lone_Star_Le_Mans.jpg/1920px-Proton_Competition_Porsche_963_WEC_Lone_Star_Le_Mans.jpg",
+    "file": "proton-competition-porsche-963-wec-lone-star-le-mans.webp",
     "title": "Proton Competition Porsche 963 WEC Lone Star Le Mans.jpg",
     "alt": "The No. 99 at the 2024 Lone Star Le Mans, Circuit of the Americas.",
     "caption": "The No. 99 at the 2024 Lone Star Le Mans, Circuit of the Americas.",
