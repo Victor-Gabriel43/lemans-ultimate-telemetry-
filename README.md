@@ -1,5 +1,7 @@
 # LMU Race Engineer
 
+> Este repositório também contém o **Racing Heritage Archive** (museu digital de carros de corrida, começando pelo Porsche 963), um app independente em [`heritage/`](./heritage/README.md).
+
 Painel de estratégia colaborativo em tempo real para corridas de endurance no Le Mans Ultimate. Crie uma "sala de corrida", compartilhe o código de convite com a equipe, e todo mundo edita combustível, pneus, danos, pit stops e a escala de pilotos ao vivo — sem F5.
 
 **App em produção**: https://lemans-ultimate.vercel.app

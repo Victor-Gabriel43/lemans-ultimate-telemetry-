@@ -1,0 +1,261 @@
+// RACING HERITAGE ARCHIVE — data model
+//
+// Portability: no native enums, scalar lists or Json columns, so the same
+// models run on SQLite (dev) and PostgreSQL (prod) by switching `provider`.
+// "Enum" fields are plain strings validated in lib/vocab.ts; structured
+// values (livery design palette) are JSON stored as strings.
+//
+// Every historical record carries `verification`:
+//   "verified"   – confirmed by at least one primary/official source
+//   "reported"   – published by a reputable outlet, not yet cross-checked
+//   "unverified" – plausible but unconfirmed; shown with a warning
+// Sources attach to any record through SourceRef (entityType + entityId).
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Manufacturer {
+  id       String    @id @default(cuid())
+  slug     String    @unique
+  name     String
+  country  String
+  vehicles Vehicle[]
+}
+
+model Championship {
+  id         String   @id @default(cuid())
+  slug       String   @unique
+  name       String
+  shortName  String
+  body       String // sanctioning body: FIA/ACO, IMSA …
+  events     Event[]
+  entries    Entry[]
+  liveries   Livery[]
+}
+
+model Team {
+  id          String          @id @default(cuid())
+  slug        String          @unique
+  name        String
+  country     String
+  kind        String // factory | customer
+  description String          @default("")
+  verification String         @default("verified")
+  entries     Entry[]
+  liveries    Livery[]
+  timeline    TimelineEntry[]
+}
+
+model Driver {
+  id          String         @id @default(cuid())
+  slug        String         @unique
+  name        String
+  nationality String // ISO-3166 alpha-3
+  entries     EntryDriver[]
+  liveries    LiveryDriver[]
+}
+
+model Vehicle {
+  id             String          @id @default(cuid())
+  slug           String          @unique
+  manufacturerId String
+  manufacturer   Manufacturer    @relation(fields: [manufacturerId], references: [id])
+  model          String
+  fullName       String
+  category       String // e.g. "LMDh / GTP", "Hypercar (LMH)", "Group C"
+  era            String // modern | historic
+  status         String          @default("published") // published | in-research
+  debutYear      Int
+  retiredYear    Int?
+  country        String
+  tagline        String          @default("")
+  summary        String          @default("")
+  development    String          @default("")
+  unveiling      String          @default("")
+  firstAppearance String         @default("")
+  firstRace      String          @default("")
+  background     String          @default("")
+  heroLiveryId   String?
+  featured       Boolean         @default(false)
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  specs          Spec[]
+  entries        Entry[]
+  results        Result[]
+  liveries       Livery[]
+  photos         Photo[]
+  timeline       TimelineEntry[]
+}
+
+model Spec {
+  id           String  @id @default(cuid())
+  vehicleId    String
+  vehicle      Vehicle @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+  group        String // Powertrain | Hybrid | Chassis | Partners
+  label        String
+  value        String
+  order        Int     @default(0)
+  verification String  @default("verified")
+}
+
+// One car's participation: vehicle × team × championship × season × number.
+model Entry {
+  id             String        @id @default(cuid())
+  vehicleId      String
+  vehicle        Vehicle       @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+  teamId         String
+  team           Team          @relation(fields: [teamId], references: [id])
+  championshipId String
+  championship   Championship  @relation(fields: [championshipId], references: [id])
+  season         Int
+  carNumber      String
+  scope          String        @default("full-season") // full-season | one-off | endurance-only
+  notes          String        @default("")
+  verification   String        @default("verified")
+  drivers        EntryDriver[]
+  results        Result[]
+}
+
+model EntryDriver {
+  entryId  String
+  entry    Entry  @relation(fields: [entryId], references: [id], onDelete: Cascade)
+  driverId String
+  driver   Driver @relation(fields: [driverId], references: [id], onDelete: Cascade)
+  role     String @default("full-season") // full-season | endurance | one-off
+
+  @@id([entryId, driverId])
+}
+
+model Event {
+  id             String       @id @default(cuid())
+  slug           String       @unique
+  name           String
+  championshipId String
+  championship   Championship @relation(fields: [championshipId], references: [id])
+  season         Int
+  date           DateTime
+  datePrecision  String       @default("day") // day | month
+  circuit        String
+  country        String
+  results        Result[]
+}
+
+model Result {
+  id           String  @id @default(cuid())
+  vehicleId    String
+  vehicle      Vehicle @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+  eventId      String
+  event        Event   @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  entryId      String?
+  entry        Entry?  @relation(fields: [entryId], references: [id])
+  position     String // "1", "2", "DNF", "Pole" …
+  headline     String  @default("")
+  notes        String  @default("")
+  highlight    Boolean @default(false) // shown under "Major achievements"
+  verification String  @default("verified")
+}
+
+model Livery {
+  id             String         @id @default(cuid())
+  slug           String         @unique
+  vehicleId      String
+  vehicle        Vehicle        @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+  name           String
+  kind           String // see lib/vocab.ts LIVERY_KINDS
+  parentId       String?
+  parent         Livery?        @relation("LiveryVariants", fields: [parentId], references: [id])
+  variants       Livery[]       @relation("LiveryVariants")
+  isVariation    Boolean        @default(false) // seasonal/sponsor update of parent, not a new design
+  year           Int
+  season         String         @default("")
+  teamId         String?
+  team           Team?          @relation(fields: [teamId], references: [id])
+  championshipId String?
+  championship   Championship?  @relation(fields: [championshipId], references: [id])
+  carNumbers     String         @default("") // comma separated
+  event          String         @default("")
+  firstUsed      DateTime?
+  sponsors       String         @default("") // comma separated
+  background     String         @default("")
+  inspiration    String         @default("")
+  design         String         @default("{}") // JSON: { base, accents[], pattern }
+  verification   String         @default("verified")
+  createdAt      DateTime       @default(now())
+  drivers        LiveryDriver[]
+  photos         Photo[]
+  timeline       TimelineEntry[]
+}
+
+model LiveryDriver {
+  liveryId String
+  livery   Livery @relation(fields: [liveryId], references: [id], onDelete: Cascade)
+  driverId String
+  driver   Driver @relation(fields: [driverId], references: [id], onDelete: Cascade)
+
+  @@id([liveryId, driverId])
+}
+
+model Photo {
+  id              String         @id @default(cuid())
+  url             String
+  alt             String
+  caption         String         @default("")
+  credit          String         @default("")
+  license         String         @default("")
+  view            String         @default("main") // main | front | rear | side | top | detail | action
+  order           Int            @default(0)
+  vehicleId       String?
+  vehicle         Vehicle?       @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+  liveryId        String?
+  livery          Livery?        @relation(fields: [liveryId], references: [id], onDelete: Cascade)
+  timelineEntryId String?
+  timelineEntry   TimelineEntry? @relation(fields: [timelineEntryId], references: [id], onDelete: Cascade)
+}
+
+model TimelineEntry {
+  id            String   @id @default(cuid())
+  vehicleId     String
+  vehicle       Vehicle  @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+  date          DateTime
+  datePrecision String   @default("day") // day | month | year
+  title         String
+  description   String
+  category      String   @default("milestone") // development | reveal | race | title | livery | business | milestone
+  teamId        String?
+  team          Team?    @relation(fields: [teamId], references: [id])
+  liveryId      String?
+  livery        Livery?  @relation(fields: [liveryId], references: [id])
+  milestone     Boolean  @default(false)
+  verification  String   @default("verified")
+  photos        Photo[]
+}
+
+model Source {
+  id        String      @id @default(cuid())
+  title     String
+  publisher String
+  url       String
+  kind      String      @default("press") // official | press | governing-body | publication | results
+  published DateTime?
+  accessed  DateTime    @default(now())
+  refs      SourceRef[]
+}
+
+// Polymorphic attribution: any record can cite any number of sources.
+model SourceRef {
+  id         String @id @default(cuid())
+  sourceId   String
+  source     Source @relation(fields: [sourceId], references: [id], onDelete: Cascade)
+  entityType String // Vehicle | Spec | Entry | Result | Livery | TimelineEntry | Team
+  entityId   String
+  note       String @default("")
+
+  @@unique([sourceId, entityType, entityId])
+  @@index([entityType, entityId])
+}
