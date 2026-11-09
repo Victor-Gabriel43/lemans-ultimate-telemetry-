@@ -368,7 +368,7 @@ export const PHOTOS: PhotoSeed[] = [
     "timeline": null
   },
   {
-    "file": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Porsche_963_Hybrid_-_Dane_Cameron%2C_Michael_Christensen_%26_Fred_Makowiecki_enters_the_Esses_at_the_2023_Le_Mans_%2853379126692%29.jpg/1920px-Porsche_963_Hybrid_-_Dane_Cameron%2C_Michael_Christensen_%26_Fred_Makowiecki_enters_the_Esses_at_the_2023_Le_Mans_%2853379126692%29.jpg",
+    "file": "porsche-963-hybrid-dane-cameron-michael-christensen-fred-makowiecki-enters-the-esses-at-th.webp",
     "title": "Porsche 963 Hybrid - Dane Cameron, Michael Christensen & Fred Makowiecki enters the Esses at the 2023 Le Mans (53379126692).jpg",
     "alt": "The No. 5 of Cameron, Christensen and Makowiecki enters the Esses.",
     "caption": "The No. 5 of Cameron, Christensen and Makowiecki enters the Esses.",
@@ -385,7 +385,7 @@ export const PHOTOS: PhotoSeed[] = [
     "timeline": null
   },
   {
-    "file": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/2023_24HoursofLeMans_start.jpg/1920px-2023_24HoursofLeMans_start.jpg",
+    "file": "2023-24hoursoflemans-start.webp",
     "title": "2023 24HoursofLeMans start.jpg",
     "alt": "The start of the 2023 24 Hours of Le Mans, the Le Mans debut of the 963, the Ferrari 499P and the Cadillac V-Series.R.",
     "caption": "The start of the 2023 24 Hours of Le Mans, the Le Mans debut of the 963, the Ferrari 499P and the Cadillac V-Series.R.",
@@ -402,7 +402,7 @@ export const PHOTOS: PhotoSeed[] = [
     "timeline": null
   },
   {
-    "file": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Porsche_963_Hybrid_-_Porsche_Penske_Motorsport_bodywork_in_front_of_the_garage_during_the_pitwalk_at_the_2023_Le_Mans_%2853467007662%29.jpg/1920px-Porsche_963_Hybrid_-_Porsche_Penske_Motorsport_bodywork_in_front_of_the_garage_during_the_pitwalk_at_the_2023_Le_Mans_%2853467007662%29.jpg",
+    "file": "porsche-963-hybrid-porsche-penske-motorsport-bodywork-in-front-of-the-garage-during-the-pi.webp",
     "title": "Porsche 963 Hybrid - Porsche Penske Motorsport bodywork in front of the garage during the pitwalk at the 2023 Le Mans (53467007662).jpg",
     "alt": "Spare bodywork in the striped livery outside the Porsche Penske garage during the 2023 pit walk.",
     "caption": "Spare bodywork in the striped livery outside the Porsche Penske garage during the 2023 pit walk.",
@@ -419,7 +419,7 @@ export const PHOTOS: PhotoSeed[] = [
     "timeline": null
   },
   {
-    "file": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/N5_Porsche_963_during_2023_24h_of_Le_Mans_2.jpg/1920px-N5_Porsche_963_during_2023_24h_of_Le_Mans_2.jpg",
+    "file": "n5-porsche-963-during-2023-24h-of-le-mans-2.webp",
     "title": "N5 Porsche 963 during 2023 24h of Le Mans 2.jpg",
     "alt": "The No. 5 on track at Le Mans, 11 June 2023.",
     "caption": "The No. 5 on track at Le Mans, 11 June 2023.",
@@ -436,7 +436,7 @@ export const PHOTOS: PhotoSeed[] = [
     "timeline": null
   },
   {
-    "file": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Hertz_Team_Jota_-_Porsche_963_-38_%2853078024885%29.jpg/1920px-Hertz_Team_Jota_-_Porsche_963_-38_%2853078024885%29.jpg",
+    "file": "hertz-team-jota-porsche-963-38-53078024885.webp",
     "title": "Hertz Team Jota - Porsche 963 -38 (53078024885).jpg",
     "alt": "Hertz Team JOTA's No. 38 at Le Mans scrutineering week, 7 June 2023.",
     "caption": "Hertz Team JOTA's No. 38 at Le Mans scrutineering week, 7 June 2023.",
@@ -470,7 +470,7 @@ export const PHOTOS: PhotoSeed[] = [
     "timeline": "First customer 963 races"
   },
   {
-    "file": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Porsche_963-Hybrid_-_Antonio_Felix_da_Costa%2C_Will_Stevens_%26_Yifei_Ye_in_Ford_Chicane_at_the_2023_Le_Mans_%2853429069388%29.jpg/1920px-Porsche_963-Hybrid_-_Antonio_Felix_da_Costa%2C_Will_Stevens_%26_Yifei_Ye_in_Ford_Chicane_at_the_2023_Le_Mans_%2853429069388%29.jpg",
+    "file": "porsche-963-hybrid-antonio-felix-da-costa-will-stevens-yifei-ye-in-ford-chicane-at-the-202.webp",
     "title": "Porsche 963-Hybrid - Antonio Felix da Costa, Will Stevens & Yifei Ye in Ford Chicane at the 2023 Le Mans (53429069388).jpg",
     "alt": "JOTA's No. 38 in the Ford Chicane, 2023 24 Hours of Le Mans.",
     "caption": "JOTA's No. 38 in the Ford Chicane, 2023 24 Hours of Le Mans.",
@@ -487,7 +487,7 @@ export const PHOTOS: PhotoSeed[] = [
     "timeline": null
   },
   {
-    "file": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Hertz_Jota_Sport_Porsche_963.jpg/1920px-Hertz_Jota_Sport_Porsche_963.jpg",
+    "file": "hertz-jota-sport-porsche-963.webp",
     "title": "Hertz Jota Sport Porsche 963.jpg",
     "alt": "The No. 38 at Le Mans on 8 June 2023.",
     "caption": "The No. 38 at Le Mans on 8 June 2023.",
