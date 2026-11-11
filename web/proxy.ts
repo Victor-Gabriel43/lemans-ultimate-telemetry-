@@ -30,6 +30,13 @@ export function proxy(request: NextRequest) {
     return NextResponse.redirect(new URL(`${prefix}${target}${search}`, request.url), 308);
   }
 
+  // The car archive index moved into the teams section (each team lists all its cars).
+  const carsIndex = pathname.match(/^(\/en|\/pt)?\/cars\/?$/);
+  if (carsIndex) {
+    const prefix = carsIndex[1] === "/en" ? "/en" : "";
+    return NextResponse.redirect(new URL(`${prefix}/teams`, request.url), 308);
+  }
+
   if (pathname === "/pt" || pathname.startsWith("/pt/")) {
     const clean = pathname.replace(/^\/pt/, "") || "/";
     return NextResponse.redirect(new URL(`${clean}${search}`, request.url), 308);

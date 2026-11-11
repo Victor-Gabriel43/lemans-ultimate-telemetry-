@@ -11,14 +11,13 @@ import { DRIVERS } from "./drivers";
 import { TEAMS } from "./teams";
 import { CARS } from "./cars";
 import { CIRCUITS } from "./circuits";
-import { TECH, type TechArticle, type TechGroup } from "./technology";
+import { TECH_BI, localizeTech, type TechArticle, type TechGroup } from "./technology";
 import { HEADLINES, POINTS_SYSTEMS } from "./seasons";
 import { ERAS_PT } from "./pt/eras";
 import { DRIVERS_PT } from "./pt/drivers";
 import { TEAMS_PT } from "./pt/teams";
 import { CARS_PT } from "./pt/cars";
 import { CIRCUITS_PT } from "./pt/circuits";
-import { TECH_PT } from "./pt/technology";
 import { HEADLINES_PT } from "./pt/seasons";
 
 /* ------------------------------------------------------------------- eras */
@@ -155,7 +154,7 @@ export function circuitEditorial(id: string, lang: Lang): CircuitEditorial | und
 
 /* --------------------------------------------------------------- technology */
 export function techArticles(lang: Lang, group?: TechGroup): TechArticle[] {
-  return TECH.filter((t) => !group || t.group === group).map((t) => (lang === "pt" && TECH_PT[t.slug] ? { ...t, ...TECH_PT[t.slug] } : t));
+  return TECH_BI.filter((t) => !group || t.group === group).map((t) => localizeTech(t, lang));
 }
 export function techArticle(slug: string, group: TechGroup, lang: Lang) {
   return techArticles(lang, group).find((t) => t.slug === slug);

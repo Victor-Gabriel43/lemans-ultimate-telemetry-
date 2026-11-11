@@ -284,8 +284,8 @@ export default async function EraPage({ params }: PageProps<"/[lang]/history/[er
               eyebrow={t.history.carsEyebrow}
               title={fmt(t.history.carsTitle, { d: decadeLabel })}
               action={
-                <LinkArrow lang={lang} href="/cars">
-                  {t.nav.cars}
+                <LinkArrow lang={lang} href="/teams">
+                  {t.nav.teams}
                 </LinkArrow>
               }
             />

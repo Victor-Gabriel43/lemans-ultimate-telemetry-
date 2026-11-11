@@ -30,7 +30,6 @@ export function searchIndex(lang: Lang): SearchEntry[] {
     [t.nav.seasons, "/seasons"],
     [t.nav.drivers, "/drivers"],
     [t.nav.teams, "/teams"],
-    [t.nav.cars, "/cars"],
     [t.nav.circuits, "/circuits"],
     [t.nav.engineering, "/engineering"],
     [t.nav.regulations, "/regulations"],

@@ -4,6 +4,8 @@ import type { Lang } from "@/lib/i18n/config";
 import { fmt, getDict } from "@/lib/i18n/dict";
 import { ctor, db, driver, season } from "@/lib/f1/db";
 import { seasonHeadline } from "@/lib/f1/content";
+import { sized } from "@/lib/f1/img";
+import { seasonHero } from "@/lib/f1/derive";
 import { SeasonBrowser, type SeasonRow } from "@/components/site/SeasonBrowser";
 import { DataNotice, PageIntro } from "@/components/site/ui";
 
@@ -37,6 +39,10 @@ export default async function SeasonsPage({ params }: PageProps<"/[lang]/seasons
       rounds: s.rounds,
       completed: s.completed,
       headline: seasonHeadline(s.year, lang),
+      photo: (() => {
+        const h = seasonHero(s.year);
+        return h ? { src: sized(h.photo.src, 500), credit: h.photo.credit, license: h.photo.license, label: h.label } : undefined;
+      })(),
     };
   });
   return (

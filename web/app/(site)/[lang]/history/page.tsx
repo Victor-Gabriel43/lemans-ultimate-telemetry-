@@ -3,8 +3,8 @@ import type { Metadata } from "next";
 import { lp, type Lang } from "@/lib/i18n/config";
 import { fmt, getDict } from "@/lib/i18n/dict";
 import { eras } from "@/lib/f1/content";
-import { chassisPhoto } from "@/lib/f1/media";
-import { championChassis } from "@/lib/f1/derive";
+
+import { eraHero } from "@/lib/f1/derive";
 import { EraTimeline } from "@/components/site/EraTimeline";
 import { LinkArrow, PageIntro, Plate, SectionHead } from "@/components/site/ui";
 
@@ -44,8 +44,7 @@ export default async function HistoryPage({ params }: PageProps<"/[lang]/history
           <div className="grid grid-2" style={{ gap: 24 }}>
             {E.map((e, i) => {
               // a photograph of a championship-winning car from the decade, when licensed
-              const cars = Array.from({ length: Math.min(e.end, 2025) - e.start + 1 }, (_, k) => championChassis(e.start + k)).filter(Boolean) as string[];
-              const pic = cars.map((c) => chassisPhoto(c)).find(Boolean);
+              const pic = eraHero(e.start, e.end)?.photo;
               return (
                 <Link key={e.id} href={lp(lang, `/history/${e.slug}`)} className="tile tile-link" style={{ background: "var(--paper-2)" }}>
                   <Plate linked lang={lang} alt={`${e.decade} — ${e.name}`} photo={pic} tone={e.tone} ratio="ratio-wide" flat tag={fmt(t.history.chapter, { n: i + 1 })} glyph={e.decade} glyphSize="sm" />

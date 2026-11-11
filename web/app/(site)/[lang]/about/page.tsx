@@ -143,6 +143,8 @@ export default async function AboutPage({ params }: PageProps<"/[lang]/about">) 
         <div className="wrap">
           <h2 className="title-1">{A.creditsTitle}</h2>
           <p className="lede mt-s">{fmt(A.creditsLede, { n: photos.length })}</p>
+          <details className="mt-m">
+            <summary className="btn btn-ghost">{pt ? "Ver todos os créditos" : "Show all credits"}</summary>
           <div className="table-wrap mt-m">
             <table className="dtable compact">
               <thead>
@@ -156,7 +158,8 @@ export default async function AboutPage({ params }: PageProps<"/[lang]/about">) 
                 {photos.map((p) => {
                   const [kind, ...rest] = p.id.split("-");
                   const id = rest.join("-");
-                  const href = kind === "driver" ? `/drivers/${id}` : kind === "circuit" ? `/circuits/${id}` : `/cars/${id}`;
+                  const href =
+                    kind === "driver" ? `/drivers/${id}` : kind === "circuit" ? `/circuits/${id}` : kind === "season" ? `/seasons/${id}` : kind === "race" ? `/seasons/${id.slice(0, 4)}/${id.slice(5)}` : `/cars/${id}`;
                   return (
                     <tr key={p.id}>
                       <td className="small">
@@ -173,6 +176,7 @@ export default async function AboutPage({ params }: PageProps<"/[lang]/about">) 
               </tbody>
             </table>
           </div>
+          </details>
         </div>
       </section>
     </>

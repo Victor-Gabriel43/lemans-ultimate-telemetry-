@@ -7,7 +7,7 @@ import { Search } from "lucide-react";
 import { lp, type Lang } from "@/lib/i18n/config";
 import { fmt, type Dict } from "@/lib/i18n/dict";
 
-export type TeamRow = { id: string; name: string; country: string; from: number; to: number; active: boolean; titles: number; wins: number; entries: number; color?: string; summary?: string; lineage: string };
+export type TeamRow = { id: string; name: string; country: string; from: number; to: number; active: boolean; titles: number; wins: number; entries: number; color?: string; summary?: string; lineage: string; photo?: { src: string; credit: string; license: string; label: string } };
 
 const FILTERS = ["all", "active", "historic", "champions"] as const;
 type Filter = (typeof FILTERS)[number];
@@ -84,6 +84,13 @@ export function TeamBrowser({ teams, lang, t }: { teams: TeamRow[]; lang: Lang; 
           {list.map((c) => (
             <Link key={c.id} href={lp(lang, `/teams/${c.id}`)} className="card">
               <div style={{ height: 6, background: c.color ?? "var(--line)" }} aria-hidden />
+              {c.photo && (
+                <div className="plate ratio-wide plate-flat">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={c.photo.src} alt={c.photo.label} loading="lazy" decoding="async" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
+                  <span className="plate-credit">{fmt(t.common.photoCredit, { credit: c.photo.credit, license: c.photo.license })}</span>
+                </div>
+              )}
               <div className="card-body" style={{ paddingTop: 20 }}>
                 <p className="card-meta">
                   {c.country} · {c.from}–{c.active ? t.common.present : c.to}

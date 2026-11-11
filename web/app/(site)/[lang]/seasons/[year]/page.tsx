@@ -6,7 +6,7 @@ import { fmt, getDict } from "@/lib/i18n/dict";
 import { chassis, chassisName, circuit, ctor, ctorName, db, driver, engine, engineMfrName, entrantName, formatDate, gpName, season, seasonStatus, tyreName } from "@/lib/f1/db";
 import { eraForYear, pointsFor, pointsNotes, seasonHeadline } from "@/lib/f1/content";
 import { chassisPhoto, driverPhoto } from "@/lib/f1/media";
-import { championChassis } from "@/lib/f1/derive";
+import { championChassis, seasonHero } from "@/lib/f1/derive";
 import { docsForYear } from "@/lib/f1/regs";
 import { CarCard } from "@/components/site/cards";
 import { BlockHead, Breadcrumbs, DataNotice, LinkArrow, Plate, StatusBadge } from "@/components/site/ui";
@@ -56,7 +56,8 @@ export default async function SeasonPage({ params }: PageProps<"/[lang]/seasons/
   const regDocs = docsForYear(year);
   const years = db().seasons.map((s) => s.year);
   const champPhoto = champ ? driverPhoto(champ.id) : undefined;
-  const carPhoto = champCar ? chassisPhoto(champCar) : undefined;
+  const hero = seasonHero(year);
+  const carPhoto = champCar && champCar !== hero?.chassisId ? chassisPhoto(champCar) : undefined;
 
   // entrants grouped by constructor
   const byCtor = new Map<string, typeof sd.entrants>();
@@ -103,6 +104,18 @@ export default async function SeasonPage({ params }: PageProps<"/[lang]/seasons/
             </div>
             <p className="lede pretty">{seasonHeadline(year, lang) ?? era.tagline}</p>
           </div>
+          {hero && (
+            <div className="mt-l">
+              <Plate
+                lang={lang}
+                alt={hero.label}
+                photo={hero.photo}
+                ratio="ratio-cinema"
+                priority
+                caption={hero.chassisId ? <Link href={lp(lang, `/cars/${hero.chassisId}`)} className="inline-link">{hero.label}</Link> : undefined}
+              />
+            </div>
+          )}
 
           <div className="grid grid-2 mt-l" style={{ gap: "clamp(32px,6vw,96px)", alignItems: "start" }}>
             <div className="prose">

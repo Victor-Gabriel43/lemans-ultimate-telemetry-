@@ -6,7 +6,9 @@ import { lp, type Lang } from "@/lib/i18n/config";
 import { fmt, getDict } from "@/lib/i18n/dict";
 import { circuit, countryName, ctorName, driver, formatDate, formatNumber, gpName, race as getRace, raceStatus, season } from "@/lib/f1/db";
 import { ResultsTable, posLabel } from "@/components/site/cards";
-import { BlockHead, Breadcrumbs, DataNotice, LinkArrow, Specs, StatusBadge } from "@/components/site/ui";
+import { BlockHead, Breadcrumbs, DataNotice, LinkArrow, Plate, Specs, StatusBadge } from "@/components/site/ui";
+import { raceHero } from "@/lib/f1/derive";
+import { circuitPhoto } from "@/lib/f1/media";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/seasons/[year]/[race]">): Promise<Metadata> {
   const { year, race } = await params;
@@ -29,6 +31,9 @@ export default async function RacePage({ params }: PageProps<"/[lang]/seasons/[y
   const prev = sd.races[i - 1];
   const next = sd.races[i + 1];
   const winner = r.results.find((x) => x.pos === 1);
+  const hero = raceHero(year, slug, winner);
+  const heroPhoto = hero?.photo ?? (c ? circuitPhoto(c.id) : undefined);
+  const heroCaption = hero?.chassisId ? `${hero.label} · ${driver(winner!.d)?.name ?? ""}` : hero ? `${year} ${gpName(r.gp)}` : c?.full;
   const others = (c?.editions ?? []).filter((e) => !(e.y === year && e.s === slug) && !e.scheduled).slice(-8).reverse();
 
   return (
@@ -56,6 +61,11 @@ export default async function RacePage({ params }: PageProps<"/[lang]/seasons/[y
               <img src={`/media/circuits/${layout.id}.svg`} alt={fmt(t.circuits.layoutDrawing, { id: layout.id })} className="layout-drawing" style={{ maxWidth: 380, justifySelf: "center", background: "var(--paper-2)" }} />
             )}
           </div>
+          {heroPhoto && (
+            <div style={{ paddingBottom: "clamp(40px,6vw,72px)" }}>
+              <Plate lang={lang} alt={heroCaption ?? gpName(r.gp)} photo={heroPhoto} ratio="ratio-cinema" priority caption={hero?.chassisId ? <Link href={lp(lang, `/cars/${hero.chassisId}`)} className="inline-link">{heroCaption}</Link> : heroCaption} />
+            </div>
+          )}
         </div>
       </section>
 

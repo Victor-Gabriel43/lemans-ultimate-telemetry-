@@ -17,6 +17,8 @@ export type SeasonRow = {
   rounds: number;
   completed: number;
   headline?: string;
+  /** Licensed photo of that season's landmark car (see seasonHero). */
+  photo?: { src: string; credit: string; license: string; label: string };
 };
 
 const DECADES = [1950, 1960, 1970, 1980, 1990, 2000, 2010, 2020];
@@ -106,11 +108,30 @@ export function SeasonBrowser({ seasons, lang, t }: { seasons: SeasonRow[]; lang
       )}
 
       {view === "grid" ? (
-        <div className="year-grid mt-m">
+        <div className="grid grid-4 keep-2 mt-m">
           {filtered.map((s) => (
-            <Link key={s.year} href={lp(lang, `/seasons/${s.year}`)} className={`year-cell ${s.status === "in-progress" ? "is-current" : ""}`} title={s.headline}>
-              <span className="year-cell-year">{s.year}</span>
-              <span className="year-cell-champ">{s.champion?.last ?? (s.leader ? `${S.inProgress} · ${s.leader.last}` : S.inProgress)}</span>
+            <Link key={s.year} href={lp(lang, `/seasons/${s.year}`)} className="card" title={s.headline}>
+              <div className="plate ratio-photo plate-flat" style={s.photo ? undefined : { background: s.status === "in-progress" ? "var(--red)" : "var(--graphite, #2c2c2e)" }}>
+                {s.photo ? (
+                  <>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={s.photo.src} alt={s.photo.label} loading="lazy" decoding="async" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
+                    <span className="plate-credit">{fmt(t.common.photoCredit, { credit: s.photo.credit, license: s.photo.license })}</span>
+                  </>
+                ) : (
+                  <div className="plate-art">
+                    <span />
+                    <span className="plate-glyph plate-glyph-sm">{s.year}</span>
+                  </div>
+                )}
+              </div>
+              <div className="card-body">
+                <p className="card-meta">{s.status === "in-progress" ? S.inProgress : s.photo?.label}</p>
+                <p className="card-title num" style={{ fontSize: 28 }}>
+                  {s.year}
+                </p>
+                <p className="small muted">{s.champion ? `${s.champion.name}${s.team ? ` · ${s.team}` : ""}` : s.leader ? `${S.inProgress} · ${s.leader.name}` : ""}</p>
+              </div>
             </Link>
           ))}
         </div>

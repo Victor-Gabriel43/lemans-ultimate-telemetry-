@@ -25,7 +25,7 @@ function registry(): Resolved {
 export function photo(id: string): Photo | undefined {
   const r = registry()[id];
   if (!r || r.status !== "ok" || !r.src) return undefined;
-  return { src: r.src, width: r.width, height: r.height, credit: r.credit ?? "Wikimedia Commons", license: r.license ?? "", sourceUrl: r.sourceUrl ?? "" };
+  return { src: r.src.split("?")[0].replace("https://thumb.wikimedia.org/", "https://upload.wikimedia.org/"), width: r.width, height: r.height, credit: r.credit ?? "Wikimedia Commons", license: r.license ?? "", sourceUrl: r.sourceUrl ?? "" };
 }
 export const driverPhoto = (id: string) => photo(`driver-${id}`);
 export const circuitPhoto = (id: string) => photo(`circuit-${id}`);
@@ -34,5 +34,5 @@ export const chassisPhoto = (id: string) => photo(`chassis-${id}`);
 export function allPhotos() {
   return Object.entries(registry())
     .filter(([, r]) => r.status === "ok")
-    .map(([id, r]) => ({ id, ...(r as Photo) }));
+    .map(([id]) => ({ id, ...photo(id)! }));
 }

@@ -6,7 +6,7 @@ export function SiteFooter({ lang }: { lang: Lang }) {
   const t = getDict(lang);
   const cols: { title: string; links: [string, string][] }[] = [
     { title: t.footer.explore, links: [[t.nav.history, "/history"], [t.nav.seasons, "/seasons"], [t.nav.drivers, "/drivers"], [t.nav.teams, "/teams"]] },
-    { title: t.footer.engineering, links: [[t.nav.cars, "/cars"], [t.nav.engineering, "/engineering"], [t.nav.regulations, "/regulations"], [t.regulations.archiveEyebrow, "/regulations/archive"]] },
+    { title: t.footer.engineering, links: [[t.nav.engineering, "/engineering"], [t.nav.regulations, "/regulations"], [t.regulations.archiveEyebrow, "/regulations/archive"]] },
     { title: t.footer.sport, links: [[t.nav.circuits, "/circuits"], [t.nav.weekend, "/race-weekend"], [t.nav.categories, "/categories"], ["Formula 2", "/categories/formula-2"]] },
     {
       title: t.footer.learn,

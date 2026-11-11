@@ -194,7 +194,10 @@ function lcsDiff(A: string[], B: string[], out: DiffPart[]) {
   let ea = A.length;
   let eb = B.length;
   const tail: string[] = [];
-  while (ea > p && eb > p && A[ea - 1] === B[eb - 1]) tail.unshift(A[--ea]);
+  while (ea > p && eb > p && A[ea - 1] === B[eb - 1]) {
+    tail.unshift(A[--ea]);
+    eb--;
+  }
   const a = A.slice(p, ea);
   const b = B.slice(p, eb);
   const n = a.length;

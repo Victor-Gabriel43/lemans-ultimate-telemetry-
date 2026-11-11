@@ -27,6 +27,8 @@ export default async function TeamPage({ params }: PageProps<"/[lang]/teams/[slu
   const color = ed?.color ?? "#6e6e73";
   const cars = chassisOf(c.id);
   const lineage = c.chronology ?? [];
+  // Hero: the team's most successful car with a verified photograph.
+  const heroCar = [...cars].sort((a, b) => (b.wins ?? 0) - (a.wins ?? 0) || b.years[0] - a.years[0]).find((ch) => chassisPhoto(ch.id));
 
   return (
     <>
@@ -36,9 +38,9 @@ export default async function TeamPage({ params }: PageProps<"/[lang]/teams/[slu
         titleHref={`/teams/${c.id}`}
         links={[
           { label: T.history, href: "#history" },
+          { label: T.carGallery.split(",")[0], href: "#cars" },
           { label: T.engineSuppliers, href: "#engines" },
           { label: T.driversBySeason, href: "#drivers" },
-          { label: T.carGallery.split(",")[0], href: "#cars" },
         ]}
       />
       <section className="tone-night" style={{ paddingTop: 28, position: "relative", overflow: "hidden" }}>
@@ -61,6 +63,22 @@ export default async function TeamPage({ params }: PageProps<"/[lang]/teams/[slu
             <Stat value={c.st.poles} label={t.common.poles} />
             <Stat value={c.st.entries} label={t.common.entries} />
           </div>
+          {heroCar && (
+            <div style={{ paddingBottom: "clamp(56px,8vw,96px)", marginTop: "calc(-1 * clamp(24px,4vw,48px))" }}>
+              <Link href={lp(lang, `/cars/${heroCar.id}`)} style={{ display: "block" }}>
+                <Plate
+                  linked
+                  lang={lang}
+                  alt={heroCar.full ?? heroCar.name}
+                  photo={chassisPhoto(heroCar.id)}
+                  ratio="ratio-cinema"
+                  tag={`${heroCar.full ?? heroCar.name} · ${heroCar.years.join(", ")}`}
+                  glyph={heroCar.name}
+                  priority
+                />
+              </Link>
+            </div>
+          )}
         </div>
       </section>
 
@@ -163,7 +181,32 @@ export default async function TeamPage({ params }: PageProps<"/[lang]/teams/[slu
         </div>
       </section>
 
-      <section className="section tone-off" id="engines">
+      <section className="section tone-off" id="cars">
+        <div className="wrap-wide">
+          <BlockHead eyebrow={`${cars.length} ${t.common.cars.toLowerCase()}`} title={T.carGallery} />
+          <div className="grid grid-4 keep-2">
+            {cars.map((ch) => (
+              <Link key={ch.id} href={lp(lang, `/cars/${ch.id}`)} className="card">
+                <Plate linked lang={lang} alt={ch.full ?? ch.name} photo={chassisPhoto(ch.id)} tone={toneFor(c.id)} ratio="ratio-photo" flat tag={ch.years.join(", ")} glyph={ch.name} glyphSize="sm" />
+                <div className="card-body">
+                  <p className="card-meta">{ch.years.length > 1 ? `${ch.years[0]}–${ch.years[ch.years.length - 1]}` : ch.years[0]}</p>
+                  <p className="card-title">{ch.full ?? ch.name}</p>
+                  <p className="small muted">{ch.wins ? fmt(t.cars.winsWith, { n: ch.wins }) : t.cars.noWins}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
+          <div className="mt-l">
+            <DataNotice title={t.status.legend}>
+              {lang === "pt"
+                ? "Títulos, vitórias, motores, pilotos e carros: F1DB (CC BY 4.0), calculados a partir dos resultados e inscrições de cada temporada. História: texto editorial do Paddock."
+                : "Titles, wins, engines, drivers and cars: F1DB (CC BY 4.0), computed from each season's results and entries. History: Paddock editorial."}
+            </DataNotice>
+          </div>
+        </div>
+      </section>
+
+      <section className="section tone-paper" id="engines">
         <div className="wrap">
           <BlockHead eyebrow={t.common.engines} title={T.engineSuppliers} />
           <div className="table-wrap">
@@ -190,7 +233,7 @@ export default async function TeamPage({ params }: PageProps<"/[lang]/teams/[slu
         </div>
       </section>
 
-      <section className="section tone-paper" id="drivers">
+      <section className="section tone-off" id="drivers">
         <div className="wrap">
           <BlockHead eyebrow={t.common.drivers} title={T.driversBySeason} />
           <div className="table-wrap">
@@ -245,30 +288,6 @@ export default async function TeamPage({ params }: PageProps<"/[lang]/teams/[slu
         </div>
       </section>
 
-      <section className="section tone-off" id="cars">
-        <div className="wrap-wide">
-          <BlockHead eyebrow={`${cars.length} ${t.common.cars.toLowerCase()}`} title={T.carGallery} />
-          <div className="grid grid-4 keep-2">
-            {cars.map((ch) => (
-              <Link key={ch.id} href={lp(lang, `/cars/${ch.id}`)} className="card">
-                <Plate linked lang={lang} alt={ch.full ?? ch.name} photo={chassisPhoto(ch.id)} tone={toneFor(c.id)} ratio="ratio-photo" flat tag={ch.years.join(", ")} glyph={ch.name} glyphSize="sm" />
-                <div className="card-body">
-                  <p className="card-meta">{ch.years.length > 1 ? `${ch.years[0]}–${ch.years[ch.years.length - 1]}` : ch.years[0]}</p>
-                  <p className="card-title">{ch.full ?? ch.name}</p>
-                  <p className="small muted">{ch.wins ? fmt(t.cars.winsWith, { n: ch.wins }) : t.cars.noWins}</p>
-                </div>
-              </Link>
-            ))}
-          </div>
-          <div className="mt-l">
-            <DataNotice title={t.status.legend}>
-              {lang === "pt"
-                ? "Títulos, vitórias, motores, pilotos e carros: F1DB (CC BY 4.0), calculados a partir dos resultados e inscrições de cada temporada. História: texto editorial do Paddock."
-                : "Titles, wins, engines, drivers and cars: F1DB (CC BY 4.0), computed from each season's results and entries. History: Paddock editorial."}
-            </DataNotice>
-          </div>
-        </div>
-      </section>
     </>
   );
 }

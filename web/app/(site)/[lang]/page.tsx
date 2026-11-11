@@ -11,6 +11,9 @@ import { EraTimeline } from "@/components/site/EraTimeline";
 import { CarCard, CircuitCard, DriverCard } from "@/components/site/cards";
 import { LinkArrow, Plate, SectionHead, Stat, StatusBadge } from "@/components/site/ui";
 import { teamColor } from "@/lib/f1/content";
+import { eraHero, seasonHero } from "@/lib/f1/derive";
+import { chassisPhoto } from "@/lib/f1/media";
+import { sized } from "@/lib/f1/img";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]">): Promise<Metadata> {
   const { lang } = await params;
@@ -22,7 +25,7 @@ const FEATURED_DRIVERS = ["juan-manuel-fangio", "jim-clark", "niki-lauda", "ayrt
 const FEATURED_CARS = ["lotus-25", "lotus-49", "lotus-79", "mclaren-mp4-4", "williams-fw14b", "brawn-bgp-001", "mercedes-f1-w05", "red-bull-rb19"];
 const FEATURED_CIRCUITS = ["silverstone", "monaco", "monza", "spa-francorchamps", "suzuka", "interlagos"];
 
-const STORIES: { year: number; href: string; tone: "red" | "navy" | "gold" | "silver"; title: { pt: string; en: string }; text: { pt: string; en: string } }[] = [
+const STORIES: { year: number; href: string; car?: string; tone: "red" | "navy" | "gold" | "silver"; title: { pt: string; en: string }; text: { pt: string; en: string } }[] = [
   {
     year: 1976,
     href: "/seasons/1976",
@@ -33,6 +36,7 @@ const STORIES: { year: number; href: string; tone: "red" | "navy" | "gold" | "si
   {
     year: 1988,
     href: "/cars/mclaren-mp4-4",
+    car: "mclaren-mp4-4",
     tone: "gold",
     title: { pt: "Quinze em dezesseis", en: "Fifteen out of sixteen" },
     text: { pt: "Senna, Prost e o McLaren-Honda MP4/4: a temporada mais dominante da era turbo.", en: "Senna, Prost and the McLaren-Honda MP4/4: the most dominant season of the turbo era." },
@@ -47,6 +51,7 @@ const STORIES: { year: number; href: string; tone: "red" | "navy" | "gold" | "si
   {
     year: 2009,
     href: "/cars/brawn-bgp-001",
+    car: "brawn-bgp-001",
     tone: "silver",
     title: { pt: "A equipe que quase não existiu", en: "The team that almost never was" },
     text: { pt: "Salva semanas antes da temporada, a Brawn GP venceu os dois títulos com o difusor duplo.", en: "Rescued weeks before the season, Brawn GP won both titles with its double diffuser." },
@@ -70,6 +75,8 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
   const cLeader = ctor(cur.constructorLeader ?? cur.constructorChampion);
   const grid = [...new Set(curData.entrants.map((e) => e.c))].map((id) => ctor(id)!).filter(Boolean);
   const E = eras(lang);
+  const lastDone = [...i.seasons].reverse().find((s) => s.status === "completed")?.year ?? 2025;
+  const homeHero = seasonHero(lastDone);
 
   return (
     <>
@@ -95,7 +102,18 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
           </div>
         </div>
         <div className="wrap-wide" style={{ marginTop: "clamp(48px,7vw,88px)" }}>
-          <Plate lang={lang} alt="Formula 1, 1950–2026" tone="red" ratio="ratio-cinema" priority tag="1950 — 2026" glyph={<span style={{ fontSize: "clamp(72px,16vw,240px)" }}>F1</span>} className="rise rise-3" />
+          <Plate
+            lang={lang}
+            alt={homeHero?.label ?? "Formula 1, 1950–2026"}
+            photo={homeHero?.photo}
+            tone="red"
+            ratio="ratio-cinema"
+            priority
+            tag="1950 — 2026"
+            glyph={<span style={{ fontSize: "clamp(72px,16vw,240px)" }}>F1</span>}
+            className="rise rise-3"
+            caption={homeHero?.chassisId ? <Link href={lp(lang, `/cars/${homeHero.chassisId}`)} className="inline-link">{homeHero.label}</Link> : undefined}
+          />
         </div>
         <div style={{ height: "clamp(56px,8vw,96px)" }} />
       </section>
@@ -141,7 +159,10 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
             }
           />
           <EraTimeline
-            eras={E.map((e) => ({ id: e.id, slug: e.slug, decade: e.decade, start: e.start, end: e.end, name: e.name, tagline: e.tagline, intro: e.intro, themes: e.themes, tone: e.tone }))}
+            eras={E.map((e) => {
+              const h = eraHero(e.start, e.end);
+              return { id: e.id, slug: e.slug, decade: e.decade, start: e.start, end: e.end, name: e.name, tagline: e.tagline, intro: e.intro, themes: e.themes, tone: e.tone, photo: h ? { src: sized(h.photo.src, 960), credit: h.photo.credit, license: h.photo.license, label: h.label } : undefined };
+            })}
             lang={lang}
             labels={{ read: t.history.readDecade, seasons: t.history.seasonsLink, prev: t.common.previous, next: t.common.next, tablist: t.history.eyebrow }}
           />
@@ -155,7 +176,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
           <div className="grid grid-4 keep-2">
             {STORIES.map((s) => (
               <Link key={s.year} href={lp(lang, s.href)} className="card">
-                <Plate lang={lang} alt={s.title[lang]} tone={s.tone} ratio="ratio-photo" flat glyph={s.year} glyphSize="sm" />
+                <Plate linked lang={lang} alt={s.title[lang]} photo={(s.car ? chassisPhoto(s.car) : undefined) ?? seasonHero(s.year)?.photo} tone={s.tone} ratio="ratio-photo" flat tag={String(s.year)} glyph={s.year} glyphSize="sm" />
                 <div className="card-body">
                   <p className="card-title">{s.title[lang]}</p>
                   <p className="small muted pretty">{s.text[lang]}</p>
@@ -304,8 +325,8 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
             title={t.home.carsTitle}
             lede={t.home.carsLede}
             action={
-              <LinkArrow lang={lang} href="/cars">
-                {t.home.carsLink}
+              <LinkArrow lang={lang} href="/teams">
+                {t.nav.teams}
               </LinkArrow>
             }
           />
@@ -451,7 +472,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
               { icon: Flag, label: t.nav.seasons, href: "/seasons" },
               { icon: Trophy, label: t.nav.drivers, href: "/drivers" },
               { icon: Users, label: t.nav.teams, href: "/teams" },
-              { icon: Wrench, label: t.nav.cars, href: "/cars" },
+              { icon: Wrench, label: t.nav.weekend, href: "/race-weekend" },
               { icon: Map, label: t.nav.circuits, href: "/circuits" },
               { icon: Gauge, label: t.nav.engineering, href: "/engineering" },
               { icon: Layers, label: t.nav.regulations, href: "/regulations" },

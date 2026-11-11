@@ -104,36 +104,6 @@ export function getNav(lang: Lang): NavSection[] {
       ],
     },
     {
-      id: "cars",
-      label: t.nav.cars,
-      href: "/cars",
-      explore: [
-        { label: pt ? "Arquivo de carros" : "The Car Archive", href: "/cars" },
-        { label: pt ? "Carros marcantes" : "Landmark Cars", href: "/cars#landmark" },
-        { label: pt ? "Por geração técnica" : "By Generation", href: "/cars?by=generation" },
-      ],
-      columns: [
-        {
-          title: pt ? "Marcantes" : "Landmark",
-          links: [
-            { label: "Lotus 25", href: "/cars/lotus-25" },
-            { label: "Lotus 49", href: "/cars/lotus-49" },
-            { label: "Lotus 79", href: "/cars/lotus-79" },
-            { label: "McLaren MP4/4", href: "/cars/mclaren-mp4-4" },
-          ],
-        },
-        {
-          title: "",
-          links: [
-            { label: "Williams FW14B", href: "/cars/williams-fw14b" },
-            { label: "Brawn BGP 001", href: "/cars/brawn-bgp-001" },
-            { label: "Mercedes F1 W05", href: "/cars/mercedes-f1-w05" },
-            { label: "Red Bull RB19", href: "/cars/red-bull-rb19" },
-          ],
-        },
-      ],
-    },
-    {
       id: "circuits",
       label: t.nav.circuits,
       href: "/circuits",

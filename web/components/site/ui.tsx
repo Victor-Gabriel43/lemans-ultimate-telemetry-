@@ -1,3 +1,4 @@
+import { sized } from "@/lib/f1/img";
 import Link from "next/link";
 import { ChevronRight, Info, Plus } from "lucide-react";
 import type { ReactNode } from "react";
@@ -56,7 +57,7 @@ export function Plate({
             {/* Remote Commons thumbnails: plain <img> keeps the original licence-bearing URL. */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={photo.src}
+              src={flat ? sized(photo.src, 500) : photo.src}
               alt={alt}
               loading={priority ? "eager" : "lazy"}
               decoding="async"

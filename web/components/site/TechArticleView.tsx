@@ -4,10 +4,11 @@ import { lp, type Lang } from "@/lib/i18n/config";
 import { getDict } from "@/lib/i18n/dict";
 import type { TechArticle } from "@/lib/f1/technology";
 import { techArticles } from "@/lib/f1/content";
-import { chassis } from "@/lib/f1/db";
+import { chassis, chassisName } from "@/lib/f1/db";
+import { chassisPhoto } from "@/lib/f1/media";
 import { resolveRef } from "@/lib/f1/regs";
 import { CarCard } from "./cards";
-import { BlockHead, Breadcrumbs, Disclosure, LinkArrow, Milestones, StatusBadge } from "./ui";
+import { BlockHead, Breadcrumbs, Disclosure, LinkArrow, Milestones, Plate, Specs, StatusBadge } from "./ui";
 import { LocalNav } from "./LocalNav";
 import { TONES } from "./tones";
 
@@ -21,6 +22,7 @@ export function TechArticleView({ a, lang }: { a: TechArticle; lang: Lang }) {
   const all = techArticles(lang);
   const related = a.related.map((s) => all.find((x) => x.slug === s)).filter((x) => x !== undefined);
   const cars = a.cars.map((id) => chassis(id)).filter((x) => x !== undefined);
+  const hero = cars.map((c) => ({ c: c!, p: chassisPhoto(c!.id) })).find((x) => x.p);
   const refs = a.regs.map((r) => ({ r, hit: resolveRef(r) })).filter((z) => z.hit);
 
   return (
@@ -39,12 +41,18 @@ export function TechArticleView({ a, lang }: { a: TechArticle; lang: Lang }) {
           </div>
         </div>
         <div className="wrap" style={{ padding: "clamp(40px,6vw,64px) var(--gutter)" }}>
-          <div className="plate ratio-cinema" style={{ background: TONES[a.tone] }}>
-            <div className="plate-art">
-              <span className="plate-tag">{sectionLabel}</span>
-              <span className="plate-glyph plate-glyph-sm">{a.title}</span>
-            </div>
-          </div>
+          <Plate
+            lang={lang}
+            alt={hero ? chassisName(hero.c.id) : a.title}
+            photo={hero?.p}
+            tone={a.tone}
+            ratio="ratio-cinema"
+            tag={hero ? chassisName(hero.c.id) : sectionLabel}
+            glyph={a.title}
+            glyphSize="sm"
+            priority
+            caption={hero ? chassisName(hero.c.id) : undefined}
+          />
         </div>
       </section>
 
@@ -56,6 +64,12 @@ export function TechArticleView({ a, lang }: { a: TechArticle; lang: Lang }) {
               <strong>{E.inSimpleTerms}</strong> {a.simple}
             </div>
           </aside>
+          {a.facts.length > 0 && (
+            <div className="mt-l">
+              <p className="eyebrow-f1">{E.keyFacts}</p>
+              <Specs rows={a.facts.map((f) => [f.label, f.value] as [string, string])} />
+            </div>
+          )}
           <div className="prose mt-l">
             {a.sections.map((s) => (
               <div key={s.heading}>

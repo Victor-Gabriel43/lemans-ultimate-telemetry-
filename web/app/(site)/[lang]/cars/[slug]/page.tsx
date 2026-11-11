@@ -50,7 +50,7 @@ export default async function CarPage({ params }: PageProps<"/[lang]/cars/[slug]
     <>
       <section className="tone-paper" style={{ paddingTop: 28 }}>
         <div className="wrap">
-          <Breadcrumbs lang={lang} items={[{ label: t.nav.cars, href: "/cars" }, { label: ctorName(ch.c), href: `/teams/${ch.c}` }, { label: name }]} />
+          <Breadcrumbs lang={lang} items={[{ label: t.nav.teams, href: "/teams" }, { label: ctorName(ch.c), href: `/teams/${ch.c}` }, { label: name }]} />
           <div className="center" style={{ padding: "clamp(40px,7vw,88px) 0 clamp(32px,5vw,48px)" }}>
             <p className="eyebrow-f1">
               <Link href={lp(lang, `/teams/${ch.c}`)}>{ctorName(ch.c)}</Link> · {ch.years.join(", ")}
