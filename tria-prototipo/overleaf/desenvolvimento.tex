@@ -1,27 +1,7 @@
 \section{Desenvolvimento}
 
-A interface da aplicação foi desenhada no Figma a partir dos requisitos levantados no questionário (Seção 6.1). Depois, as telas foram transformadas em um protótipo navegável feito com HTML, CSS e JavaScript, que roda direto no navegador, sem servidor e sem banco de dados. As contas criadas ficam salvas no próprio navegador, e os grupos e tarefas usados são dados de exemplo, que voltam ao estado inicial quando a página é recarregada. Por ser um protótipo, o objetivo foi testar as telas e o fluxo de uso, e não entregar um sistema completo.
+O desenvolvimento começou pelo desenho das telas no Figma, com base nos requisitos levantados no questionário. Depois, essas telas foram passadas para um protótipo feito em HTML, CSS e JavaScript, que funciona direto no navegador. Por ser um protótipo, não foi usado servidor nem banco de dados: as contas ficam salvas no navegador e os grupos e tarefas são dados de exemplo.
 
-\subsection{Perfis de usuário}
+A aplicação tem dois tipos de usuário, aluno e professor, escolhidos no cadastro. O aluno cria grupos, cadastra tarefas, define o responsável e o prazo de cada uma e atualiza o status conforme o trabalho avança. O professor tem um painel com o andamento dos grupos da turma, onde vê quais grupos têm tarefas atrasadas e pode enviar recados ou lembretes de prazo, que aparecem na página do grupo.
 
-A aplicação tem dois perfis: aluno e professor. O aluno organiza as tarefas do seu grupo, define responsáveis e acompanha os prazos. O professor acompanha o andamento de todos os grupos da turma, vê quais têm tarefas atrasadas e envia recados aos alunos. A ideia é que o professor consiga orientar os grupos durante o trabalho, e não apenas na entrega final. O perfil é escolhido no momento do cadastro.
-
-\subsection{Telas}
-
-O acesso começa pela tela de \textbf{cadastro e login}, onde o usuário informa nome, e-mail, senha e perfil. Depois de entrar, a navegação é feita por um menu lateral. As telas são:
-
-\begin{itemize}
-  \item \textbf{Visão geral:} mostra o percentual de tarefas concluídas, o número de tarefas pendentes e concluídas, um aviso de tarefas atrasadas, a lista de próximos prazos (com a opção de ver apenas as tarefas do próprio usuário), as últimas tarefas concluídas e o progresso de cada grupo;
-  \item \textbf{Meus grupos:} lista os grupos com integrantes, progresso e data de entrega. Ao abrir um grupo, aparecem os integrantes, quantas tarefas cada um concluiu, a lista de tarefas e os recados do professor;
-  \item \textbf{Todas as tarefas:} reúne as tarefas de todos os grupos, com filtros por status (pendente, em andamento, concluída e atrasada) e busca por tarefa, grupo ou pessoa;
-  \item \textbf{Nova tarefa:} formulário com título, descrição, grupo, responsável, prazo e status;
-  \item \textbf{Painel do professor:} disponível apenas para o perfil professor. Mostra o número de grupos, alunos, tarefas atrasadas e recados enviados, além do progresso de cada grupo. Por ele, o professor envia recados e lembretes de prazo.
-\end{itemize}
-
-\subsection{Decisões de interface}
-
-Cada status tem uma cor: roxo para tarefas em andamento, amarelo para pendentes, verde para concluídas e vermelho para atrasadas. O aviso de tarefas atrasadas fica logo abaixo dos indicadores principais, já que esse foi um recurso bem avaliado no questionário. O progresso dos grupos é mostrado por uma sequência de pontos, em que cada ponto é uma tarefa, para que o andamento possa ser visto rapidamente. No menu lateral, o indicador ``Ritmo da semana'' mostra quantas das tarefas com prazo na semana atual já foram concluídas.
-
-\subsection{Funcionalidades implementadas no protótipo}
-
-No protótipo é possível criar uma conta e entrar com ela, criar, editar o status, concluir e excluir tarefas, criar grupos, alterar os integrantes de um grupo, filtrar e buscar tarefas. No perfil de professor, é possível enviar recados a um grupo e enviar um lembrete com a lista de tarefas atrasadas, e esses recados aparecem na página do grupo para os alunos. Os indicadores da visão geral e o ritmo da semana são recalculados a cada alteração. Não foram implementados nesta etapa o armazenamento dos dados em servidor, a recuperação de senha e o envio de notificações por e-mail ou celular.
+Cada status de tarefa recebeu uma cor (roxo para em andamento, amarelo para pendente, verde para concluída e vermelho para atrasada), e as tarefas atrasadas aparecem em destaque na tela inicial, já que esse recurso foi bem avaliado no questionário. Ficaram de fora nesta versão o armazenamento em servidor e as notificações por e-mail.
