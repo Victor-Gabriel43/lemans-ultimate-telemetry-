@@ -3,13 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>TRIA — Protótipo</title>
+<title>TRIA Protótipo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="app">
+<div class="auth" id="auth"></div>
+<div class="app" id="app">
   <aside class="sidebar" id="sidebar">
     <div class="brand"><span class="logo"><i></i><i></i><i></i></span>TRIA</div>
     <div class="side-label">ESPAÇO DE TRABALHO</div>
@@ -17,11 +18,11 @@
       <a href="#/" data-route="home"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Visão geral</a>
       <a href="#/grupos" data-route="grupos"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><circle cx="17" cy="9" r="2.6"/><path d="M16 14.2c3.2.2 5.5 2.4 5.5 5.8"/></svg>Meus grupos</a>
       <a href="#/tarefas" data-route="tarefas"><svg viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M3.5 6l1.2 1.2L7 5M3.5 12l1.2 1.2L7 11M3.5 18l1.2 1.2L7 17"/></svg>Todas as tarefas <span class="nav-count" id="navCount">36</span></a>
-      <a href="#/professor" data-route="professor"><svg viewBox="0 0 24 24"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5"/></svg>Painel do professor</a>
+      <a href="#/professor" data-route="professor" id="navProf"><svg viewBox="0 0 24 24"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5"/></svg>Painel do professor</a>
     </nav>
-    <div class="side-week">
+    <div class="side-week" title="Tarefas com prazo de segunda a domingo desta semana">
       <div class="mini-ring" id="miniRing"></div>
-      <div><strong>Ritmo da semana</strong><span id="miniText">18 de 36 tarefas</span></div>
+      <div><strong>Ritmo da semana</strong><span id="miniText"></span></div>
     </div>
     <a class="logout" href="#" id="logout"><svg viewBox="0 0 24 24"><path d="M15 12H4M8 8l-4 4 4 4"/><path d="M13 4h6v16h-6"/></svg>Sair da conta</a>
     <div class="side-version">TRIA v1.0 · protótipo</div>
@@ -32,10 +33,10 @@
       <button class="menu-btn" id="menuBtn" aria-label="Menu">☰</button>
       <label class="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="search" placeholder="Buscar tarefas, grupos ou pessoas..."></label>
       <button class="bell" id="bell" aria-label="Notificações"><svg viewBox="0 0 24 24"><path d="M6 16V11a6 6 0 1 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></svg><span class="dot" id="bellDot"></span></button>
-      <div class="user"><span class="avatar big">AP</span><div><strong>Ana Prado</strong><small>ana@tria.app</small></div></div>
+      <div class="user"><span class="avatar big" id="userAv"></span><div><strong id="userName"></strong><small id="userMail"></small></div></div>
     </header>
     <main id="view"></main>
-    <footer class="footer"><span>Um passo de cada vez. Sempre em conjunto.</span><span><a href="#" data-toast="Central de ajuda (fora do escopo do protótipo)">Ajuda e atalhos</a><a href="#" data-toast="Espaço demonstrativo com dados fictícios">Espaço demonstrativo</a></span></footer>
+    <footer class="footer"><span>TRIA · protótipo acadêmico</span><span>Dados de exemplo</span></footer>
   </div>
 </div>
 

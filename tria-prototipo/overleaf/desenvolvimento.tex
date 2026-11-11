@@ -1,27 +1,27 @@
 \section{Desenvolvimento}
 
-O desenvolvimento da aplicação foi conduzido em duas etapas: a concepção da interface no Figma e a construção de um protótipo navegável. A partir dos requisitos levantados no questionário (Seção 6.1), foram definidas as telas principais, os componentes visuais e o fluxo de navegação. Em seguida, o projeto foi convertido em um protótipo funcional utilizando HTML, CSS e JavaScript, executado diretamente no navegador, sem necessidade de servidor ou banco de dados. Os dados exibidos são fictícios e mantidos apenas na memória do navegador, uma vez que o objetivo desta etapa é validar a organização das telas e a experiência de uso, e não entregar um sistema completo.
+A interface da aplicação foi desenhada no Figma a partir dos requisitos levantados no questionário (Seção 6.1). Depois, as telas foram transformadas em um protótipo navegável feito com HTML, CSS e JavaScript, que roda direto no navegador, sem servidor e sem banco de dados. As contas criadas ficam salvas no próprio navegador, e os grupos e tarefas usados são dados de exemplo, que voltam ao estado inicial quando a página é recarregada. Por ser um protótipo, o objetivo foi testar as telas e o fluxo de uso, e não entregar um sistema completo.
 
-\subsection{Público-alvo e perfis de uso}
+\subsection{Perfis de usuário}
 
-A aplicação foi pensada para dois perfis de usuário. O primeiro é o estudante, que utiliza a ferramenta para organizar as tarefas do seu grupo, definir responsáveis e acompanhar os prazos. O segundo é o professor, que acompanha o andamento dos grupos da turma e interage com os alunos durante a realização dos trabalhos. A inclusão do professor busca aproximar o docente do processo, permitindo que ele identifique grupos com tarefas atrasadas e envie orientações antes do prazo final, e não apenas no momento da entrega.
+A aplicação tem dois perfis: aluno e professor. O aluno organiza as tarefas do seu grupo, define responsáveis e acompanha os prazos. O professor acompanha o andamento de todos os grupos da turma, vê quais têm tarefas atrasadas e envia recados aos alunos. A ideia é que o professor consiga orientar os grupos durante o trabalho, e não apenas na entrega final. O perfil é escolhido no momento do cadastro.
 
-\subsection{Estrutura das telas}
+\subsection{Telas}
 
-A navegação é feita por um menu lateral, presente em todas as telas, com acesso a \textbf{Visão geral}, \textbf{Meus grupos}, \textbf{Todas as tarefas} e \textbf{Painel do professor}. As telas desenvolvidas são:
+O acesso começa pela tela de \textbf{cadastro e login}, onde o usuário informa nome, e-mail, senha e perfil. Depois de entrar, a navegação é feita por um menu lateral. As telas são:
 
 \begin{itemize}
-  \item \textbf{Visão geral:} apresenta o percentual de tarefas concluídas, os contadores de tarefas pendentes e concluídas, um aviso destacado de tarefas atrasadas, a lista de próximos prazos (``O que pede atenção''), as tarefas concluídas recentemente e o progresso de cada grupo;
-  \item \textbf{Meus grupos:} lista os grupos com seus integrantes, o número de tarefas concluídas e a data de entrega. Ao abrir um grupo, são exibidos os membros, a barra de progresso e todas as tarefas daquele grupo;
-  \item \textbf{Todas as tarefas:} reúne as tarefas de todos os grupos e permite filtrá-las por status (pendente, em andamento e concluída), exibindo prazo, grupo e responsável;
+  \item \textbf{Visão geral:} mostra o percentual de tarefas concluídas, o número de tarefas pendentes e concluídas, um aviso de tarefas atrasadas, a lista de próximos prazos (com a opção de ver apenas as tarefas do próprio usuário), as últimas tarefas concluídas e o progresso de cada grupo;
+  \item \textbf{Meus grupos:} lista os grupos com integrantes, progresso e data de entrega. Ao abrir um grupo, aparecem os integrantes, quantas tarefas cada um concluiu, a lista de tarefas e os recados do professor;
+  \item \textbf{Todas as tarefas:} reúne as tarefas de todos os grupos, com filtros por status (pendente, em andamento, concluída e atrasada) e busca por tarefa, grupo ou pessoa;
   \item \textbf{Nova tarefa:} formulário com título, descrição, grupo, responsável, prazo e status;
-  \item \textbf{Painel do professor:} mostra os grupos da turma com o progresso de cada um, sinaliza aqueles com tarefas atrasadas e permite enviar comentários e orientações aos alunos.
+  \item \textbf{Painel do professor:} disponível apenas para o perfil professor. Mostra o número de grupos, alunos, tarefas atrasadas e recados enviados, além do progresso de cada grupo. Por ele, o professor envia recados e lembretes de prazo.
 \end{itemize}
 
 \subsection{Decisões de interface}
 
-Para facilitar a leitura rápida das informações, foram adotadas cores para indicar o status das tarefas: roxo para tarefas em andamento, amarelo para pendentes, verde para concluídas e vermelho para atrasadas. O aviso de tarefas atrasadas foi colocado em destaque logo abaixo dos indicadores principais, atendendo ao interesse dos participantes por esse recurso. O progresso de cada grupo é representado por uma sequência de marcadores, em que cada ponto corresponde a uma tarefa, permitindo visualizar de forma imediata quanto do trabalho já foi realizado. A linguagem dos textos da interface foi escrita de forma simples e direta, como em ``Passos que já demos'' e ``Cada grupo, uma trilha'', buscando tornar o uso mais próximo do cotidiano dos estudantes.
+Cada status tem uma cor: roxo para tarefas em andamento, amarelo para pendentes, verde para concluídas e vermelho para atrasadas. O aviso de tarefas atrasadas fica logo abaixo dos indicadores principais, já que esse foi um recurso bem avaliado no questionário. O progresso dos grupos é mostrado por uma sequência de pontos, em que cada ponto é uma tarefa, para que o andamento possa ser visto rapidamente. No menu lateral, o indicador ``Ritmo da semana'' mostra quantas das tarefas com prazo na semana atual já foram concluídas.
 
-\subsection{Funcionalidades do protótipo}
+\subsection{Funcionalidades implementadas no protótipo}
 
-Por se tratar de um protótipo, apenas parte das funcionalidades foi implementada de forma interativa. É possível navegar entre todas as telas, criar uma nova tarefa e vê-la aparecer nas listas, marcar uma tarefa como concluída, filtrar a lista de tarefas por status, abrir o detalhe de cada grupo e, no painel do professor, enviar um comentário a um grupo. Os indicadores da visão geral são recalculados a cada alteração. Recursos como autenticação, armazenamento permanente dos dados e notificações não foram implementados nesta etapa e ficam previstos para versões futuras da aplicação.
+No protótipo é possível criar uma conta e entrar com ela, criar, editar o status, concluir e excluir tarefas, criar grupos, alterar os integrantes de um grupo, filtrar e buscar tarefas. No perfil de professor, é possível enviar recados a um grupo e enviar um lembrete com a lista de tarefas atrasadas, e esses recados aparecem na página do grupo para os alunos. Os indicadores da visão geral e o ritmo da semana são recalculados a cada alteração. Não foram implementados nesta etapa o armazenamento dos dados em servidor, a recuperação de senha e o envio de notificações por e-mail ou celular.
