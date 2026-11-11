@@ -1526,5 +1526,171 @@
   "license": "CC BY-SA 2.0",
   "sourceUrl": "https://commons.wikimedia.org/wiki/File:Jos_Verstappen%2C_2006.jpg",
   "article": "https://en.wikipedia.org/wiki/Jos_Verstappen"
+ },
+ "driver-pedro-de-la-rosa": {
+  "status": "ok",
+  "title": "Pedro de la Rosa",
+  "file": "Pedro_de_la_Rosa_2010_Malaysia.jpg",
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fe/Pedro_de_la_Rosa_2010_Malaysia.jpg/960px-Pedro_de_la_Rosa_2010_Malaysia.jpg",
+  "width": 800,
+  "height": 1158,
+  "credit": "Morio",
+  "license": "CC BY-SA 3.0",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Pedro_de_la_Rosa_2010_Malaysia.jpg",
+  "article": "https://en.wikipedia.org/wiki/Pedro_de_la_Rosa"
+ },
+ "driver-pedro-diniz": {
+  "status": "ok",
+  "title": "Pedro Diniz",
+  "file": "Fazenda_da_Toca_foto_kiko_ferrite_02295_-_Pedro_Paulo_Diniz_(cropped).jpg",
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/11/Fazenda_da_Toca_foto_kiko_ferrite_02295_-_Pedro_Paulo_Diniz_%28cropped%29.jpg/960px-Fazenda_da_Toca_foto_kiko_ferrite_02295_-_Pedro_Paulo_Diniz_%28cropped%29.jpg",
+  "width": 2700,
+  "height": 3600,
+  "credit": "Kiko Ferrite",
+  "license": "CC BY-SA 4.0",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Fazenda_da_Toca_foto_kiko_ferrite_02295_-_Pedro_Paulo_Diniz_%28cropped%29.jpg",
+  "article": "https://en.wikipedia.org/wiki/Pedro_Diniz"
+ },
+ "driver-marcus-ericsson": {
+  "status": "ok",
+  "title": "Marcus Ericsson",
+  "file": "Marcus_Ericsson_in_2023.jpg",
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/87/Marcus_Ericsson_in_2023.jpg/960px-Marcus_Ericsson_in_2023.jpg",
+  "width": 646,
+  "height": 926,
+  "credit": "Frankie Fouganthin",
+  "license": "CC BY-SA 4.0",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Marcus_Ericsson_in_2023.jpg",
+  "article": "https://en.wikipedia.org/wiki/Marcus_Ericsson"
+ },
+ "driver-chris-amon": {
+  "status": "ok",
+  "title": "Chris Amon",
+  "file": "AmonChris19730706.jpg",
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7b/AmonChris19730706.jpg/960px-AmonChris19730706.jpg",
+  "width": 384,
+  "height": 465,
+  "credit": "Lothar Spurzem",
+  "license": "CC BY-SA 2.0",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:AmonChris19730706.jpg",
+  "article": "https://en.wikipedia.org/wiki/Chris_Amon"
+ },
+ "driver-ukyo-katayama": {
+  "status": "ok",
+  "title": "Ukyo Katayama",
+  "file": "Ukyo_Katayama_PA166402.jpg",
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d7/Ukyo_Katayama_PA166402.jpg/960px-Ukyo_Katayama_PA166402.jpg",
+  "width": 1920,
+  "height": 2560,
+  "credit": "Fukumoto",
+  "license": "CC BY-SA 4.0",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Ukyo_Katayama_PA166402.jpg",
+  "article": "https://en.wikipedia.org/wiki/Ukyo_Katayama"
+ },
+ "driver-ivan-capelli": {
+  "status": "ok",
+  "title": "Ivan Capelli",
+  "file": "Capelli_1991_(cropped).jpg",
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1c/Capelli_1991_%28cropped%29.jpg/960px-Capelli_1991_%28cropped%29.jpg",
+  "width": 574,
+  "height": 768,
+  "credit": "StuSeeger",
+  "license": "CC BY 2.0",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Capelli_1991_%28cropped%29.jpg",
+  "article": "https://en.wikipedia.org/wiki/Ivan_Capelli"
+ },
+ "driver-timo-glock": {
+  "status": "ok",
+  "title": "Timo Glock",
+  "file": "2025-04-26_Motorsport,_DTM,_Oschersleben_STP_2988_(cropped).jpg",
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/75/2025-04-26_Motorsport%2C_DTM%2C_Oschersleben_STP_2988_%28cropped%29.jpg/960px-2025-04-26_Motorsport%2C_DTM%2C_Oschersleben_STP_2988_%28cropped%29.jpg",
+  "width": 1562,
+  "height": 2144,
+  "credit": "Steffen Prößdorf",
+  "license": "CC BY-SA 4.0",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:2025-04-26_Motorsport%2C_DTM%2C_Oschersleben_STP_2988_%28cropped%29.jpg",
+  "article": "https://en.wikipedia.org/wiki/Timo_Glock"
+ },
+ "driver-takuma-sato": {
+  "status": "not-on-commons",
+  "title": "Takuma Sato",
+  "file": "3840px-Takuma_Sato_(2021).jpg"
+ },
+ "driver-jonathan-palmer": {
+  "status": "ok",
+  "title": "Jonathan Palmer",
+  "file": "Jonathan_Palmer_Profile.jpg",
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2b/Jonathan_Palmer_Profile.jpg/960px-Jonathan_Palmer_Profile.jpg",
+  "width": 618,
+  "height": 926,
+  "credit": "Richardrandle",
+  "license": "CC BY-SA 3.0",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Jonathan_Palmer_Profile.jpg",
+  "article": "https://en.wikipedia.org/wiki/Jonathan_Palmer"
+ },
+ "driver-marc-surer": {
+  "status": "ok",
+  "title": "Marc Surer",
+  "file": "Marc_Surer_1982.jpg",
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3e/Marc_Surer_1982.jpg/960px-Marc_Surer_1982.jpg",
+  "width": 2442,
+  "height": 3682,
+  "credit": "Wikimedia Commons contributor",
+  "license": "CC0 1.0",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Marc_Surer_1982.jpg",
+  "article": "https://en.wikipedia.org/wiki/Marc_Surer"
+ },
+ "driver-stefan-johansson": {
+  "status": "not-on-commons",
+  "title": "Stefan Johansson",
+  "file": "3840px-Stefan_Johansson_at_the_2026_Adelaide_Motorsport_Festival_(028A6526).jpg"
+ },
+ "driver-vitantonio-liuzzi": {
+  "status": "ok",
+  "title": "Vitantonio Liuzzi",
+  "file": "Vitantonio_Liuzzi_2011_Malaysia.jpg",
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/01/Vitantonio_Liuzzi_2011_Malaysia.jpg/960px-Vitantonio_Liuzzi_2011_Malaysia.jpg",
+  "width": 800,
+  "height": 960,
+  "credit": "Morio",
+  "license": "CC BY-SA 3.0",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Vitantonio_Liuzzi_2011_Malaysia.jpg",
+  "article": "https://en.wikipedia.org/wiki/Vitantonio_Liuzzi"
+ },
+ "driver-kamui-kobayashi": {
+  "status": "ok",
+  "title": "Kamui Kobayashi",
+  "file": "Kamui_Kobayashi_2024_WEC_Fuji_2.jpg",
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4f/Kamui_Kobayashi_2024_WEC_Fuji_2.jpg/960px-Kamui_Kobayashi_2024_WEC_Fuji_2.jpg",
+  "width": 800,
+  "height": 1200,
+  "credit": "Morio",
+  "license": "CC BY-SA 4.0",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Kamui_Kobayashi_2024_WEC_Fuji_2.jpg",
+  "article": "https://en.wikipedia.org/wiki/Kamui_Kobayashi"
+ },
+ "driver-hans-joachim-stuck": {
+  "status": "ok",
+  "title": "Hans Joachim Stuck",
+  "file": "HansJoachimStuck2008.jpg",
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cf/HansJoachimStuck2008.jpg/960px-HansJoachimStuck2008.jpg",
+  "width": 1664,
+  "height": 2496,
+  "credit": "Freewheeling Daredevil",
+  "license": "CC BY 2.0",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:HansJoachimStuck2008.jpg",
+  "article": "https://en.wikipedia.org/wiki/Hans-Joachim_Stuck"
+ },
+ "driver-mauricio-gugelmin": {
+  "status": "ok",
+  "title": "Maurício Gugelmin",
+  "file": "Gugelmin_(cropped).jpg",
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ea/Gugelmin_%28cropped%29.jpg/960px-Gugelmin_%28cropped%29.jpg",
+  "width": 2359,
+  "height": 2835,
+  "credit": "Readro, based on work by StuSeeger",
+  "license": "CC BY 2.0",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Gugelmin_%28cropped%29.jpg",
+  "article": "https://en.wikipedia.org/wiki/Maur%C3%ADcio_Gugelmin"
  }
 }
