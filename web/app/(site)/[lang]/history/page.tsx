@@ -48,7 +48,7 @@ export default async function HistoryPage({ params }: PageProps<"/[lang]/history
               const pic = cars.map((c) => chassisPhoto(c)).find(Boolean);
               return (
                 <Link key={e.id} href={lp(lang, `/history/${e.slug}`)} className="tile tile-link" style={{ background: "var(--paper-2)" }}>
-                  <Plate lang={lang} alt={`${e.decade} — ${e.name}`} photo={pic} tone={e.tone} ratio="ratio-wide" flat tag={fmt(t.history.chapter, { n: i + 1 })} glyph={e.decade} glyphSize="sm" />
+                  <Plate linked lang={lang} alt={`${e.decade} — ${e.name}`} photo={pic} tone={e.tone} ratio="ratio-wide" flat tag={fmt(t.history.chapter, { n: i + 1 })} glyph={e.decade} glyphSize="sm" />
                   <div className="tile-body">
                     <p className="kicker">{e.themes.join(" · ")}</p>
                     <p className="title-2">{e.name}</p>

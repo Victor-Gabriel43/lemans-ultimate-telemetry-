@@ -2,6 +2,11 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   transpilePackages: ["@lmu/shared"],
+  // Paddock lê os dados (F1DB, regulamentos, mídia) do disco em tempo de
+  // execução nas rotas dinâmicas — garante que vão junto no bundle.
+  outputFileTracingIncludes: {
+    "/**": ["./data/**/*"],
+  },
   // "standalone" gera .next/standalone com um server.js mínimo + só os
   // node_modules realmente usados (tree-shaken) — é o que faz a imagem
   // Docker do web ficar pequena em vez de carregar o node_modules inteiro.

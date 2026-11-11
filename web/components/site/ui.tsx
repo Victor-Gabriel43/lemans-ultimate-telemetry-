@@ -29,6 +29,7 @@ export function Plate({
   priority = false,
   lang,
   position = "center",
+  linked = false,
 }: {
   photo?: PhotoProp;
   alt: string;
@@ -43,6 +44,8 @@ export function Plate({
   priority?: boolean;
   lang: Lang;
   position?: string;
+  /** True when the plate sits inside a link (cards): the credit stays visible but is not a nested link. */
+  linked?: boolean;
 }) {
   const t = getDict(lang);
   return (
@@ -64,9 +67,13 @@ export function Plate({
                 {tag}
               </span>
             )}
-            <a className="plate-credit" href={photo.sourceUrl} target="_blank" rel="noreferrer">
-              {fmt(t.common.photoCredit, { credit: photo.credit, license: photo.license })}
-            </a>
+            {linked ? (
+              <span className="plate-credit">{fmt(t.common.photoCredit, { credit: photo.credit, license: photo.license })}</span>
+            ) : (
+              <a className="plate-credit" href={photo.sourceUrl} target="_blank" rel="noreferrer">
+                {fmt(t.common.photoCredit, { credit: photo.credit, license: photo.license })}
+              </a>
+            )}
           </>
         ) : (
           <div className="plate-art" role="img" aria-label={`${alt} — ${t.common.illustration}`}>

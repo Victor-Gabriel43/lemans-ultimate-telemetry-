@@ -173,7 +173,10 @@ def reflow(lines):
                 out.append("")
             continue
         s = l[base:] if len(l) >= base else l.strip()
-        if out and out[-1] and not marker.match(s.strip()) and not out[-1].rstrip().endswith((".", ":", ";")) and (len(s) - len(s.lstrip())) > 0:
+        prev = out[-1].strip() if out else ""
+        sub = re.match(rf"^({NUM})\s+(.*)$", prev)
+        prev_is_heading = bool(sub) and len(sub.group(2).split()) <= 7 and not sub.group(2).rstrip().endswith((".", ":", ";", ","))
+        if out and out[-1] and not prev_is_heading and not marker.match(s.strip()) and not out[-1].rstrip().endswith((".", ":", ";")) and (len(s) - len(s.lstrip())) > 0:
             out[-1] = out[-1].rstrip() + " " + s.strip()
         else:
             out.append(s.rstrip())

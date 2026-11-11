@@ -420,7 +420,7 @@ const chassisIndex = chassis
     return clean({
       id: c.id,
       c: c.constructorId,
-      name: c.name,
+      name: String(c.name),
       full: c.fullName,
       years: [...s.years].sort((a, b) => a - b),
       drivers: [...s.drivers],
@@ -430,7 +430,7 @@ const chassisIndex = chassis
   });
 
 const engineIndex = engines.map((e) =>
-  clean({ id: e.id, m: e.engineManufacturerId, name: e.name, full: e.fullName, cap: e.capacity, cfg: e.configuration, asp: e.aspiration }),
+  clean({ id: e.id, m: e.engineManufacturerId, name: String(e.name), full: e.fullName && String(e.fullName), cap: e.capacity, cfg: e.configuration, asp: e.aspiration }),
 );
 const engineMfrIndex = engineMfrs.map((m) => {
   const s = engMfrStats.get(m.id);

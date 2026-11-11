@@ -49,6 +49,8 @@ export function SiteFooter({ lang }: { lang: Lang }) {
           <span className="flex-row" style={{ gap: 16 }}>
             <Link href={lp(lang, "/about")}>{t.footer.about}</Link>
             <a href={lang === "pt" ? "/en" : "/"}>{t.nav.switchTo}</a>
+            {/* different root layout → full navigation is required */}
+            {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
             <a href="/race-engineer">{t.footer.raceEngineer}</a>
           </span>
         </div>

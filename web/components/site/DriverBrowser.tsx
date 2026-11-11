@@ -184,7 +184,7 @@ export function DriverBrowser({ drivers, lang, t }: { drivers: DriverRow[]; lang
                 <p className="card-title">{d.name}</p>
                 <p className="small muted num">
                   {d.starts} {t.common.starts.toLowerCase()} · {d.wins} {t.common.wins.toLowerCase()}
-                  {d.titles ? ` · ${d.titles}× 🏆` : ""}
+                  {d.titles ? ` · ${fmt(D.champion, { n: d.titles })}` : ""}
                 </p>
               </div>
             </Link>

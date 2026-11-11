@@ -182,38 +182,68 @@ export type ComparedArticle = {
 const tnorm = (s: string | null) => norm(s ?? "").replace(/[^a-z0-9 ]/g, "").trim();
 const strip = (n: string) => n.replace(/^[a-f]/i, "");
 
-function wordDiff(a: string, b: string): DiffPart[] {
-  const A = a.split(/(\s+)/);
-  const B = b.split(/(\s+)/);
-  const n = A.length;
-  const m = B.length;
-  if (n * m > 4_000_000) {
-    return [{ t: "-", s: a }, { t: "+", s: b }];
-  }
-  const dp: Uint16Array[] = Array.from({ length: n + 1 }, () => new Uint16Array(m + 1));
-  for (let i = n - 1; i >= 0; i--) for (let j = m - 1; j >= 0; j--) dp[i][j] = A[i] === B[j] ? dp[i + 1][j + 1] + 1 : Math.max(dp[i + 1][j], dp[i][j + 1]);
-  const out: DiffPart[] = [];
-  const push = (t: DiffPart["t"], s: string) => {
+function lcsDiff(A: string[], B: string[], out: DiffPart[]) {
+  const push = (t: DiffPart["t"], x: string) => {
     const last = out[out.length - 1];
-    if (last && last.t === t) last.s += s;
-    else out.push({ t, s });
+    if (last && last.t === t) last.s += x;
+    else out.push({ t, s: x });
   };
+  // Trim the common prefix and suffix first — most edits are local.
+  let p = 0;
+  while (p < A.length && p < B.length && A[p] === B[p]) push("=", A[p++]);
+  let ea = A.length;
+  let eb = B.length;
+  const tail: string[] = [];
+  while (ea > p && eb > p && A[ea - 1] === B[eb - 1]) tail.unshift(A[--ea]);
+  const a = A.slice(p, ea);
+  const b = B.slice(p, eb);
+  const n = a.length;
+  const m = b.length;
+  if (n * m > 600_000) return false;
+  const dp: Uint16Array[] = Array.from({ length: n + 1 }, () => new Uint16Array(m + 1));
+  for (let i = n - 1; i >= 0; i--) for (let j = m - 1; j >= 0; j--) dp[i][j] = a[i] === b[j] ? dp[i + 1][j + 1] + 1 : Math.max(dp[i + 1][j], dp[i][j + 1]);
   let i = 0;
   let j = 0;
   while (i < n && j < m) {
-    if (A[i] === B[j]) {
-      push("=", A[i]);
+    if (a[i] === b[j]) {
+      push("=", a[i]);
       i++;
       j++;
-    } else if (dp[i + 1][j] >= dp[i][j + 1]) push("-", A[i++]);
-    else push("+", B[j++]);
+    } else if (dp[i + 1][j] >= dp[i][j + 1]) push("-", a[i++]);
+    else push("+", b[j++]);
   }
-  while (i < n) push("-", A[i++]);
-  while (j < m) push("+", B[j++]);
-  return out;
+  while (i < n) push("-", a[i++]);
+  while (j < m) push("+", b[j++]);
+  tail.forEach((x) => push("=", x));
+  return true;
 }
 
+function wordDiff(a: string, b: string): DiffPart[] {
+  const out: DiffPart[] = [];
+  if (lcsDiff(a.split(/(\s+)/), b.split(/(\s+)/), out)) return out;
+  // Very long, heavily rewritten articles: fall back to sentence granularity.
+  const sent = (x: string) => x.split(/(?<=[.;:])(?=\s)/);
+  const coarse: DiffPart[] = [];
+  if (lcsDiff(sent(a), sent(b), coarse)) return coarse;
+  return [
+    { t: "-", s: a },
+    { t: "+", s: b },
+  ];
+}
+
+const _cmp = new Map<string, ComparedArticle[]>();
+
 export function compareDocs(a: RegDoc, b: RegDoc): ComparedArticle[] {
+  const ck = `${a.id}|${b.id}`;
+  const hit = _cmp.get(ck);
+  if (hit) return hit;
+  const res = compareDocsUncached(a, b);
+  if (_cmp.size > 40) _cmp.clear();
+  _cmp.set(ck, res);
+  return res;
+}
+
+function compareDocsUncached(a: RegDoc, b: RegDoc): ComparedArticle[] {
   const usedB = new Set<string>();
   const out: ComparedArticle[] = [];
   const bByNum = new Map(b.articles.map((x) => [strip(x.num), x]));

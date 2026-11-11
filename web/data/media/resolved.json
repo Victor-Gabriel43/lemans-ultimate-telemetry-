@@ -642,5 +642,709 @@
   "license": "Public domain",
   "sourceUrl": "https://commons.wikimedia.org/wiki/File:Stirling_Moss.jpg",
   "article": "https://en.wikipedia.org/wiki/Stirling_Moss"
+ },
+ "driver-david-coulthard": {
+  "status": "not-on-commons",
+  "title": "David Coulthard",
+  "file": "3840px-David_Coulthard_at_the_2025_Adelaide_Grand_Final_Parade_-_12.jpg"
+ },
+ "driver-carlos-reutemann": {
+  "status": "ok",
+  "title": "Carlos Reutemann",
+  "file": "Reutemann_1981.jpg",
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3a/Reutemann_1981.jpg/960px-Reutemann_1981.jpg",
+  "width": 493,
+  "height": 673,
+  "credit": "Wikimedia Commons contributor",
+  "license": "Public domain",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Reutemann_1981.jpg",
+  "article": "https://en.wikipedia.org/wiki/Carlos_Reutemann"
+ },
+ "driver-rubens-barrichello": {
+  "status": "rejected-licence",
+  "title": "Rubens Barrichello",
+  "file": "Rubinho.jpg"
+ },
+ "driver-felipe-massa": {
+  "status": "rejected-licence",
+  "title": "Felipe Massa",
+  "file": "Felipe_Massa.jpg"
+ },
+ "driver-gerhard-berger": {
+  "status": "ok",
+  "title": "Gerhard Berger",
+  "file": "Gerhard_Berger_1991USA_(cropped).jpg",
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c9/Gerhard_Berger_1991USA_%28cropped%29.jpg/960px-Gerhard_Berger_1991USA_%28cropped%29.jpg",
+  "width": 2427,
+  "height": 3283,
+  "credit": "StuSeeger",
+  "license": "CC BY 2.0",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Gerhard_Berger_1991USA_%28cropped%29.jpg",
+  "article": "https://en.wikipedia.org/wiki/Gerhard_Berger"
+ },
+ "driver-ronnie-peterson": {
+  "status": "ok",
+  "title": "Ronnie Peterson",
+  "file": "Peterson_at_1978_Dutch_Grand_Prix.jpg",
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e2/Peterson_at_1978_Dutch_Grand_Prix.jpg/960px-Peterson_at_1978_Dutch_Grand_Prix.jpg",
+  "width": 2445,
+  "height": 3688,
+  "credit": "Suyk, Koen / Anefo / neg. stroken, 1945-1989, 2.24.01.05, item number 929-8748",
+  "license": "CC0 1.0",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Peterson_at_1978_Dutch_Grand_Prix.jpg",
+  "article": "https://en.wikipedia.org/wiki/Ronnie_Peterson"
+ },
+ "driver-mark-webber": {
+  "status": "ok",
+  "title": "Mark Webber (racing driver)",
+  "file": "Mark_Webber_at_the_Melbourne_Walk_during_the_2026_Australian_Grand_Prix_(028A8720).jpg",
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/16/Mark_Webber_at_the_Melbourne_Walk_during_the_2026_Australian_Grand_Prix_%28028A8720%29.jpg/960px-Mark_Webber_at_the_Melbourne_Walk_during_the_2026_Australian_Grand_Prix_%28028A8720%29.jpg",
+  "width": 2565,
+  "height": 3847,
+  "credit": "Yu Chu Chin",
+  "license": "CC BY-SA 4.0",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Mark_Webber_at_the_Melbourne_Walk_during_the_2026_Australian_Grand_Prix_%28028A8720%29.jpg",
+  "article": "https://en.wikipedia.org/wiki/Mark_Webber_(racing_driver)"
+ },
+ "driver-daniel-ricciardo": {
+  "status": "ok",
+  "title": "Daniel Ricciardo",
+  "file": "Daniel_Ricciardo_January_2024.jpg",
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c0/Daniel_Ricciardo_January_2024.jpg/960px-Daniel_Ricciardo_January_2024.jpg",
+  "width": 1396,
+  "height": 1861,
+  "credit": "DaHuzyBru",
+  "license": "CC BY-SA 4.0",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Daniel_Ricciardo_January_2024.jpg",
+  "article": "https://en.wikipedia.org/wiki/Daniel_Ricciardo"
+ },
+ "driver-jacky-ickx": {
+  "status": "ok",
+  "title": "Jacky Ickx",
+  "file": "Jacky_Ickx_Porträt_Mille_Miglia_2018.jpg",
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/19/Jacky_Ickx_Portr%C3%A4t_Mille_Miglia_2018.jpg/960px-Jacky_Ickx_Portr%C3%A4t_Mille_Miglia_2018.jpg",
+  "width": 528,
+  "height": 740,
+  "credit": "Alexander Migl",
+  "license": "CC BY-SA 4.0",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Jacky_Ickx_Portr%C3%A4t_Mille_Miglia_2018.jpg",
+  "article": "https://en.wikipedia.org/wiki/Jacky_Ickx"
+ },
+ "driver-rene-arnoux": {
+  "status": "ok",
+  "title": "René Arnoux",
+  "file": "Rene_Arnoux_WSR2008_HU.png",
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6f/Rene_Arnoux_WSR2008_HU.png/960px-Rene_Arnoux_WSR2008_HU.png",
+  "width": 356,
+  "height": 386,
+  "credit": "Peter Moricz",
+  "license": "CC BY-SA 3.0",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Rene_Arnoux_WSR2008_HU.png",
+  "article": "https://en.wikipedia.org/wiki/Ren%C3%A9_Arnoux"
+ },
+ "driver-juan-pablo-montoya": {
+  "status": "not-on-commons",
+  "title": "Juan Pablo Montoya",
+  "file": "3840px-DSC1509_(51683678455)(cropped).jpg"
+ },
+ "driver-riccardo-patrese": {
+  "status": "ok",
+  "title": "Riccardo Patrese",
+  "file": "Riccardo_Patrese_in_the_paddock_before_the_1993_British_Grand_Prix_(33686653515)_(Cropped).jpg",
+  "src": "https://upload.wikimedia.org/wikipedia/commons/3/3e/Riccardo_Patrese_in_the_paddock_before_the_1993_British_Grand_Prix_%2833686653515%29_%28Cropped%29.jpg",
+  "width": 308,
+  "height": 419,
+  "credit": "Martin Lee from London, UK",
+  "license": "CC BY-SA 2.0",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Riccardo_Patrese_in_the_paddock_before_the_1993_British_Grand_Prix_%2833686653515%29_%28Cropped%29.jpg",
+  "article": "https://en.wikipedia.org/wiki/Riccardo_Patrese"
+ },
+ "driver-ralf-schumacher": {
+  "status": "ok",
+  "title": "Ralf Schumacher",
+  "file": "Ralf_Schumacher,_2016.png",
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d1/Ralf_Schumacher%2C_2016.png/960px-Ralf_Schumacher%2C_2016.png",
+  "width": 2931,
+  "height": 3953,
+  "credit": "9EkieraM1",
+  "license": "CC BY-SA 4.0",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Ralf_Schumacher%2C_2016.png",
+  "article": "https://en.wikipedia.org/wiki/Ralf_Schumacher"
+ },
+ "driver-jacques-laffite": {
+  "status": "ok",
+  "title": "Jacques Laffite",
+  "file": "Jacques_Laffite_2015.jpg",
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d3/Jacques_Laffite_2015.jpg/960px-Jacques_Laffite_2015.jpg",
+  "width": 2095,
+  "height": 2365,
+  "credit": "Thesupermat",
+  "license": "CC BY-SA 4.0",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Jacques_Laffite_2015.jpg",
+  "article": "https://en.wikipedia.org/wiki/Jacques_Laffite"
+ },
+ "driver-gilles-villeneuve": {
+  "status": "not-on-commons",
+  "title": "Gilles Villeneuve",
+  "file": "Gilles_Villeneuve_1979_Portrait.jpg"
+ },
+ "driver-tony-brooks": {
+  "status": "no-lead-image",
+  "title": "Tony Brooks"
+ },
+ "driver-michele-alboreto": {
+  "status": "not-on-commons",
+  "title": "Michele Alboreto",
+  "file": "lossy-page1-500px-Michele_Alboreto_at_the_Hungarian_Formula_One_Grand_Prix_in_Budapest_in_1988_(JOKAMAA2H-2).tif.jpg"
+ },
+ "driver-john-watson": {
+  "status": "ok",
+  "title": "John Watson (racing driver)",
+  "file": "John_Watson_(2346102684).jpg",
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/21/John_Watson_%282346102684%29.jpg/960px-John_Watson_%282346102684%29.jpg",
+  "width": 2000,
+  "height": 3008,
+  "credit": "Chris Bloom from Durban, South Africa",
+  "license": "CC BY-SA 2.0",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:John_Watson_%282346102684%29.jpg",
+  "article": "https://en.wikipedia.org/wiki/John_Watson_(racing_driver)"
+ },
+ "driver-clay-regazzoni": {
+  "status": "ok",
+  "title": "Clay Regazzoni",
+  "file": "Anefo_924-6609_Clay_Reggazoni,_Catherine_Blaton,_Jacky_Ickx_Zandvoort_18_06_1971_-_Cropped.jpg",
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e7/Anefo_924-6609_Clay_Reggazoni%2C_Catherine_Blaton%2C_Jacky_Ickx_Zandvoort_18_06_1971_-_Cropped.jpg/960px-Anefo_924-6609_Clay_Reggazoni%2C_Catherine_Blaton%2C_Jacky_Ickx_Zandvoort_18_06_1971_-_Cropped.jpg",
+  "width": 345,
+  "height": 484,
+  "credit": "Nationaal Archief, Den Haag, Rijksfotoarchief: Fotocollectie Algemeen Nederlands Fotopersbureau (ANEFO), 1945-1989 - neg",
+  "license": "CC BY-SA 3.0",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Anefo_924-6609_Clay_Reggazoni%2C_Catherine_Blaton%2C_Jacky_Ickx_Zandvoort_18_06_1971_-_Cropped.jpg",
+  "article": "https://en.wikipedia.org/wiki/Clay_Regazzoni"
+ },
+ "driver-eddie-irvine": {
+  "status": "ok",
+  "title": "Eddie Irvine",
+  "file": "Eddie_Irvine_on_the_podium_at_the_1994_Le_Mans_(cropped).jpg",
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/89/Eddie_Irvine_on_the_podium_at_the_1994_Le_Mans_%28cropped%29.jpg/960px-Eddie_Irvine_on_the_podium_at_the_1994_Le_Mans_%28cropped%29.jpg",
+  "width": 407,
+  "height": 523,
+  "credit": "/ }}",
+  "license": "CC BY-SA 2.0",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Eddie_Irvine_on_the_podium_at_the_1994_Le_Mans_%28cropped%29.jpg",
+  "article": "https://en.wikipedia.org/wiki/Eddie_Irvine"
+ },
+ "driver-bruce-mclaren": {
+  "status": "ok",
+  "title": "Bruce McLaren",
+  "file": "McLarenBruce.jpg",
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a0/McLarenBruce.jpg/960px-McLarenBruce.jpg",
+  "width": 565,
+  "height": 762,
+  "credit": "Lothar Spurzem",
+  "license": "CC BY-SA 2.0",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:McLarenBruce.jpg",
+  "article": "https://en.wikipedia.org/wiki/Bruce_McLaren"
+ },
+ "driver-dan-gurney": {
+  "status": "ok",
+  "title": "Dan Gurney",
+  "file": "Dan_Gurney_(1970).jpg",
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b8/Dan_Gurney_%281970%29.jpg/960px-Dan_Gurney_%281970%29.jpg",
+  "width": 1511,
+  "height": 2014,
+  "credit": "Joost Evers / Anefo",
+  "license": "CC BY-SA 3.0",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Dan_Gurney_%281970%29.jpg",
+  "article": "https://en.wikipedia.org/wiki/Dan_Gurney"
+ },
+ "driver-giancarlo-fisichella": {
+  "status": "ok",
+  "title": "Giancarlo Fisichella",
+  "file": "Giancarlo_Fisichella_2012_WEC_Fuji.jpg",
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e2/Giancarlo_Fisichella_2012_WEC_Fuji.jpg/960px-Giancarlo_Fisichella_2012_WEC_Fuji.jpg",
+  "width": 800,
+  "height": 1200,
+  "credit": "Morio",
+  "license": "CC BY-SA 3.0",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Giancarlo_Fisichella_2012_WEC_Fuji.jpg",
+  "article": "https://en.wikipedia.org/wiki/Giancarlo_Fisichella"
+ },
+ "driver-thierry-boutsen": {
+  "status": "not-on-commons",
+  "title": "Thierry Boutsen",
+  "file": "3840px-Thierry_Boutsen_at_the_2026_Adelaide_Motorsport_Festival_(028A6498).jpg"
+ },
+ "driver-johnny-herbert": {
+  "status": "not-on-commons",
+  "title": "Johnny Herbert",
+  "file": "3840px-Johnny_Herbert_(31729263593).jpg"
+ },
+ "driver-heinz-harald-frentzen": {
+  "status": "ok",
+  "title": "Heinz-Harald Frentzen",
+  "file": "Heinz-Harald_Frentzen_a_(cropped).jpg",
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8a/Heinz-Harald_Frentzen_a_%28cropped%29.jpg/960px-Heinz-Harald_Frentzen_a_%28cropped%29.jpg",
+  "width": 715,
+  "height": 712,
+  "credit": "*Frent1ah.jpg:",
+  "license": "CC BY-SA 3.0",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Heinz-Harald_Frentzen_a_%28cropped%29.jpg",
+  "article": "https://en.wikipedia.org/wiki/Heinz-Harald_Frentzen"
+ },
+ "driver-didier-pironi": {
+  "status": "ok",
+  "title": "Didier Pironi",
+  "file": "Pironi_celebrating_at_1982_Dutch_Grand_Prix_(cropped).jpg",
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/86/Pironi_celebrating_at_1982_Dutch_Grand_Prix_%28cropped%29.jpg/960px-Pironi_celebrating_at_1982_Dutch_Grand_Prix_%28cropped%29.jpg",
+  "width": 1509,
+  "height": 1968,
+  "credit": "Wikimedia Commons contributor",
+  "license": "CC BY-SA 4.0",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Pironi_celebrating_at_1982_Dutch_Grand_Prix_%28cropped%29.jpg",
+  "article": "https://en.wikipedia.org/wiki/Didier_Pironi"
+ },
+ "driver-peter-collins": {
+  "status": "not-on-commons",
+  "title": "Peter Collins (racing driver)",
+  "file": "Peter_Collins_car_racer.jpg"
+ },
+ "driver-patrick-tambay": {
+  "status": "rejected-licence",
+  "title": "Patrick Tambay",
+  "file": "Zandvoort_circuit_De_striptekenaar_Graton_in_de_pits,_NL-HlmNHA_54005237_-_Patrick_Tambay_(cropped).JPG"
+ },
+ "driver-elio-de-angelis": {
+  "status": "ok",
+  "title": "Elio de Angelis",
+  "file": "Anefo_932-2371_Elio_de_Angelis_03.07.1982.jpg",
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4e/Anefo_932-2371_Elio_de_Angelis_03.07.1982.jpg/960px-Anefo_932-2371_Elio_de_Angelis_03.07.1982.jpg",
+  "width": 2442,
+  "height": 3473,
+  "credit": "Wikimedia Commons contributor",
+  "license": "CC0 1.0",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Anefo_932-2371_Elio_de_Angelis_03.07.1982.jpg",
+  "article": "https://en.wikipedia.org/wiki/Elio_de_Angelis"
+ },
+ "driver-jo-siffert": {
+  "status": "ok",
+  "title": "Jo Siffert",
+  "file": "Siffert,_Joseph_1968.jpg",
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7e/Siffert%2C_Joseph_1968.jpg/960px-Siffert%2C_Joseph_1968.jpg",
+  "width": 1164,
+  "height": 1764,
+  "credit": "Lothar Spurzem",
+  "license": "CC BY-SA 2.0",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Siffert%2C_Joseph_1968.jpg",
+  "article": "https://en.wikipedia.org/wiki/Jo_Siffert"
+ },
+ "driver-patrick-depailler": {
+  "status": "ok",
+  "title": "Patrick Depailler",
+  "file": "PatrickDepailler-ar.jpg",
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4e/PatrickDepailler-ar.jpg/960px-PatrickDepailler-ar.jpg",
+  "width": 1200,
+  "height": 1416,
+  "credit": "Harald Bischoff",
+  "license": "CC BY-SA 3.0",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:PatrickDepailler-ar.jpg",
+  "article": "https://en.wikipedia.org/wiki/Patrick_Depailler"
+ },
+ "driver-maurice-trintignant": {
+  "status": "ok",
+  "title": "Maurice Trintignant",
+  "file": "Maurice_Trintignant_-_El_Gráfico_1801.jpg",
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/35/Maurice_Trintignant_-_El_Gr%C3%A1fico_1801.jpg/960px-Maurice_Trintignant_-_El_Gr%C3%A1fico_1801.jpg",
+  "width": 1345,
+  "height": 1999,
+  "credit": "El Gráfico",
+  "license": "Public domain",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Maurice_Trintignant_-_El_Gr%C3%A1fico_1801.jpg",
+  "article": "https://en.wikipedia.org/wiki/Maurice_Trintignant"
+ },
+ "driver-pedro-rodriguez": {
+  "status": "ok",
+  "title": "Pedro Rodríguez (racing driver)",
+  "file": "Pedro_Rodríguez_1968_Nürburgring-1_(cropped).jpg",
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/68/Pedro_Rodr%C3%ADguez_1968_N%C3%BCrburgring-1_%28cropped%29.jpg/960px-Pedro_Rodr%C3%ADguez_1968_N%C3%BCrburgring-1_%28cropped%29.jpg",
+  "width": 372,
+  "height": 441,
+  "credit": "Raimund Kommer",
+  "license": "CC BY 3.0",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Pedro_Rodr%C3%ADguez_1968_N%C3%BCrburgring-1_%28cropped%29.jpg",
+  "article": "https://en.wikipedia.org/wiki/Pedro_Rodr%C3%ADguez_(racing_driver)"
+ },
+ "driver-jean-pierre-jabouille": {
+  "status": "rejected-licence",
+  "title": "Jean-Pierre Jabouille",
+  "file": "JeanPierreJabouille1975.jpg"
+ },
+ "driver-peter-revson": {
+  "status": "ok",
+  "title": "Peter Revson",
+  "file": "Peter_Revson_1973_Nürburgring_a_(cropped).jpg",
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7a/Peter_Revson_1973_N%C3%BCrburgring_a_%28cropped%29.jpg/960px-Peter_Revson_1973_N%C3%BCrburgring_a_%28cropped%29.jpg",
+  "width": 545,
+  "height": 536,
+  "credit": "Raimund Kommer",
+  "license": "CC BY-SA 3.0",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Peter_Revson_1973_N%C3%BCrburgring_a_%28cropped%29.jpg",
+  "article": "https://en.wikipedia.org/wiki/Peter_Revson"
+ },
+ "driver-wolfgang-von-trips": {
+  "status": "ok",
+  "title": "Wolfgang Graf Berghe von Trips",
+  "file": "Wolfgang_von_Trips_in_1957.JPG",
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f1/Wolfgang_von_Trips_in_1957.JPG/960px-Wolfgang_von_Trips_in_1957.JPG",
+  "width": 380,
+  "height": 500,
+  "credit": "Wikimedia Commons contributor",
+  "license": "Public domain",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Wolfgang_von_Trips_in_1957.JPG",
+  "article": "https://en.wikipedia.org/wiki/Wolfgang_von_Trips"
+ },
+ "driver-jose-froilan-gonzalez": {
+  "status": "ok",
+  "title": "José Froilán González",
+  "file": "José_Froilán_González_1950.jpg",
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/51/Jos%C3%A9_Froil%C3%A1n_Gonz%C3%A1lez_1950.jpg/960px-Jos%C3%A9_Froil%C3%A1n_Gonz%C3%A1lez_1950.jpg",
+  "width": 369,
+  "height": 492,
+  "credit": "Wikimedia Commons contributor",
+  "license": "Public domain",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Jos%C3%A9_Froil%C3%A1n_Gonz%C3%A1lez_1950.jpg",
+  "article": "https://en.wikipedia.org/wiki/Jos%C3%A9_Froil%C3%A1n_Gonz%C3%A1lez"
+ },
+ "driver-bill-vukovich": {
+  "status": "ok",
+  "title": "Bill Vukovich",
+  "file": "Bill_Vukovich_1951.jpg",
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c3/Bill_Vukovich_1951.jpg/960px-Bill_Vukovich_1951.jpg",
+  "width": 587,
+  "height": 818,
+  "credit": "Wikimedia Commons contributor",
+  "license": "Public domain",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Bill_Vukovich_1951.jpg",
+  "article": "https://en.wikipedia.org/wiki/Bill_Vukovich"
+ },
+ "driver-jarno-trulli": {
+  "status": "ok",
+  "title": "Jarno Trulli",
+  "file": "12._Internationale_Sportnacht_Davos_2014_(15246044859)_(cropped).jpg",
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/30/12._Internationale_Sportnacht_Davos_2014_%2815246044859%29_%28cropped%29.jpg/960px-12._Internationale_Sportnacht_Davos_2014_%2815246044859%29_%28cropped%29.jpg",
+  "width": 1635,
+  "height": 2012,
+  "credit": "12. Internationale Sportnacht Davos from Davos, Schweiz",
+  "license": "CC BY-SA 2.0",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:12._Internationale_Sportnacht_Davos_2014_%2815246044859%29_%28cropped%29.jpg",
+  "article": "https://en.wikipedia.org/wiki/Jarno_Trulli"
+ },
+ "driver-jean-alesi": {
+  "status": "ok",
+  "title": "Jean Alesi",
+  "file": "Jean_Alesi,_GIMS_2019,_Le_Grand-Saconnex_(GIMS0047).jpg",
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c7/Jean_Alesi%2C_GIMS_2019%2C_Le_Grand-Saconnex_%28GIMS0047%29.jpg/960px-Jean_Alesi%2C_GIMS_2019%2C_Le_Grand-Saconnex_%28GIMS0047%29.jpg",
+  "width": 2184,
+  "height": 2730,
+  "credit": "Matti Blume",
+  "license": "CC BY-SA 4.0",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Jean_Alesi%2C_GIMS_2019%2C_Le_Grand-Saconnex_%28GIMS0047%29.jpg",
+  "article": "https://en.wikipedia.org/wiki/Jean_Alesi"
+ },
+ "driver-olivier-panis": {
+  "status": "ok",
+  "title": "Olivier Panis",
+  "file": "Paris_-_Retromobile_2012_-_Olivier_Panis_-_Fiskens_-_006.jpg",
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c6/Paris_-_Retromobile_2012_-_Olivier_Panis_-_Fiskens_-_006.jpg/960px-Paris_-_Retromobile_2012_-_Olivier_Panis_-_Fiskens_-_006.jpg",
+  "width": 3168,
+  "height": 4752,
+  "credit": "Thesupermat",
+  "license": "CC BY-SA 3.0",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Paris_-_Retromobile_2012_-_Olivier_Panis_-_Fiskens_-_006.jpg",
+  "article": "https://en.wikipedia.org/wiki/Olivier_Panis"
+ },
+ "driver-heikki-kovalainen": {
+  "status": "ok",
+  "title": "Heikki Kovalainen",
+  "file": "Effect_20190609_091716.jpg",
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/29/Effect_20190609_091716.jpg/960px-Effect_20190609_091716.jpg",
+  "width": 714,
+  "height": 916,
+  "credit": "SF-R",
+  "license": "CC BY-SA 4.0",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Effect_20190609_091716.jpg",
+  "article": "https://en.wikipedia.org/wiki/Heikki_Kovalainen"
+ },
+ "driver-jochen-mass": {
+  "status": "rejected-licence",
+  "title": "Jochen Mass",
+  "file": "Mass_at_1982_Dutch_Grand_Prix.jpg"
+ },
+ "driver-jo-bonnier": {
+  "status": "ok",
+  "title": "Joakim Bonnier",
+  "file": "BonnierJo196608.jpg",
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f9/BonnierJo196608.jpg/960px-BonnierJo196608.jpg",
+  "width": 771,
+  "height": 1181,
+  "credit": "Lothar Spurzem",
+  "license": "CC BY-SA 2.0",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:BonnierJo196608.jpg",
+  "article": "https://en.wikipedia.org/wiki/Jo_Bonnier"
+ },
+ "driver-robert-kubica": {
+  "status": "ok",
+  "title": "Robert Kubica",
+  "file": "Robert_Kubica_at_Monza_2023.jpg",
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7b/Robert_Kubica_at_Monza_2023.jpg/960px-Robert_Kubica_at_Monza_2023.jpg",
+  "width": 636,
+  "height": 1014,
+  "credit": "bonebeast",
+  "license": "CC BY 2.0",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Robert_Kubica_at_Monza_2023.jpg",
+  "article": "https://en.wikipedia.org/wiki/Robert_Kubica"
+ },
+ "driver-pastor-maldonado": {
+  "status": "ok",
+  "title": "Pastor Maldonado",
+  "file": "Pastor_Maldonado_2015_Malaysia.jpg",
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/00/Pastor_Maldonado_2015_Malaysia.jpg/960px-Pastor_Maldonado_2015_Malaysia.jpg",
+  "width": 800,
+  "height": 1205,
+  "credit": "Morio",
+  "license": "CC BY-SA 4.0",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Pastor_Maldonado_2015_Malaysia.jpg",
+  "article": "https://en.wikipedia.org/wiki/Pastor_Maldonado"
+ },
+ "driver-jean-pierre-beltoise": {
+  "status": "ok",
+  "title": "Jean-Pierre Beltoise",
+  "file": "Jean_Pierre_Beltoise_te_Zandvoort_1968.jpg",
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f1/Jean_Pierre_Beltoise_te_Zandvoort_1968.jpg/960px-Jean_Pierre_Beltoise_te_Zandvoort_1968.jpg",
+  "width": 2000,
+  "height": 3000,
+  "credit": "Anefo",
+  "license": "CC0 1.0",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Jean_Pierre_Beltoise_te_Zandvoort_1968.jpg",
+  "article": "https://en.wikipedia.org/wiki/Jean-Pierre_Beltoise"
+ },
+ "driver-alessandro-nannini": {
+  "status": "ok",
+  "title": "Alessandro Nannini",
+  "file": "Alessandro_Nannini_-_Alfa_Corse_-_Alfa_Romeo_155_V6_TI_94_(46745279511).jpg",
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cf/Alessandro_Nannini_-_Alfa_Corse_-_Alfa_Romeo_155_V6_TI_94_%2846745279511%29.jpg/960px-Alessandro_Nannini_-_Alfa_Corse_-_Alfa_Romeo_155_V6_TI_94_%2846745279511%29.jpg",
+  "width": 2189,
+  "height": 1477,
+  "credit": "Martin Lee from London, UK",
+  "license": "CC BY-SA 2.0",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Alessandro_Nannini_-_Alfa_Corse_-_Alfa_Romeo_155_V6_TI_94_%2846745279511%29.jpg",
+  "article": "https://en.wikipedia.org/wiki/Alessandro_Nannini"
+ },
+ "driver-vittorio-brambilla": {
+  "status": "ok",
+  "title": "Vittorio Brambilla",
+  "file": "Vittorio_Brambilla.jpg",
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/75/Vittorio_Brambilla.jpg/960px-Vittorio_Brambilla.jpg",
+  "width": 600,
+  "height": 1000,
+  "credit": "Gillfoto",
+  "license": "CC BY-SA 3.0",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Vittorio_Brambilla.jpg",
+  "article": "https://en.wikipedia.org/wiki/Vittorio_Brambilla"
+ },
+ "driver-carlos-pace": {
+  "status": "not-on-commons",
+  "title": "Carlos Pace",
+  "file": "lossy-page1-1280px-José_Carlos_Pace,_sem_data.tif.jpg"
+ },
+ "driver-richie-ginther": {
+  "status": "rejected-licence",
+  "title": "Richie Ginther",
+  "file": "Richie_Ginther_and_Roger_Penske,_1964_(cropped).jpg"
+ },
+ "driver-innes-ireland": {
+  "status": "ok",
+  "title": "Innes Ireland",
+  "file": "Innes_Ireland.jpg",
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8c/Innes_Ireland.jpg/960px-Innes_Ireland.jpg",
+  "width": 960,
+  "height": 1215,
+  "credit": "Wikimedia Commons contributor",
+  "license": "Public domain",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Innes_Ireland.jpg",
+  "article": "https://en.wikipedia.org/wiki/Innes_Ireland"
+ },
+ "driver-francois-cevert": {
+  "status": "ok",
+  "title": "François Cevert",
+  "file": "Francois_Cevert_1973.jpg",
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d4/Francois_Cevert_1973.jpg/960px-Francois_Cevert_1973.jpg",
+  "width": 1117,
+  "height": 787,
+  "credit": "Raimund Kommer",
+  "license": "CC BY-SA 3.0",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Francois_Cevert_1973.jpg",
+  "article": "https://en.wikipedia.org/wiki/Fran%C3%A7ois_Cevert"
+ },
+ "driver-lorenzo-bandini": {
+  "status": "ok",
+  "title": "Lorenzo Bandini",
+  "file": "Bandini1966cropped.jpg",
+  "src": "https://upload.wikimedia.org/wikipedia/commons/d/d8/Bandini1966cropped.jpg",
+  "width": 233,
+  "height": 329,
+  "credit": "Lothar Spurzem",
+  "license": "CC BY-SA 2.0",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Bandini1966cropped.jpg",
+  "article": "https://en.wikipedia.org/wiki/Lorenzo_Bandini"
+ },
+ "driver-gunnar-nilsson": {
+  "status": "ok",
+  "title": "Gunnar Nilsson",
+  "file": "1976-07-10_Gunnar_Nilsson_im_BMW_CSL_(cropped).jpg",
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/16/1976-07-10_Gunnar_Nilsson_im_BMW_CSL_%28cropped%29.jpg/960px-1976-07-10_Gunnar_Nilsson_im_BMW_CSL_%28cropped%29.jpg",
+  "width": 1707,
+  "height": 1947,
+  "credit": "Lothar Spurzem",
+  "license": "CC BY-SA 2.0",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:1976-07-10_Gunnar_Nilsson_im_BMW_CSL_%28cropped%29.jpg",
+  "article": "https://en.wikipedia.org/wiki/Gunnar_Nilsson"
+ },
+ "driver-peter-gethin": {
+  "status": "ok",
+  "title": "Peter Gethin",
+  "file": "Peter_Gethin,_Bestanddeelnr_924-6614_(cropped2).jpg",
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3f/Peter_Gethin%2C_Bestanddeelnr_924-6614_%28cropped2%29.jpg/960px-Peter_Gethin%2C_Bestanddeelnr_924-6614_%28cropped2%29.jpg",
+  "width": 2246,
+  "height": 2456,
+  "credit": "Fotograaf Onbekend / Anefo, [onbekend]",
+  "license": "CC0 1.0",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Peter_Gethin%2C_Bestanddeelnr_924-6614_%28cropped2%29.jpg",
+  "article": "https://en.wikipedia.org/wiki/Peter_Gethin"
+ },
+ "driver-luigi-musso": {
+  "status": "ok",
+  "title": "Luigi Musso",
+  "file": "Luigi_Musso.jpg",
+  "src": "https://upload.wikimedia.org/wikipedia/commons/8/8b/Luigi_Musso.jpg",
+  "width": 209,
+  "height": 233,
+  "credit": "Wikimedia Commons contributor",
+  "license": "Public domain",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Luigi_Musso.jpg",
+  "article": "https://en.wikipedia.org/wiki/Luigi_Musso"
+ },
+ "driver-giancarlo-baghetti": {
+  "status": "ok",
+  "title": "Giancarlo Baghetti",
+  "file": "1961_Syracuse_GP_-_Giancarlo_Baghetti_(Ferrari_156_F1).jpg",
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c4/1961_Syracuse_GP_-_Giancarlo_Baghetti_%28Ferrari_156_F1%29.jpg/960px-1961_Syracuse_GP_-_Giancarlo_Baghetti_%28Ferrari_156_F1%29.jpg",
+  "width": 1854,
+  "height": 2186,
+  "credit": "Wikimedia Commons contributor",
+  "license": "Public domain",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:1961_Syracuse_GP_-_Giancarlo_Baghetti_%28Ferrari_156_F1%29.jpg",
+  "article": "https://en.wikipedia.org/wiki/Giancarlo_Baghetti"
+ },
+ "driver-piero-taruffi": {
+  "status": "ok",
+  "title": "Piero Taruffi",
+  "file": "Piero_Taruffi.jpg",
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8e/Piero_Taruffi.jpg/960px-Piero_Taruffi.jpg",
+  "width": 962,
+  "height": 1261,
+  "credit": "at the Italian Wikipedia project.",
+  "license": "Public domain",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Piero_Taruffi.jpg",
+  "article": "https://en.wikipedia.org/wiki/Piero_Taruffi"
+ },
+ "driver-rodger-ward": {
+  "status": "ok",
+  "title": "Rodger Ward",
+  "file": "Rodger_Ward_1950.jpg",
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9d/Rodger_Ward_1950.jpg/960px-Rodger_Ward_1950.jpg",
+  "width": 619,
+  "height": 1195,
+  "credit": "Unknown",
+  "license": "Public domain",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Rodger_Ward_1950.jpg",
+  "article": "https://en.wikipedia.org/wiki/Rodger_Ward"
+ },
+ "driver-jim-rathmann": {
+  "status": "no-lead-image",
+  "title": "Jim Rathmann"
+ },
+ "driver-ludovico-scarfiotti": {
+  "status": "ok",
+  "title": "Ludovico Scarfiotti",
+  "file": "Ludivico_Scarfiotti_1966_Nürburgring.jpg",
+  "src": "https://upload.wikimedia.org/wikipedia/commons/b/b7/Ludivico_Scarfiotti_1966_N%C3%BCrburgring.jpg",
+  "width": 295,
+  "height": 378,
+  "credit": "Raimund Kommer",
+  "license": "CC BY-SA 3.0",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Ludivico_Scarfiotti_1966_N%C3%BCrburgring.jpg",
+  "article": "https://en.wikipedia.org/wiki/Ludovico_Scarfiotti"
+ },
+ "driver-jimmy-bryan": {
+  "status": "not-on-commons",
+  "title": "Jimmy Bryan",
+  "file": "Portrait_of_Jimmy_Bryan.jpg"
+ },
+ "driver-johnnie-parsons": {
+  "status": "ok",
+  "title": "Johnnie Parsons",
+  "file": "Johnnie_Parsons_USAC_circa_1957.jpg",
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a8/Johnnie_Parsons_USAC_circa_1957.jpg/960px-Johnnie_Parsons_USAC_circa_1957.jpg",
+  "width": 1275,
+  "height": 1609,
+  "credit": "Trenton International Speedway",
+  "license": "Public domain",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Johnnie_Parsons_USAC_circa_1957.jpg",
+  "article": "https://en.wikipedia.org/wiki/Johnnie_Parsons"
+ },
+ "driver-sam-hanks": {
+  "status": "ok",
+  "title": "Sam Hanks",
+  "file": "Sam_Hanks_USAC_circa_1957.jpg",
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4c/Sam_Hanks_USAC_circa_1957.jpg/960px-Sam_Hanks_USAC_circa_1957.jpg",
+  "width": 1210,
+  "height": 1519,
+  "credit": "Trenton International Speedway",
+  "license": "Public domain",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Sam_Hanks_USAC_circa_1957.jpg",
+  "article": "https://en.wikipedia.org/wiki/Sam_Hanks"
+ },
+ "driver-troy-ruttman": {
+  "status": "ok",
+  "title": "Troy Ruttman",
+  "file": "Troy_Ruttman_1951.jpg",
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8b/Troy_Ruttman_1951.jpg/960px-Troy_Ruttman_1951.jpg",
+  "width": 626,
+  "height": 1123,
+  "credit": "Wikimedia Commons contributor",
+  "license": "Public domain",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Troy_Ruttman_1951.jpg",
+  "article": "https://en.wikipedia.org/wiki/Troy_Ruttman"
+ },
+ "driver-luigi-fagioli": {
+  "status": "ok",
+  "title": "Luigi Fagioli",
+  "file": "Luigi_Fagioli_in_his_Maserati_at_the_1932_Targa_Florio_(cropped).jpg",
+  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b3/Luigi_Fagioli_in_his_Maserati_at_the_1932_Targa_Florio_%28cropped%29.jpg/960px-Luigi_Fagioli_in_his_Maserati_at_the_1932_Targa_Florio_%28cropped%29.jpg",
+  "width": 2074,
+  "height": 2572,
+  "credit": "Wikimedia Commons contributor",
+  "license": "Public domain",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Luigi_Fagioli_in_his_Maserati_at_the_1932_Targa_Florio_%28cropped%29.jpg",
+  "article": "https://en.wikipedia.org/wiki/Luigi_Fagioli"
+ },
+ "driver-pat-flaherty": {
+  "status": "not-on-commons",
+  "title": "Pat Flaherty (racing driver)",
+  "file": "PatFlaherty(racingdriver)Image.jpg"
+ },
+ "driver-bob-sweikert": {
+  "status": "no-lead-image",
+  "title": "Bob Sweikert"
  }
 }

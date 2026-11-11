@@ -1,96 +1,178 @@
+import Link from "next/link";
 import type { Metadata } from "next";
-import { PageIntro } from "@/components/site/ui";
+import { lp, type Lang } from "@/lib/i18n/config";
+import { fmt, getDict } from "@/lib/i18n/dict";
+import { crosscheck, db, formatDate } from "@/lib/f1/db";
+import { allPhotos } from "@/lib/f1/media";
+import { catalog, indexedDocs } from "@/lib/f1/regs";
+import { PageIntro, StatusBadge } from "@/components/site/ui";
 
-export const metadata: Metadata = {
-  title: "About",
-  description: "How Paddock is built: editorial approach, data verification and image licensing.",
-};
+export async function generateMetadata({ params }: PageProps<"/[lang]/about">): Promise<Metadata> {
+  const t = getDict((await params).lang as Lang);
+  return { title: t.about.metaTitle, description: t.about.lede };
+}
 
-const PHASES = [
-  { n: "01", title: "Design & content structure", status: "Current", text: "The design system, information architecture, editorial content, page templates and interactions." },
-  { n: "02", title: "Verified historical data", status: "Next", text: "Official records: calendars, results, standings, entry lists, regulations, car specifications and other categories." },
-  { n: "03", title: "Advanced visual experiences", status: "Later", text: "Interactive 3D cars, exploded models, scroll-driven storytelling and technical simulations." },
-];
+export default async function AboutPage({ params }: PageProps<"/[lang]/about">) {
+  const lang = (await params).lang as Lang;
+  const t = getDict(lang);
+  const A = t.about;
+  const m = db().meta;
+  const cc = crosscheck();
+  const cat = catalog();
+  const photos = allPhotos();
+  const pt = lang === "pt";
 
-export default function AboutPage() {
+  const sources = [
+    {
+      name: "F1DB",
+      url: m.url,
+      license: m.license,
+      text: pt
+        ? `Base aberta com todas as temporadas, corridas, resultados, classificações, inscrições, pilotos, construtores, chassis, motores e circuitos (com traçados e desenhos). Versão ${m.release}, de ${formatDate(m.commitDate.slice(0, 10), lang)}.`
+        : `Open dataset covering every season, race, result, standing, entry, driver, constructor, chassis, engine and circuit (with layouts and drawings). Release ${m.release}, dated ${formatDate(m.commitDate.slice(0, 10), lang)}.`,
+    },
+    {
+      name: "Jolpica F1 API",
+      url: cc.url,
+      license: pt ? "Fonte independente de conferência" : "Independent cross-check source",
+      text: pt
+        ? `Usada para conferir o vencedor de cada corrida e os campeões de cada temporada: ${cc.summary.racesAgree} corridas coincidem, ${cc.summary.racesDisputed} divergem.`
+        : `Used to cross-check the winner of every race and the champions of every season: ${cc.summary.racesAgree} races agree, ${cc.summary.racesDisputed} disagree.`,
+    },
+    {
+      name: "FIA",
+      url: cat.source,
+      license: pt ? "Documentos oficiais" : "Official documents",
+      text: pt
+        ? `${cat.documents.length} documentos de regulamento listados pela FIA; ${indexedDocs().length} edições com texto indexado artigo por artigo. Catálogo obtido em ${formatDate(cat.harvestedAt.slice(0, 10), lang)}.`
+        : `${cat.documents.length} regulation documents listed by the FIA; ${indexedDocs().length} issues indexed article by article. Catalogue taken on ${formatDate(cat.harvestedAt.slice(0, 10), lang)}.`,
+    },
+    {
+      name: "Wikimedia Commons",
+      url: "https://commons.wikimedia.org",
+      license: "CC0 / PD / CC BY / CC BY-SA",
+      text: pt
+        ? "Fotografias: somente a imagem principal do artigo da Wikipédia sobre o próprio assunto, com licença livre verificada no arquivo original."
+        : "Photographs: only the lead image of the subject's own Wikipedia article, with a free licence verified on the original file.",
+    },
+  ];
+
+  const statuses: [string, string][] = pt
+    ? [
+        ["official", "Texto extraído de um documento publicado pela FIA, com link para o PDF original."],
+        ["cross-checked", "O dado coincide em duas fontes independentes (F1DB e Jolpica)."],
+        ["provisional", "Temporada em andamento: classificações e estatísticas podem mudar."],
+        ["single-source", "Dado de uma única fonte, ainda não conferido em outra."],
+        ["editorial", "Texto escrito pelo Paddock; não é citação oficial."],
+        ["incomplete", "Informação parcial; o que falta é indicado na página."],
+        ["disputed", "As fontes divergem; ambas as versões são mostradas."],
+      ]
+    : [
+        ["official", "Text extracted from a document published by the FIA, linked to the original PDF."],
+        ["cross-checked", "The data matches in two independent sources (F1DB and Jolpica)."],
+        ["provisional", "Season in progress: standings and statistics may change."],
+        ["single-source", "Data from a single source, not yet checked against another."],
+        ["editorial", "Text written by Paddock; not an official quotation."],
+        ["incomplete", "Partial information; what is missing is indicated on the page."],
+        ["disputed", "Sources disagree; both versions are shown."],
+      ];
+
   return (
     <>
-      <PageIntro
-        crumbs={[{ label: "About" }]}
-        eyebrow="About Paddock"
-        title="An encyclopedia, built carefully."
-        lede="Paddock is an independent, educational guide to Formula One. It is designed to be explored by newcomers and experts alike — and to be trustworthy."
-      />
+      <PageIntro lang={lang} crumbs={[{ label: t.footer.about }]} eyebrow={A.eyebrow} title={A.title} lede={A.lede} />
 
-      <section className="section tone-off">
+      <section className="section tone-off" id="data">
         <div className="wrap">
-          <p className="eyebrow-f1">Roadmap</p>
-          <h2 className="headline">Built in three phases.</h2>
-          <div className="grid grid-3 mt-l">
-            {PHASES.map((p) => (
-              <div key={p.n} className={`tile ${p.status === "Current" ? "tile-dark" : ""}`} style={p.status === "Current" ? undefined : { background: "var(--paper)" }}>
+          <p className="eyebrow-f1">{A.dataEyebrow}</p>
+          <h2 className="headline">{A.dataTitle}</h2>
+          <div className="grid grid-2 mt-l">
+            {sources.map((s) => (
+              <div key={s.name} className="tile" style={{ background: "var(--paper)" }}>
                 <div className="tile-body">
-                  <span className="flex-row space-between">
-                    <span className="stat-value" style={{ fontSize: 40 }}>
-                      {p.n}
-                    </span>
-                    <span className={`badge ${p.status === "Current" ? "badge-red" : ""}`}>{p.status}</span>
+                  <p className="title-3">
+                    <a href={s.url} target="_blank" rel="noreferrer" className="inline-link">
+                      {s.name}
+                    </a>
+                  </p>
+                  <span className="badge" style={{ alignSelf: "flex-start" }}>
+                    {s.license}
                   </span>
-                  <p className="title-3 mt-s">{p.title}</p>
-                  <p className="small muted">{p.text}</p>
+                  <p className="small muted pretty">{s.text}</p>
                 </div>
               </div>
             ))}
           </div>
+
+          <h3 className="title-2 mt-xl">{A.statusTitle}</h3>
+          <ul className="mt-s" style={{ display: "grid", gap: 10 }}>
+            {statuses.map(([s, text]) => (
+              <li key={s} className="flex-row" style={{ gap: 12, flexWrap: "nowrap", alignItems: "flex-start" }}>
+                <span style={{ minWidth: 220 }}>
+                  <StatusBadge lang={lang} status={s} />
+                </span>
+                <span className="small">{text}</span>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 
-      <section className="section tone-paper" id="data">
+      <section className="section tone-paper" id="images">
         <div className="wrap-text prose">
           <p className="eyebrow-f1" style={{ fontSize: 17 }}>
-            Data & sources
+            {A.imagesEyebrow}
           </p>
           <h2 className="title-1" style={{ color: "var(--ink)" }}>
-            What you can rely on today.
+            {A.imagesTitle}
           </h2>
-          <p>
-            Editorial content — era histories, profiles, explanations and lessons — summarises long-established, widely documented
-            history. World champions are included as a navigational reference and are flagged for cross-checking.
-          </p>
-          <p>
-            <strong>Record-level data is deliberately absent.</strong> Race calendars, results, standings, entry lists, career
-            statistics, lap records, circuit lengths and full technical specifications will be added only after verification against
-            official sources. Wherever this information will appear, the site shows a clearly labelled placeholder instead of an
-            estimate.
-          </p>
-          <p>The current season, 2026, is shown as in progress; its results will be added once confirmed.</p>
+          {pt ? (
+            <>
+              <p>Toda fotografia precisa mostrar o carro, a equipe, o piloto e a época corretos, e precisa ter licença livre e crédito. Por isso o Paddock usa somente a imagem principal do artigo da Wikipédia sobre o próprio assunto — a imagem que a enciclopédia escolheu para representá-lo — e confere a licença no arquivo original do Wikimedia Commons.</p>
+              <p>Imagens com uso restrito, logotipos de equipes e imagens sem licença clara são rejeitados. Quando não há foto verificada, a página mostra uma placa tipográfica — nunca uma foto substituta. Os traçados dos circuitos vêm da F1DB, um desenho por configuração.</p>
+            </>
+          ) : (
+            <>
+              <p>Every photograph must show the correct car, team, driver and period, and must be freely licensed and credited. Paddock therefore uses only the lead image of the subject’s own Wikipedia article — the image the encyclopedia chose to depict it — and verifies its licence on the original Wikimedia Commons file.</p>
+              <p>Restricted images, team logos and images without a clear licence are rejected. Where no verified photograph exists, the page shows a typographic plate — never a substitute photo. Circuit layouts come from F1DB, one drawing per configuration.</p>
+            </>
+          )}
         </div>
       </section>
 
-      <section className="section tone-off" id="images">
-        <div className="wrap-text prose">
-          <p className="eyebrow-f1" style={{ fontSize: 17 }}>
-            Image policy
-          </p>
-          <h2 className="title-1" style={{ color: "var(--ink)" }}>
-            No misleading pictures.
-          </h2>
-          <p>
-            Every photograph must show the correct car, team, driver and year, and must be properly licensed and credited. Until a
-            verified image is available, pages show a designed typographic plate rather than a substitute photo.
-          </p>
-          <p>
-            Images are registered centrally with their source, author and licence, and each one displays its credit on the page.
-          </p>
-        </div>
-      </section>
-
-      <section className="section-tight tone-paper">
-        <div className="wrap-text">
-          <p className="caption">
-            Paddock is not affiliated with Formula One Group, the FIA or any team. Formula 1, F1 and related marks are trademarks of their
-            respective owners.
-          </p>
+      <section className="section tone-off" id="credits">
+        <div className="wrap">
+          <h2 className="title-1">{A.creditsTitle}</h2>
+          <p className="lede mt-s">{fmt(A.creditsLede, { n: photos.length })}</p>
+          <div className="table-wrap mt-m">
+            <table className="dtable compact">
+              <thead>
+                <tr>
+                  <th scope="col">{t.common.photo}</th>
+                  <th scope="col">{pt ? "Autor" : "Author"}</th>
+                  <th scope="col">{pt ? "Licença" : "Licence"}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {photos.map((p) => {
+                  const [kind, ...rest] = p.id.split("-");
+                  const id = rest.join("-");
+                  const href = kind === "driver" ? `/drivers/${id}` : kind === "circuit" ? `/circuits/${id}` : `/cars/${id}`;
+                  return (
+                    <tr key={p.id}>
+                      <td className="small">
+                        <Link href={lp(lang, href)}>{id}</Link> ·{" "}
+                        <a href={p.sourceUrl} target="_blank" rel="noreferrer" className="muted">
+                          Commons
+                        </a>
+                      </td>
+                      <td className="small">{p.credit}</td>
+                      <td className="small">{p.license}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
         </div>
       </section>
     </>

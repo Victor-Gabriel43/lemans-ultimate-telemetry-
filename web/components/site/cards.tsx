@@ -16,6 +16,7 @@ export function DriverCard({ d, lang, note }: { d: Driver; lang: Lang; note?: st
   return (
     <Link href={lp(lang, `/drivers/${d.id}`)} className="card">
       <Plate
+        linked
         lang={lang}
         alt={d.name}
         photo={driverPhoto(d.id)}
@@ -72,6 +73,7 @@ export function CarCard({ ch, lang, priority = false }: { ch: Chassis; lang: Lan
   return (
     <Link href={lp(lang, `/cars/${ch.id}`)} className="card">
       <Plate
+        linked
         lang={lang}
         alt={chassisName(ch.id)}
         photo={chassisPhoto(ch.id)}
@@ -99,6 +101,7 @@ export function CircuitCard({ c, lang }: { c: Circuit; lang: Lang }) {
   return (
     <Link href={lp(lang, `/circuits/${c.id}`)} className="card">
       <Plate
+        linked
         lang={lang}
         alt={c.full}
         photo={circuitPhoto(c.id)}

@@ -17,7 +17,7 @@ const TECH_TO_REG: Record<string, string> = {
 export function proxy(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
 
-  if (NON_SITE_PREFIXES.some((p) => pathname === p || pathname.startsWith(`${p}/`)) || /\.[a-z0-9]{2,5}$/i.test(pathname)) {
+  if (NON_SITE_PREFIXES.some((p) => pathname === p || pathname.startsWith(`${p}/`)) || /\.[a-z][a-z0-9]{1,4}$/i.test(pathname)) {
     return NextResponse.next();
   }
 

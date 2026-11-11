@@ -1,87 +1,106 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { TEAMS, getTeam } from "@/lib/f1/teams";
-import { DRIVERS } from "@/lib/f1/drivers";
-import { CARS } from "@/lib/f1/cars";
-import { constructorTitles, teamDriverTitles } from "@/lib/f1/seasons";
-import { CarCard, DriverCard } from "@/components/site/cards";
-import { Breadcrumbs, DataNotice, LinkArrow, Milestones, Pending, Specs, Stat } from "@/components/site/ui";
+import { lp, type Lang } from "@/lib/i18n/config";
+import { fmt, getDict } from "@/lib/i18n/dict";
+import { chassis, chassisOf, countryName, ctor, driver, engineMfrName } from "@/lib/f1/db";
+import { chassisPhoto } from "@/lib/f1/media";
+import { teamEditorial } from "@/lib/f1/content";
+import { BlockHead, Breadcrumbs, DataNotice, Milestones, Plate, Specs, Stat } from "@/components/site/ui";
+import { toneFor } from "@/components/site/cards";
+import { LocalNav } from "@/components/site/LocalNav";
 
-export function generateStaticParams() {
-  return TEAMS.map((t) => ({ slug: t.slug }));
+export async function generateMetadata({ params }: PageProps<"/[lang]/teams/[slug]">): Promise<Metadata> {
+  const { lang, slug } = await params;
+  const c = ctor(slug);
+  return c ? { title: c.name, description: teamEditorial(slug, lang as Lang)?.summary } : {};
 }
 
-export async function generateMetadata({ params }: PageProps<"/teams/[slug]">): Promise<Metadata> {
-  const { slug } = await params;
-  const t = getTeam(slug);
-  return t ? { title: t.name, description: t.summary } : {};
-}
-
-export default async function TeamPage({ params }: PageProps<"/teams/[slug]">) {
-  const { slug } = await params;
-  const t = getTeam(slug);
-  if (!t) notFound();
-  const cTitles = constructorTitles(t.slug);
-  const dTitles = teamDriverTitles(t.matchName);
-  const drivers = t.drivers.map((s) => DRIVERS.find((d) => d.slug === s)).filter((d) => d !== undefined);
-  const cars = CARS.filter((c) => c.teamSlug === t.slug);
+export default async function TeamPage({ params }: PageProps<"/[lang]/teams/[slug]">) {
+  const { lang: l, slug } = await params;
+  const lang = l as Lang;
+  const t = getDict(lang);
+  const T = t.teams;
+  const c = ctor(slug);
+  if (!c) notFound();
+  const ed = teamEditorial(c.id, lang);
+  const color = ed?.color ?? "#6e6e73";
+  const cars = chassisOf(c.id);
+  const lineage = c.chronology ?? [];
 
   return (
     <>
+      <LocalNav
+        lang={lang}
+        title={c.name}
+        titleHref={`/teams/${c.id}`}
+        links={[
+          { label: T.history, href: "#history" },
+          { label: T.engineSuppliers, href: "#engines" },
+          { label: T.driversBySeason, href: "#drivers" },
+          { label: T.carGallery.split(",")[0], href: "#cars" },
+        ]}
+      />
       <section className="tone-night" style={{ paddingTop: 28, position: "relative", overflow: "hidden" }}>
-        <div
-          aria-hidden
-          style={{ position: "absolute", inset: 0, background: `radial-gradient(80% 60% at 85% 10%, ${t.color}55, transparent 60%)` }}
-        />
+        <div aria-hidden style={{ position: "absolute", inset: 0, background: `radial-gradient(80% 60% at 85% 10%, ${color}55, transparent 60%)` }} />
         <div className="wrap" style={{ position: "relative" }}>
-          <Breadcrumbs items={[{ label: "Teams", href: "/teams" }, { label: t.name }]} />
-          <div style={{ padding: "clamp(56px,9vw,120px) 0 clamp(56px,8vw,96px)", maxWidth: 860 }}>
-            <div className="cat-bar" style={{ ["--cat" as string]: t.color, marginBottom: 20 }} />
+          <Breadcrumbs lang={lang} items={[{ label: t.nav.teams, href: "/teams" }, { label: c.name }]} />
+          <div style={{ padding: "clamp(56px,9vw,120px) 0 clamp(40px,6vw,72px)", maxWidth: 860 }}>
+            <div className="cat-bar" style={{ ["--cat" as string]: color, marginBottom: 20 }} />
             <p className="eyebrow-f1">
-              {t.base}, {t.country} · {t.firstSeason}–{t.active ? "present" : t.lastSeason}
+              {countryName(c.country, lang)} · {c.first_}–{c.active ? t.common.present : c.last_}
             </p>
-            <h1 className="display balance">{t.name}</h1>
-            <p className="lede mt-m pretty">{t.summary}</p>
+            <h1 className="display balance">{c.name}</h1>
+            {c.full && <p className="muted mt-xs">{c.full}</p>}
+            {ed && <p className="lede mt-m pretty">{ed.summary}</p>}
           </div>
           <div className="stat-row" style={{ paddingBottom: "clamp(56px,8vw,96px)" }}>
-            <Stat value={cTitles.length} label="Constructors’ championships" />
-            <Stat value={dTitles.length} label="Drivers’ championships won by its drivers" />
-            <Stat value={t.firstSeason} label="First World Championship season" />
-            <Stat value={t.active ? "2026" : t.lastSeason} label={t.active ? "On the current grid" : "Final season"} />
+            <Stat value={c.titles.length} label={t.common.championships} />
+            <Stat value={c.driverTitles.length} label={T.driverTitlesWith} />
+            <Stat value={c.st.wins} label={t.common.wins} />
+            <Stat value={c.st.poles} label={t.common.poles} />
+            <Stat value={c.st.entries} label={t.common.entries} />
           </div>
         </div>
       </section>
 
-      <section className="section tone-paper">
+      <section className="section tone-paper" id="history">
         <div className="wrap">
           <div className="grid grid-2" style={{ gap: "clamp(32px,6vw,96px)", alignItems: "start" }}>
             <div className="prose">
               <p className="eyebrow-f1" style={{ fontSize: 17 }}>
-                Team history
+                {T.history}
               </p>
-              {t.history.map((p, i) => (
-                <p key={i}>{p}</p>
-              ))}
-              <h3>Identity and evolution</h3>
-              <p>{t.identity}</p>
+              {ed ? (
+                <>
+                  {ed.history.map((p, i) => (
+                    <p key={i}>{p}</p>
+                  ))}
+                  <h3>{T.identity}</h3>
+                  <p>{ed.identity}</p>
+                </>
+              ) : (
+                <p className="muted">{T.noEditorial}</p>
+              )}
             </div>
             <div>
               <Specs
                 rows={[
-                  ["Base", `${t.base}, ${t.country}`],
-                  ["Founder", t.founders ?? "—"],
-                  ["Status", t.active ? "Competing in 2026" : "No longer competing"],
+                  [t.common.country, countryName(c.country, lang)],
+                  ...(ed ? ([[T.base, ed.base]] as [string, string][]) : []),
+                  ...(ed?.founders ? ([[T.founders, ed.founders]] as [string, string][]) : []),
+                  [T.firstSeason, <Link key="f" href={lp(lang, `/seasons/${c.first_}`)} className="inline-link">{c.first_}</Link>],
+                  [c.active ? T.statusLabel : T.finalSeason, c.active ? T.competing : <Link key="l" href={lp(lang, `/seasons/${c.last_}`)} className="inline-link">{c.last_}</Link>],
                   [
-                    "Constructors’ titles",
-                    cTitles.length ? (
-                      <span>
-                        {cTitles.map((y, i) => (
+                    t.common.championships,
+                    c.titles.length ? (
+                      <span key="ct">
+                        {c.titles.map((y, i) => (
                           <span key={y}>
-                            <Link href={`/seasons/${y}`} className="inline-link">
+                            <Link href={lp(lang, `/seasons/${y}`)} className="inline-link">
                               {y}
                             </Link>
-                            {i < cTitles.length - 1 ? ", " : ""}
+                            {i < c.titles.length - 1 ? ", " : ""}
                           </span>
                         ))}
                       </span>
@@ -90,15 +109,15 @@ export default async function TeamPage({ params }: PageProps<"/teams/[slug]">) {
                     ),
                   ],
                   [
-                    "Drivers’ titles",
-                    dTitles.length ? (
-                      <span>
-                        {dTitles.map((y, i) => (
+                    T.driverTitlesWith,
+                    c.driverTitles.length ? (
+                      <span key="dt">
+                        {c.driverTitles.map((y, i) => (
                           <span key={y}>
-                            <Link href={`/seasons/${y}`} className="inline-link">
+                            <Link href={lp(lang, `/seasons/${y}`)} className="inline-link">
                               {y}
                             </Link>
-                            {i < dTitles.length - 1 ? ", " : ""}
+                            {i < c.driverTitles.length - 1 ? ", " : ""}
                           </span>
                         ))}
                       </span>
@@ -108,73 +127,145 @@ export default async function TeamPage({ params }: PageProps<"/teams/[slug]">) {
                   ],
                 ]}
               />
-              {t.lineage && (
+              {lineage.length > 1 && (
                 <div className="mt-m">
-                  <p className="kicker">Lineage</p>
+                  <p className="kicker">{T.lineage}</p>
                   <ol className="flex-row mt-xs" style={{ gap: 6 }}>
-                    {t.lineage.map((l, i) => (
-                      <li key={l + i} className="flex-row" style={{ gap: 6 }}>
-                        <span className="badge">{l}</span>
-                        {i < t.lineage!.length - 1 && <span className="muted" aria-hidden>→</span>}
+                    {lineage.map((x, i) => (
+                      <li key={x.c + i} className="flex-row" style={{ gap: 6 }}>
+                        {ctor(x.c) && x.c !== c.id ? (
+                          <Link href={lp(lang, `/teams/${x.c}`)} className="badge">
+                            {ctor(x.c)!.name} {x.from}–{x.to ?? ""}
+                          </Link>
+                        ) : (
+                          <span className="badge badge-red">
+                            {ctor(x.c)?.name ?? x.c} {x.from}–{x.to ?? ""}
+                          </span>
+                        )}
+                        {i < lineage.length - 1 && (
+                          <span className="muted" aria-hidden>
+                            →
+                          </span>
+                        )}
                       </li>
                     ))}
                   </ol>
+                  <p className="caption mt-xs">{T.lineageNote}</p>
                 </div>
               )}
             </div>
           </div>
+          {ed && ed.timeline.length > 0 && !ed.isAlias && (
+            <div className="mt-xl" style={{ maxWidth: 720 }}>
+              <Milestones lang={lang} items={ed.timeline} linkYears />
+            </div>
+          )}
         </div>
       </section>
 
-      <section className="section tone-off">
+      <section className="section tone-off" id="engines">
         <div className="wrap">
-          <div className="grid grid-2" style={{ gap: "clamp(32px,6vw,96px)", alignItems: "start" }}>
-            <div>
-              <p className="eyebrow-f1">Timeline</p>
-              <h2 className="title-1">Milestones.</h2>
-            </div>
-            <Milestones items={t.timeline} linkYears />
+          <BlockHead eyebrow={t.common.engines} title={T.engineSuppliers} />
+          <div className="table-wrap">
+            <table className="dtable compact">
+              <thead>
+                <tr>
+                  <th scope="col">{t.common.engine}</th>
+                  <th scope="col">{t.common.seasons}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {c.engines.map((e) => (
+                  <tr key={e.e}>
+                    <td style={{ fontWeight: 600 }}>
+                      <Link href={lp(lang, `/cars?by=engine&v=${e.e}`)}>{engineMfrName(e.e)}</Link>
+                    </td>
+                    <td className="num small">{e.years.length > 3 ? `${e.years[0]}–${e.years[e.years.length - 1]} (${e.years.length})` : e.years.join(", ")}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="caption mt-xs">{T.entrantNote}</p>
+        </div>
+      </section>
+
+      <section className="section tone-paper" id="drivers">
+        <div className="wrap">
+          <BlockHead eyebrow={t.common.drivers} title={T.driversBySeason} />
+          <div className="table-wrap">
+            <table className="dtable compact">
+              <thead>
+                <tr>
+                  <th scope="col">{t.common.season}</th>
+                  <th scope="col">{t.common.drivers}</th>
+                  <th scope="col">{t.common.cars}</th>
+                  <th scope="col" className="r">
+                    {T.championshipPos}
+                  </th>
+                  <th scope="col" className="r">
+                    {t.common.points}
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {[...c.seasons].reverse().map((s) => (
+                  <tr key={s.y}>
+                    <td className="num" style={{ fontWeight: 700 }}>
+                      <Link href={lp(lang, `/seasons/${s.y}`)}>{s.y}</Link>
+                      {c.titles.includes(s.y) && (
+                        <span className="badge badge-red" style={{ marginLeft: 6 }}>
+                          {t.common.championships.slice(0, -1)}
+                        </span>
+                      )}
+                    </td>
+                    <td className="small">
+                      {s.d.map((id, i) => (
+                        <span key={id}>
+                          <Link href={lp(lang, `/drivers/${id}`)}>{driver(id)?.name ?? id}</Link>
+                          {i < s.d.length - 1 ? ", " : ""}
+                        </span>
+                      ))}
+                    </td>
+                    <td className="small">
+                      {s.ch.map((id, i) => (
+                        <span key={id}>
+                          <Link href={lp(lang, `/cars/${id}`)}>{chassis(id)?.name ?? id}</Link>
+                          {i < s.ch.length - 1 ? ", " : ""}
+                        </span>
+                      ))}
+                    </td>
+                    <td className="r num">{s.pos ?? "—"}</td>
+                    <td className="r num">{s.pts ?? "—"}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
       </section>
 
-      <section className="section tone-paper">
+      <section className="section tone-off" id="cars">
         <div className="wrap-wide">
-          <div className="section-head">
-            <div>
-              <p className="eyebrow-f1">Cars</p>
-              <h2 className="title-1">Landmark {t.name} cars.</h2>
-            </div>
-            <LinkArrow href="/cars">The car archive</LinkArrow>
+          <BlockHead eyebrow={`${cars.length} ${t.common.cars.toLowerCase()}`} title={T.carGallery} />
+          <div className="grid grid-4 keep-2">
+            {cars.map((ch) => (
+              <Link key={ch.id} href={lp(lang, `/cars/${ch.id}`)} className="card">
+                <Plate linked lang={lang} alt={ch.full ?? ch.name} photo={chassisPhoto(ch.id)} tone={toneFor(c.id)} ratio="ratio-photo" flat tag={ch.years.join(", ")} glyph={ch.name} glyphSize="sm" />
+                <div className="card-body">
+                  <p className="card-meta">{ch.years.length > 1 ? `${ch.years[0]}–${ch.years[ch.years.length - 1]}` : ch.years[0]}</p>
+                  <p className="card-title">{ch.full ?? ch.name}</p>
+                  <p className="small muted">{ch.wins ? fmt(t.cars.winsWith, { n: ch.wins }) : t.cars.noWins}</p>
+                </div>
+              </Link>
+            ))}
           </div>
-          {cars.length ? (
-            <div className="grid grid-3">
-              {cars.map((c) => (
-                <CarCard key={c.slug} c={c} />
-              ))}
-            </div>
-          ) : (
-            <Pending title="Car profiles">Profiles of {t.name}’s cars will be added with verified technical specifications.</Pending>
-          )}
-
-          <div className="section-head mt-xl">
-            <div>
-              <p className="eyebrow-f1">Drivers</p>
-              <h2 className="title-1">Who drove for {t.name}.</h2>
-            </div>
-            <LinkArrow href="/drivers">All drivers</LinkArrow>
-          </div>
-          {drivers.length ? (
-            <div className="grid grid-4 keep-2">
-              {drivers.map((d) => (
-                <DriverCard key={d.slug} d={d} />
-              ))}
-            </div>
-          ) : (
-            <Pending title="Driver history">The team’s full driver history will be added from verified entry lists.</Pending>
-          )}
           <div className="mt-l">
-            <DataNotice>Championship counts are derived from the editorial season index and will be reconciled with official records.</DataNotice>
+            <DataNotice title={t.status.legend}>
+              {lang === "pt"
+                ? "Títulos, vitórias, motores, pilotos e carros: F1DB (CC BY 4.0), calculados a partir dos resultados e inscrições de cada temporada. História: texto editorial do Paddock."
+                : "Titles, wins, engines, drivers and cars: F1DB (CC BY 4.0), computed from each season's results and entries. History: Paddock editorial."}
+            </DataNotice>
           </div>
         </div>
       </section>
