@@ -140,7 +140,7 @@ export default async function ArticlePage({ params }: PageProps<"/[lang]/regulat
                 [t.common.source, R.sourceType.official],
                 [lang === "pt" ? "Documento" : "Document", d.title],
                 [R.issues, issueLabel],
-                [R.published, d.published ? formatDate(d.published, lang) : "—"],
+                [R.published, (d.published ?? cd.published) ? formatDate((d.published ?? cd.published)!, lang) : "—"],
                 [R.language, R.english],
                 [R.pdfPage, a.pdfPage ? String(a.pdfPage) : "—"],
                 ...(a.page ? ([[R.printedPage, a.page]] as [string, string][]) : []),
