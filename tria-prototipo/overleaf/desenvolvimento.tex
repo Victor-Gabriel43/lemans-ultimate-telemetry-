@@ -2,6 +2,10 @@
 
 O desenvolvimento começou pelo desenho das telas no Figma, com base nos requisitos levantados no questionário. Depois, essas telas foram passadas para um protótipo feito em HTML, CSS e JavaScript, que funciona direto no navegador. Por ser um protótipo, não foi usado servidor nem banco de dados: as contas ficam salvas no navegador e os grupos e tarefas são dados de exemplo.
 
-A aplicação tem dois tipos de usuário, aluno e professor, escolhidos no cadastro. O aluno cria grupos, cadastra tarefas, define o responsável e o prazo de cada uma e atualiza o status conforme o trabalho avança. O professor tem um painel com o andamento dos grupos da turma, onde vê quais grupos têm tarefas atrasadas e pode enviar recados ou lembretes de prazo, que aparecem na página do grupo.
+\subsection{Público-alvo}
 
-Cada status de tarefa recebeu uma cor (roxo para em andamento, amarelo para pendente, verde para concluída e vermelho para atrasada), e as tarefas atrasadas aparecem em destaque na tela inicial, já que esse recurso foi bem avaliado no questionário. Ficaram de fora nesta versão o armazenamento em servidor e as notificações por e-mail.
+A aplicação tem dois tipos de usuário, aluno e professor, escolhidos no cadastro. O aluno usa a ferramenta para organizar as tarefas do seu grupo, definir responsáveis e acompanhar os prazos. O professor acompanha o andamento dos grupos da turma e pode orientar os alunos durante o trabalho, e não só na entrega final.
+
+\subsection{Funcionalidades do protótipo}
+
+No protótipo é possível criar uma conta e entrar com ela, criar grupos, alterar os integrantes de um grupo, cadastrar tarefas com responsável e prazo, mudar o status das tarefas, concluí-las e excluí-las, além de filtrar e buscar tarefas. No perfil de professor, há um painel com o progresso de cada grupo e as tarefas atrasadas, e por ele o professor envia recados e lembretes de prazo, que aparecem na página do grupo. Os números da tela inicial são atualizados a cada alteração. Ficaram de fora nesta versão o armazenamento em servidor e as notificações por e-mail.
