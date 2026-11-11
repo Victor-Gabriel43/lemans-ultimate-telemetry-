@@ -9,6 +9,7 @@ import {
   reorderScheduleRow,
   updateScheduleRow,
 } from "../rooms/scheduleService.js";
+import { addDriver, listDrivers, removeDriver, updateDriver } from "../rooms/driverService.js";
 import { listFuelLog, logFuelEntry } from "../rooms/fuelService.js";
 import { listTireLog, startNewTireStint } from "../rooms/tireService.js";
 import { listDamageLog, logDamageEntry, markDamageRepaired } from "../rooms/damageService.js";
@@ -99,6 +100,38 @@ export function registerSocketHandlers(io: AppServer): void {
         io.to(payload.roomId).emit("room:updated", updated);
       } catch (err) {
         console.error("[socket] erro em telemetry:push", err);
+      }
+    });
+
+    socket.on("driver:add", async (payload) => {
+      if (!ownsRoom(payload.roomId)) return;
+      try {
+        await addDriver(payload.roomId, payload.name, payload.colorHex);
+        io.to(payload.roomId).emit("driver:changed", await listDrivers(payload.roomId));
+      } catch (err) {
+        console.error("[socket] erro em driver:add", err);
+      }
+    });
+
+    socket.on("driver:update", async (payload) => {
+      if (!ownsRoom(payload.roomId)) return;
+      try {
+        await updateDriver(payload.roomId, payload.driverId, payload.patch);
+        io.to(payload.roomId).emit("driver:changed", await listDrivers(payload.roomId));
+      } catch (err) {
+        console.error("[socket] erro em driver:update", err);
+      }
+    });
+
+    socket.on("driver:remove", async (payload) => {
+      if (!ownsRoom(payload.roomId)) return;
+      try {
+        await removeDriver(payload.roomId, payload.driverId);
+        // linhas da escala desse piloto viram driverId = null (onDelete: SetNull)
+        io.to(payload.roomId).emit("driver:changed", await listDrivers(payload.roomId));
+        await broadcastSchedule(payload.roomId);
+      } catch (err) {
+        console.error("[socket] erro em driver:remove", err);
       }
     });
 
