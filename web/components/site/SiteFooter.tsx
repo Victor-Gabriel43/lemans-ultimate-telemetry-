@@ -1,73 +1,43 @@
 import Link from "next/link";
+import { lp, type Lang } from "@/lib/i18n/config";
+import { getDict } from "@/lib/i18n/dict";
 
-const COLS: { title: string; links: [string, string][] }[] = [
-  {
-    title: "Explore",
-    links: [
-      ["History", "/history"],
-      ["Seasons", "/seasons"],
-      ["Drivers", "/drivers"],
-      ["Teams", "/teams"],
-    ],
-  },
-  {
-    title: "Engineering",
-    links: [
-      ["Cars", "/cars"],
-      ["Regulations & Technology", "/technology"],
-      ["Aerodynamics", "/technology/aerodynamics"],
-      ["Power units", "/technology/power-units"],
-    ],
-  },
-  {
-    title: "The Sport",
-    links: [
-      ["Circuits", "/circuits"],
-      ["Race Weekends", "/race-weekend"],
-      ["Other Categories", "/categories"],
-      ["Formula 2", "/categories/formula-2"],
-    ],
-  },
-  {
-    title: "Learn",
-    links: [
-      ["Start Here", "/learn/what-is-formula-1"],
-      ["Beginner", "/learn?level=Beginner"],
-      ["Intermediate", "/learn?level=Intermediate"],
-      ["Advanced", "/learn?level=Advanced"],
-    ],
-  },
-  {
-    title: "About",
-    links: [
-      ["About Paddock", "/about"],
-      ["Data & Sources", "/about#data"],
-      ["Image Policy", "/about#images"],
-      ["Search", "/search"],
-    ],
-  },
-];
-
-export function SiteFooter() {
+export function SiteFooter({ lang }: { lang: Lang }) {
+  const t = getDict(lang);
+  const cols: { title: string; links: [string, string][] }[] = [
+    { title: t.footer.explore, links: [[t.nav.history, "/history"], [t.nav.seasons, "/seasons"], [t.nav.drivers, "/drivers"], [t.nav.teams, "/teams"]] },
+    { title: t.footer.engineering, links: [[t.nav.cars, "/cars"], [t.nav.engineering, "/engineering"], [t.nav.regulations, "/regulations"], [t.regulations.archiveEyebrow, "/regulations/archive"]] },
+    { title: t.footer.sport, links: [[t.nav.circuits, "/circuits"], [t.nav.weekend, "/race-weekend"], [t.nav.categories, "/categories"], ["Formula 2", "/categories/formula-2"]] },
+    {
+      title: t.footer.learn,
+      links: [
+        [t.learn.levels.Beginner, "/learn?level=Beginner"],
+        [t.learn.levels.Intermediate, "/learn?level=Intermediate"],
+        [t.learn.levels.Advanced, "/learn?level=Advanced"],
+        [t.nav.search, "/search"],
+      ],
+    },
+    { title: t.footer.about, links: [[t.footer.aboutPaddock, "/about"], [t.footer.dataSources, "/about#data"], [t.footer.imagePolicy, "/about#images"], [t.about.creditsTitle, "/about#credits"]] },
+  ];
   return (
     <footer className="gfoot">
       <div className="wrap-wide">
         <div className="gfoot-notes">
+          <p>{t.footer.disclaimer}</p>
           <p>
-            Paddock is an independent educational encyclopedia and is not affiliated with Formula One Group, the FIA or any team.
-            Formula 1, F1 and related marks are trademarks of their respective owners.
-          </p>
-          <p>
-            Editorial content is written for learning. Record-level statistics, calendars and results are being verified against
-            official sources and will be published in a later phase. <Link href="/about#data" className="inline-link">Learn how we handle data.</Link>
+            {t.footer.data}{" "}
+            <Link href={lp(lang, "/about#data")} className="inline-link">
+              {t.footer.dataLink}
+            </Link>
+            .
           </p>
         </div>
         <div className="gfoot-cols">
-          {COLS.map((c) => (
+          {cols.map((c) => (
             <div key={c.title} className="gfoot-col">
               <h3>{c.title}</h3>
               {c.links.map(([label, href]) => (
-                <Link key={href} href={href}>
+                <Link key={href} href={lp(lang, href)}>
                   {label}
                 </Link>
               ))}
@@ -75,10 +45,11 @@ export function SiteFooter() {
           ))}
         </div>
         <div className="gfoot-legal">
-          <span>Paddock — The Formula 1 Encyclopedia. Phase 1: design and content structure.</span>
+          <span>{t.footer.bottom}</span>
           <span className="flex-row" style={{ gap: 16 }}>
-            <Link href="/about">About</Link>
-            <Link href="/race-engineer">LMU Race Engineer</Link>
+            <Link href={lp(lang, "/about")}>{t.footer.about}</Link>
+            <a href={lang === "pt" ? "/en" : "/"}>{t.nav.switchTo}</a>
+            <a href="/race-engineer">{t.footer.raceEngineer}</a>
           </span>
         </div>
       </div>

@@ -2,39 +2,35 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ChevronDown, Menu, Search, X } from "lucide-react";
-import { NAV, type NavSection } from "@/lib/f1/nav";
-import type { SearchEntry } from "@/lib/f1/search";
+import { lp, stripLang, type Lang } from "@/lib/i18n/config";
+import type { NavSection } from "@/lib/f1/nav";
+import type { Dict } from "@/lib/i18n/dict";
 import { SearchOverlay } from "./SearchOverlay";
 
 /**
- * Global navigation — Apple-style thin bar with full-width flyouts on
- * desktop (hover or keyboard) and a full-screen sheet on mobile.
+ * Global navigation — thin bar with full-width flyouts on desktop (hover or
+ * keyboard), a full-screen sheet on mobile, a language switch and search.
  */
-export function SiteHeader({ index }: { index: SearchEntry[] }) {
-  const pathname = usePathname();
+export function SiteHeader({ lang, nav, t }: { lang: Lang; nav: NavSection[]; t: Pick<Dict, "nav" | "search"> }) {
+  const rawPath = usePathname();
+  const { path } = stripLang(rawPath);
   const [open, setOpen] = useState<string | null>(null);
   const [mobile, setMobile] = useState(false);
   const [mobileSection, setMobileSection] = useState<string | null>(null);
   const [searching, setSearching] = useState(false);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const closeAll = useCallback(() => {
-    setOpen(null);
-    setMobile(false);
-  }, []);
-
-  // Close menus on navigation (state derived during render, no effect needed).
-  const [lastPath, setLastPath] = useState(pathname);
-  if (pathname !== lastPath) {
-    setLastPath(pathname);
+  // Close menus on navigation (derived during render).
+  const [lastPath, setLastPath] = useState(rawPath);
+  if (rawPath !== lastPath) {
+    setLastPath(rawPath);
     setOpen(null);
     setMobile(false);
     setSearching(false);
   }
 
-  // Keyboard: Esc closes; "/" or Cmd/Ctrl+K opens search.
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -42,7 +38,7 @@ export function SiteHeader({ index }: { index: SearchEntry[] }) {
         setMobile(false);
       }
       const target = e.target as HTMLElement | null;
-      const typing = target && (target.tagName === "INPUT" || target.tagName === "TEXTAREA" || target.isContentEditable);
+      const typing = target && (target.tagName === "INPUT" || target.tagName === "TEXTAREA" || target.tagName === "SELECT" || target.isContentEditable);
       if ((e.key === "k" && (e.metaKey || e.ctrlKey)) || (e.key === "/" && !typing)) {
         e.preventDefault();
         setSearching(true);
@@ -54,7 +50,6 @@ export function SiteHeader({ index }: { index: SearchEntry[] }) {
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
-  // Lock body scroll under the mobile sheet.
   useEffect(() => {
     document.body.style.overflow = mobile ? "hidden" : "";
     return () => {
@@ -70,23 +65,25 @@ export function SiteHeader({ index }: { index: SearchEntry[] }) {
     closeTimer.current = setTimeout(() => setOpen(null), 160);
   };
 
-  const isCurrent = (s: NavSection) => pathname === s.href || pathname.startsWith(`${s.href}/`);
-  const active = NAV.find((s) => s.id === open);
+  const isCurrent = (s: NavSection) => path === s.href || path.startsWith(`${s.href}/`);
+  const active = nav.find((s) => s.id === open);
+  const otherLang: Lang = lang === "pt" ? "en" : "pt";
+  const switchHref = lp(otherLang, path);
 
   return (
     <>
       <header className="gnav" onMouseLeave={leave}>
-        <nav className="wrap-wide gnav-inner" aria-label="Main">
-          <Link href="/" className="gnav-brand" aria-label="Paddock — home">
+        <nav className="wrap-wide gnav-inner" aria-label={t.nav.explore}>
+          <Link href={lp(lang, "/")} className="gnav-brand" aria-label="Paddock">
             <span className="gnav-brand-mark" aria-hidden />
             Paddock
           </Link>
 
           <ul className="gnav-links">
-            {NAV.map((s) => (
+            {nav.map((s) => (
               <li key={s.id} className="gnav-item" onMouseEnter={() => enter(s.id)}>
                 <Link
-                  href={s.href}
+                  href={lp(lang, s.href)}
                   className="gnav-link"
                   aria-current={isCurrent(s) ? "page" : undefined}
                   aria-expanded={open === s.id}
@@ -96,9 +93,7 @@ export function SiteHeader({ index }: { index: SearchEntry[] }) {
                     if (e.key === "ArrowDown") {
                       e.preventDefault();
                       setOpen(s.id);
-                      requestAnimationFrame(() => {
-                        document.querySelector<HTMLAnchorElement>(".flyout a")?.focus();
-                      });
+                      requestAnimationFrame(() => document.querySelector<HTMLAnchorElement>(".flyout a")?.focus());
                     }
                   }}
                 >
@@ -109,24 +104,22 @@ export function SiteHeader({ index }: { index: SearchEntry[] }) {
           </ul>
 
           <div className="gnav-actions">
+            <a href={switchHref} className="lang-switch" hrefLang={otherLang === "pt" ? "pt-BR" : "en"} lang={otherLang === "pt" ? "pt-BR" : "en"} aria-label={`${t.nav.language}: ${t.nav.switchTo}`}>
+              {otherLang.toUpperCase()}
+            </a>
             <button
               type="button"
               className="icon-btn"
-              aria-label="Search the encyclopedia"
+              aria-label={t.nav.search}
               onClick={() => {
                 setSearching(true);
-                closeAll();
+                setOpen(null);
+                setMobile(false);
               }}
             >
               <Search size={17} strokeWidth={1.8} />
             </button>
-            <button
-              type="button"
-              className="icon-btn gnav-menu-btn"
-              aria-label={mobile ? "Close menu" : "Open menu"}
-              aria-expanded={mobile}
-              onClick={() => setMobile((m) => !m)}
-            >
+            <button type="button" className="icon-btn gnav-menu-btn" aria-label={mobile ? t.nav.menuClose : t.nav.menuOpen} aria-expanded={mobile} onClick={() => setMobile((m) => !m)}>
               {mobile ? <X size={20} strokeWidth={1.8} /> : <Menu size={20} strokeWidth={1.8} />}
             </button>
           </div>
@@ -143,11 +136,11 @@ export function SiteHeader({ index }: { index: SearchEntry[] }) {
             >
               <div className="wrap-wide flyout-inner">
                 <div>
-                  <p className="flyout-col-title">Explore {active.label}</p>
+                  <p className="flyout-col-title">{active.label}</p>
                   <ul className="flyout-primary">
                     {active.explore.map((l) => (
                       <li key={l.href}>
-                        <Link href={l.href}>{l.label}</Link>
+                        <Link href={lp(lang, l.href)}>{l.label}</Link>
                       </li>
                     ))}
                   </ul>
@@ -160,7 +153,7 @@ export function SiteHeader({ index }: { index: SearchEntry[] }) {
                     <ul className="flyout-secondary">
                       {col.links.map((l) => (
                         <li key={l.href}>
-                          <Link href={l.href}>{l.label}</Link>
+                          <Link href={lp(lang, l.href)}>{l.label}</Link>
                         </li>
                       ))}
                     </ul>
@@ -174,7 +167,7 @@ export function SiteHeader({ index }: { index: SearchEntry[] }) {
       </header>
 
       {mobile && (
-        <div className="mnav" role="dialog" aria-modal="true" aria-label="Site menu">
+        <div className="mnav" role="dialog" aria-modal="true" aria-label={t.nav.explore}>
           <button
             type="button"
             className="field"
@@ -185,29 +178,21 @@ export function SiteHeader({ index }: { index: SearchEntry[] }) {
             }}
           >
             <Search size={16} />
-            <span style={{ fontSize: 16 }}>Search drivers, seasons, circuits…</span>
+            <span style={{ fontSize: 16 }}>{t.search.placeholder}</span>
           </button>
           <ul>
-            {NAV.map((s) => {
+            {nav.map((s) => {
               const expanded = mobileSection === s.id;
               return (
                 <li key={s.id} style={{ borderBottom: "1px solid var(--line-soft)" }}>
-                  <button
-                    type="button"
-                    className="mnav-link"
-                    aria-expanded={expanded}
-                    onClick={() => setMobileSection(expanded ? null : s.id)}
-                  >
+                  <button type="button" className="mnav-link" aria-expanded={expanded} onClick={() => setMobileSection(expanded ? null : s.id)}>
                     {s.label}
-                    <ChevronDown
-                      size={20}
-                      style={{ transition: "transform .25s", transform: expanded ? "rotate(180deg)" : "none", color: "var(--ink-3)" }}
-                    />
+                    <ChevronDown size={20} style={{ transition: "transform .25s", transform: expanded ? "rotate(180deg)" : "none", color: "var(--ink-3)" }} />
                   </button>
                   {expanded && (
                     <div className="mnav-sub">
                       {[...s.explore, ...s.columns.flatMap((c) => c.links)].map((l) => (
-                        <Link key={l.href + l.label} href={l.href}>
+                        <Link key={l.href + l.label} href={lp(lang, l.href)}>
                           {l.label}
                         </Link>
                       ))}
@@ -217,10 +202,15 @@ export function SiteHeader({ index }: { index: SearchEntry[] }) {
               );
             })}
           </ul>
+          <p className="mt-m">
+            <a href={switchHref} className="lang-switch">
+              {t.nav.switchTo}
+            </a>
+          </p>
         </div>
       )}
 
-      {searching && <SearchOverlay index={index} onClose={() => setSearching(false)} />}
+      {searching && <SearchOverlay lang={lang} t={t.search} onClose={() => setSearching(false)} />}
     </>
   );
 }

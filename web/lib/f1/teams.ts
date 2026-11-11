@@ -133,7 +133,7 @@ export const TEAMS: Team[] = [
       { year: "2021", title: "Eighth in a row", text: "A constructors' championship record." },
     ],
     drivers: ["juan-manuel-fangio", "stirling-moss", "michael-schumacher", "nico-rosberg", "lewis-hamilton", "george-russell"],
-    cars: ["mercedes-w196", "mercedes-w05"],
+    cars: ["mercedes-w196", "mercedes-f1-w05"],
   },
   {
     slug: "red-bull",
@@ -187,7 +187,7 @@ export const TEAMS: Team[] = [
       { year: "1978", title: "Lotus 79", text: "Ground effect wins both titles." },
     ],
     drivers: ["jim-clark", "graham-hill", "jochen-rindt", "emerson-fittipaldi", "mario-andretti", "ayrton-senna"],
-    cars: ["lotus-25", "lotus-49", "lotus-72", "lotus-79"],
+    cars: ["lotus-25", "lotus-49", "lotus-72c", "lotus-79"],
   },
   {
     slug: "brabham",
@@ -426,7 +426,7 @@ export const TEAMS: Team[] = [
       { year: "1950", title: "First champion", text: "Farina wins the inaugural title." },
       { year: "1951", title: "Fangio", text: "Second title, then withdrawal." },
     ],
-    drivers: ["giuseppe-farina", "juan-manuel-fangio"],
+    drivers: ["nino-farina", "juan-manuel-fangio"],
     cars: ["alfa-romeo-158"],
   },
   {

@@ -55,7 +55,7 @@ export const CARS: Car[] = [
     regulation: "1.5-litre supercharged / 4.5-litre unsupercharged",
     tone: "red",
     engine: "1.5-litre supercharged straight-eight, front-mounted",
-    drivers: ["giuseppe-farina", "juan-manuel-fangio"],
+    drivers: ["nino-farina", "juan-manuel-fangio"],
     headline: "A pre-war design that won the first two world championships.",
     intro: "Designed in the late 1930s, the 'Alfetta' was so far ahead when racing resumed after the war that it won the first two World Championships.",
     context: [
@@ -162,7 +162,7 @@ export const CARS: Car[] = [
     innovations: ["Engine as a stressed member", "Cosworth DFV", "Early use of wings"],
   },
   {
-    slug: "lotus-72",
+    slug: "lotus-72c",
     name: "Lotus 72",
     team: "Team Lotus",
     teamSlug: "lotus",
@@ -424,7 +424,7 @@ export const CARS: Car[] = [
     innovations: ["Double diffuser"],
   },
   {
-    slug: "mercedes-w05",
+    slug: "mercedes-f1-w05",
     name: "Mercedes F1 W05 Hybrid",
     team: "Mercedes",
     teamSlug: "mercedes",

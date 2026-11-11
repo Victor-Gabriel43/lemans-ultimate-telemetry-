@@ -3,14 +3,14 @@
 import Link from "next/link";
 import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import type { Era } from "@/lib/f1/eras";
+import { lp, type Lang } from "@/lib/i18n/config";
+import type { Tone } from "@/lib/f1/types";
 import { TONES } from "./tones";
 
-/**
- * Interactive history timeline: select an era on the track (click or arrow
- * keys) to preview it, then open the full chapter.
- */
-export function EraTimeline({ eras, dark = false }: { eras: Era[]; dark?: boolean }) {
+export type EraLite = { id: string; slug: string; decade: string; start: number; end: number; name: string; tagline: string; intro: string; themes: string[]; tone: Tone };
+
+/** Interactive history timeline: pick an era (click or arrow keys) to preview, then open the chapter. */
+export function EraTimeline({ eras, lang, labels }: { eras: EraLite[]; lang: Lang; labels: { read: string; seasons: string; prev: string; next: string; tablist: string } }) {
   const [i, setI] = useState(0);
   const era = eras[i];
   const go = (n: number) => setI((n + eras.length) % eras.length);
@@ -20,22 +20,14 @@ export function EraTimeline({ eras, dark = false }: { eras: Era[]; dark?: boolea
       <div
         className="tl-track"
         role="tablist"
-        aria-label="Formula 1 eras"
+        aria-label={labels.tablist}
         onKeyDown={(e) => {
           if (e.key === "ArrowRight") go(i + 1);
           if (e.key === "ArrowLeft") go(i - 1);
         }}
       >
         {eras.map((e, n) => (
-          <button
-            key={e.id}
-            type="button"
-            role="tab"
-            className="tl-seg"
-            aria-selected={n === i}
-            tabIndex={n === i ? 0 : -1}
-            onClick={() => setI(n)}
-          >
+          <button key={e.id} type="button" role="tab" className="tl-seg" aria-selected={n === i} tabIndex={n === i ? 0 : -1} onClick={() => setI(n)}>
             <span className="tl-seg-year">{e.decade}</span>
             <span className="tl-seg-name">{e.name}</span>
           </button>
@@ -52,26 +44,26 @@ export function EraTimeline({ eras, dark = false }: { eras: Era[]; dark?: boolea
           </div>
         </div>
         <div>
-          <p className={dark ? "kicker" : "kicker"}>{era.themes.join(" · ")}</p>
+          <p className="kicker">{era.themes.join(" · ")}</p>
           <h3 className="title-1 mt-xs balance">{era.name}</h3>
-          <p className={`mt-s ${dark ? "muted" : ""}`} style={{ fontSize: 19, lineHeight: 1.5 }}>
+          <p className="mt-s" style={{ fontSize: 19, lineHeight: 1.5 }}>
             {era.tagline}
           </p>
           <p className="mt-s muted pretty" style={{ fontSize: 15 }}>
             {era.intro}
           </p>
           <div className="flex-row mt-m">
-            <Link href={`/history/${era.slug}`} className="btn btn-primary btn-sm">
-              Read the {era.decade}
+            <Link href={lp(lang, `/history/${era.slug}`)} className="btn btn-primary btn-sm">
+              {labels.read.replace("{d}", era.decade)}
             </Link>
-            <Link href={`/seasons?decade=${era.start}`} className="btn btn-ghost btn-sm">
-              Seasons
+            <Link href={lp(lang, `/seasons?decade=${era.start}`)} className="btn btn-ghost btn-sm">
+              {labels.seasons}
             </Link>
             <span style={{ marginLeft: "auto", display: "flex", gap: 4 }}>
-              <button type="button" className="icon-btn" aria-label="Previous era" onClick={() => go(i - 1)} style={{ color: "inherit" }}>
+              <button type="button" className="icon-btn" aria-label={labels.prev} onClick={() => go(i - 1)} style={{ color: "inherit" }}>
                 <ChevronLeft size={20} />
               </button>
-              <button type="button" className="icon-btn" aria-label="Next era" onClick={() => go(i + 1)} style={{ color: "inherit" }}>
+              <button type="button" className="icon-btn" aria-label={labels.next} onClick={() => go(i + 1)} style={{ color: "inherit" }}>
                 <ChevronRight size={20} />
               </button>
             </span>

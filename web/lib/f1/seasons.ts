@@ -1,114 +1,9 @@
-import { eraForYear } from "./eras";
-
 /**
- * Season index 1950–2026.
- *
- * Champions are long-established public record and are included as an
- * editorial reference so the archive is navigable today. They are flagged in
- * the UI as "to be cross-checked" and will be reconciled against official
- * records in Phase 2, together with calendars, entries and results — which
- * are deliberately NOT authored here.
+ * Editorial season data that complements the F1DB snapshot:
+ * one-line headlines and the points systems used over time.
+ * Champions, calendars, results and standings come from data/f1 (F1DB).
  */
-
-export type SeasonChampions = {
-  driver: string; // driver display name
-  driverSlug?: string; // links to a profile when one exists
-  driverTeam: string; // team the champion drove for
-  constructor?: string; // constructors' champion (from 1958)
-  constructorSlug?: string;
-};
-
-export type Season = {
-  year: number;
-  champions?: SeasonChampions;
-  /** One-sentence editorial headline for the season, when we have one. */
-  headline?: string;
-  status: "complete" | "in-progress";
-};
-
-type Row = [number, string, string | undefined, string, string | undefined, string | undefined];
-
-// year, driver, driverSlug, driverTeam, constructor, constructorSlug
-const ROWS: Row[] = [
-  [1950, "Giuseppe Farina", "giuseppe-farina", "Alfa Romeo", undefined, undefined],
-  [1951, "Juan Manuel Fangio", "juan-manuel-fangio", "Alfa Romeo", undefined, undefined],
-  [1952, "Alberto Ascari", "alberto-ascari", "Ferrari", undefined, undefined],
-  [1953, "Alberto Ascari", "alberto-ascari", "Ferrari", undefined, undefined],
-  [1954, "Juan Manuel Fangio", "juan-manuel-fangio", "Maserati / Mercedes-Benz", undefined, undefined],
-  [1955, "Juan Manuel Fangio", "juan-manuel-fangio", "Mercedes-Benz", undefined, undefined],
-  [1956, "Juan Manuel Fangio", "juan-manuel-fangio", "Ferrari", undefined, undefined],
-  [1957, "Juan Manuel Fangio", "juan-manuel-fangio", "Maserati", undefined, undefined],
-  [1958, "Mike Hawthorn", "mike-hawthorn", "Ferrari", "Vanwall", "vanwall"],
-  [1959, "Jack Brabham", "jack-brabham", "Cooper", "Cooper", "cooper"],
-  [1960, "Jack Brabham", "jack-brabham", "Cooper", "Cooper", "cooper"],
-  [1961, "Phil Hill", "phil-hill", "Ferrari", "Ferrari", "ferrari"],
-  [1962, "Graham Hill", "graham-hill", "BRM", "BRM", "brm"],
-  [1963, "Jim Clark", "jim-clark", "Lotus", "Lotus", "lotus"],
-  [1964, "John Surtees", "john-surtees", "Ferrari", "Ferrari", "ferrari"],
-  [1965, "Jim Clark", "jim-clark", "Lotus", "Lotus", "lotus"],
-  [1966, "Jack Brabham", "jack-brabham", "Brabham", "Brabham", "brabham"],
-  [1967, "Denny Hulme", "denny-hulme", "Brabham", "Brabham", "brabham"],
-  [1968, "Graham Hill", "graham-hill", "Lotus", "Lotus", "lotus"],
-  [1969, "Jackie Stewart", "jackie-stewart", "Matra", "Matra", "matra"],
-  [1970, "Jochen Rindt", "jochen-rindt", "Lotus", "Lotus", "lotus"],
-  [1971, "Jackie Stewart", "jackie-stewart", "Tyrrell", "Tyrrell", "tyrrell"],
-  [1972, "Emerson Fittipaldi", "emerson-fittipaldi", "Lotus", "Lotus", "lotus"],
-  [1973, "Jackie Stewart", "jackie-stewart", "Tyrrell", "Lotus", "lotus"],
-  [1974, "Emerson Fittipaldi", "emerson-fittipaldi", "McLaren", "McLaren", "mclaren"],
-  [1975, "Niki Lauda", "niki-lauda", "Ferrari", "Ferrari", "ferrari"],
-  [1976, "James Hunt", "james-hunt", "McLaren", "Ferrari", "ferrari"],
-  [1977, "Niki Lauda", "niki-lauda", "Ferrari", "Ferrari", "ferrari"],
-  [1978, "Mario Andretti", "mario-andretti", "Lotus", "Lotus", "lotus"],
-  [1979, "Jody Scheckter", "jody-scheckter", "Ferrari", "Ferrari", "ferrari"],
-  [1980, "Alan Jones", "alan-jones", "Williams", "Williams", "williams"],
-  [1981, "Nelson Piquet", "nelson-piquet", "Brabham", "Williams", "williams"],
-  [1982, "Keke Rosberg", "keke-rosberg", "Williams", "Ferrari", "ferrari"],
-  [1983, "Nelson Piquet", "nelson-piquet", "Brabham", "Ferrari", "ferrari"],
-  [1984, "Niki Lauda", "niki-lauda", "McLaren", "McLaren", "mclaren"],
-  [1985, "Alain Prost", "alain-prost", "McLaren", "McLaren", "mclaren"],
-  [1986, "Alain Prost", "alain-prost", "McLaren", "Williams", "williams"],
-  [1987, "Nelson Piquet", "nelson-piquet", "Williams", "Williams", "williams"],
-  [1988, "Ayrton Senna", "ayrton-senna", "McLaren", "McLaren", "mclaren"],
-  [1989, "Alain Prost", "alain-prost", "McLaren", "McLaren", "mclaren"],
-  [1990, "Ayrton Senna", "ayrton-senna", "McLaren", "McLaren", "mclaren"],
-  [1991, "Ayrton Senna", "ayrton-senna", "McLaren", "McLaren", "mclaren"],
-  [1992, "Nigel Mansell", "nigel-mansell", "Williams", "Williams", "williams"],
-  [1993, "Alain Prost", "alain-prost", "Williams", "Williams", "williams"],
-  [1994, "Michael Schumacher", "michael-schumacher", "Benetton", "Williams", "williams"],
-  [1995, "Michael Schumacher", "michael-schumacher", "Benetton", "Benetton", "benetton"],
-  [1996, "Damon Hill", "damon-hill", "Williams", "Williams", "williams"],
-  [1997, "Jacques Villeneuve", "jacques-villeneuve", "Williams", "Williams", "williams"],
-  [1998, "Mika Häkkinen", "mika-hakkinen", "McLaren", "McLaren", "mclaren"],
-  [1999, "Mika Häkkinen", "mika-hakkinen", "McLaren", "Ferrari", "ferrari"],
-  [2000, "Michael Schumacher", "michael-schumacher", "Ferrari", "Ferrari", "ferrari"],
-  [2001, "Michael Schumacher", "michael-schumacher", "Ferrari", "Ferrari", "ferrari"],
-  [2002, "Michael Schumacher", "michael-schumacher", "Ferrari", "Ferrari", "ferrari"],
-  [2003, "Michael Schumacher", "michael-schumacher", "Ferrari", "Ferrari", "ferrari"],
-  [2004, "Michael Schumacher", "michael-schumacher", "Ferrari", "Ferrari", "ferrari"],
-  [2005, "Fernando Alonso", "fernando-alonso", "Renault", "Renault", "renault"],
-  [2006, "Fernando Alonso", "fernando-alonso", "Renault", "Renault", "renault"],
-  [2007, "Kimi Räikkönen", "kimi-raikkonen", "Ferrari", "Ferrari", "ferrari"],
-  [2008, "Lewis Hamilton", "lewis-hamilton", "McLaren", "Ferrari", "ferrari"],
-  [2009, "Jenson Button", "jenson-button", "Brawn", "Brawn", "brawn"],
-  [2010, "Sebastian Vettel", "sebastian-vettel", "Red Bull", "Red Bull", "red-bull"],
-  [2011, "Sebastian Vettel", "sebastian-vettel", "Red Bull", "Red Bull", "red-bull"],
-  [2012, "Sebastian Vettel", "sebastian-vettel", "Red Bull", "Red Bull", "red-bull"],
-  [2013, "Sebastian Vettel", "sebastian-vettel", "Red Bull", "Red Bull", "red-bull"],
-  [2014, "Lewis Hamilton", "lewis-hamilton", "Mercedes", "Mercedes", "mercedes"],
-  [2015, "Lewis Hamilton", "lewis-hamilton", "Mercedes", "Mercedes", "mercedes"],
-  [2016, "Nico Rosberg", "nico-rosberg", "Mercedes", "Mercedes", "mercedes"],
-  [2017, "Lewis Hamilton", "lewis-hamilton", "Mercedes", "Mercedes", "mercedes"],
-  [2018, "Lewis Hamilton", "lewis-hamilton", "Mercedes", "Mercedes", "mercedes"],
-  [2019, "Lewis Hamilton", "lewis-hamilton", "Mercedes", "Mercedes", "mercedes"],
-  [2020, "Lewis Hamilton", "lewis-hamilton", "Mercedes", "Mercedes", "mercedes"],
-  [2021, "Max Verstappen", "max-verstappen", "Red Bull", "Mercedes", "mercedes"],
-  [2022, "Max Verstappen", "max-verstappen", "Red Bull", "Red Bull", "red-bull"],
-  [2023, "Max Verstappen", "max-verstappen", "Red Bull", "Red Bull", "red-bull"],
-  [2024, "Max Verstappen", "max-verstappen", "Red Bull", "McLaren", "mclaren"],
-  [2025, "Lando Norris", "lando-norris", "McLaren", "McLaren", "mclaren"],
-];
-
-const HEADLINES: Record<number, string> = {
+export const HEADLINES: Record<number, string> = {
   1950: "The first World Championship season, opened at Silverstone and dominated by Alfa Romeo.",
   1952: "The first of two seasons run to Formula Two regulations; Ascari and Ferrari are untouchable.",
   1954: "A new 2.5-litre formula and the arrival of the Mercedes-Benz W196.",
@@ -157,50 +52,11 @@ const HEADLINES: Record<number, string> = {
   2026: "A new formula — active aerodynamics, new power units and an eleven-team grid.",
 };
 
-export const FIRST_YEAR = 1950;
-export const LAST_YEAR = 2026;
-
-export const SEASONS: Season[] = Array.from({ length: LAST_YEAR - FIRST_YEAR + 1 }, (_, i) => {
-  const year = FIRST_YEAR + i;
-  const row = ROWS.find((r) => r[0] === year);
-  return {
-    year,
-    status: row ? "complete" : "in-progress",
-    headline: HEADLINES[year],
-    champions: row
-      ? { driver: row[1], driverSlug: row[2], driverTeam: row[3], constructor: row[4], constructorSlug: row[5] }
-      : undefined,
-  };
-});
-
-export function getSeason(year: number) {
-  return SEASONS.find((s) => s.year === year);
-}
-
-export function seasonsInEra(eraId: string) {
-  return SEASONS.filter((s) => eraForYear(s.year).id === eraId);
-}
-
-/** Drivers' titles by driver slug, derived from the season index. */
-export function driverTitles(slug: string): number[] {
-  return SEASONS.filter((s) => s.champions?.driverSlug === slug).map((s) => s.year);
-}
-
-/** Constructors' titles by team slug, derived from the season index. */
-export function constructorTitles(slug: string): number[] {
-  return SEASONS.filter((s) => s.champions?.constructorSlug === slug).map((s) => s.year);
-}
-
-/** Seasons in which a driver from this team won the drivers' title. */
-export function teamDriverTitles(teamName: string): number[] {
-  return SEASONS.filter((s) => s.champions?.driverTeam.includes(teamName)).map((s) => s.year);
-}
 
 /* ---------------------------------------------------------------------------
- * Championship structure — points systems over time.
- * Simplified editorial summary. Dropped-score rules (where only a driver's
- * best results counted) applied in many seasons before 1991 and are noted
- * but not modelled; Phase 2 will add the exact per-season rules.
+ * Championship structure — points systems over time (editorial summary).
+ * Dropped-score rules applied in many seasons before 1991 and are noted but
+ * not modelled.
  * ------------------------------------------------------------------------- */
 export type PointsSystem = {
   from: number;
@@ -218,6 +74,3 @@ export const POINTS_SYSTEMS: PointsSystem[] = [
   { from: 2010, to: 2026, points: [25, 18, 15, 12, 10, 8, 6, 4, 2, 1], notes: ["Points extended to tenth place.", "2019–2024: one point for the fastest lap if the driver finished in the top ten.", "From 2021: sprint races award additional points (top eight from 2022)."] },
 ];
 
-export function pointsFor(year: number) {
-  return POINTS_SYSTEMS.find((p) => year >= p.from && year <= p.to);
-}

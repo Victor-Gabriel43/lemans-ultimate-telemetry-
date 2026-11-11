@@ -1,22 +1,22 @@
 import Link from "next/link";
-import Image from "next/image";
 import { ChevronRight, Info, Plus } from "lucide-react";
 import type { ReactNode } from "react";
-import { getMedia } from "@/lib/f1/media";
 import type { Tone } from "@/lib/f1/types";
+import { lp, type Lang } from "@/lib/i18n/config";
+import { fmt, getDict } from "@/lib/i18n/dict";
 import { TONES } from "./tones";
+
+export { TONES };
+
+export type PhotoProp = { src: string; credit: string; license: string; sourceUrl: string };
 
 /* ---------------------------------------------------------------------------
  * Plate — an editorial image slot.
- *
- * Renders a registered, licensed photograph when one exists for `mediaId`;
- * otherwise a designed typographic plate in the given tone. We never show an
- * unverified photo in place of the real subject.
+ * Shows a licensed photograph (with visible credit) when one is verified for
+ * the subject; otherwise a typographic plate. Never a substitute photo.
  * ------------------------------------------------------------------------- */
-export { TONES };
-
 export function Plate({
-  mediaId,
+  photo,
   alt,
   tone = "graphite",
   glyph,
@@ -27,8 +27,10 @@ export function Plate({
   flat = false,
   glyphSize,
   priority = false,
+  lang,
+  position = "center",
 }: {
-  mediaId?: string;
+  photo?: PhotoProp;
   alt: string;
   tone?: Tone;
   glyph?: ReactNode;
@@ -39,20 +41,35 @@ export function Plate({
   flat?: boolean;
   glyphSize?: "sm";
   priority?: boolean;
+  lang: Lang;
+  position?: string;
 }) {
-  const media = getMedia(mediaId);
+  const t = getDict(lang);
   return (
     <figure className={className}>
-      <div className={`plate ${ratio} ${flat ? "plate-flat" : ""}`} style={media ? undefined : { background: TONES[tone] }}>
-        {media ? (
+      <div className={`plate ${ratio} ${flat ? "plate-flat" : ""}`} style={photo ? undefined : { background: TONES[tone] }}>
+        {photo ? (
           <>
-            <Image src={media.src} alt={alt} fill sizes="(max-width: 768px) 100vw, 1200px" priority={priority} style={{ objectFit: "cover" }} />
-            <a className="plate-credit" href={media.sourceUrl} target="_blank" rel="noreferrer">
-              {media.credit} · {media.license}
+            {/* Remote Commons thumbnails: plain <img> keeps the original licence-bearing URL. */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={photo.src}
+              alt={alt}
+              loading={priority ? "eager" : "lazy"}
+              decoding="async"
+              style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: position }}
+            />
+            {tag && (
+              <span className="plate-tag" style={{ position: "absolute", top: 16, left: 16, color: "#fff" }}>
+                {tag}
+              </span>
+            )}
+            <a className="plate-credit" href={photo.sourceUrl} target="_blank" rel="noreferrer">
+              {fmt(t.common.photoCredit, { credit: photo.credit, license: photo.license })}
             </a>
           </>
         ) : (
-          <div className="plate-art" role="img" aria-label={`${alt} — illustration; licensed photograph to be added`}>
+          <div className="plate-art" role="img" aria-label={`${alt} — ${t.common.illustration}`}>
             {tag ? <span className="plate-tag">{tag}</span> : <span />}
             {glyph != null && <span className={`plate-glyph ${glyphSize === "sm" ? "plate-glyph-sm" : ""}`}>{glyph}</span>}
           </div>
@@ -68,16 +85,16 @@ export function Plate({
  * ------------------------------------------------------------------------- */
 export type Crumb = { label: string; href?: string };
 
-export function Breadcrumbs({ items, className = "" }: { items: Crumb[]; className?: string }) {
+export function Breadcrumbs({ items, lang, className = "" }: { items: Crumb[]; lang: Lang; className?: string }) {
   const all: Crumb[] = [{ label: "Paddock", href: "/" }, ...items];
   return (
-    <nav aria-label="Breadcrumb" className={className}>
+    <nav aria-label={getDict(lang).nav.breadcrumb} className={className}>
       <ol className="crumbs">
         {all.map((c, i) => {
           const last = i === all.length - 1;
           return (
             <li key={i} className="flex-row" style={{ gap: 6 }}>
-              {c.href && !last ? <Link href={c.href}>{c.label}</Link> : <span aria-current={last ? "page" : undefined}>{c.label}</span>}
+              {c.href && !last ? <Link href={lp(lang, c.href)}>{c.label}</Link> : <span aria-current={last ? "page" : undefined}>{c.label}</span>}
               {!last && <ChevronRight size={12} aria-hidden />}
             </li>
           );
@@ -90,28 +107,18 @@ export function Breadcrumbs({ items, className = "" }: { items: Crumb[]; classNa
 /* ---------------------------------------------------------------------------
  * Text helpers
  * ------------------------------------------------------------------------- */
-export function LinkArrow({ href, children, className = "" }: { href: string; children: ReactNode; className?: string }) {
+export function LinkArrow({ href, children, className = "", lang }: { href: string; children: ReactNode; className?: string; lang: Lang }) {
+  const external = /^https?:/.test(href);
+  const Comp = external ? "a" : Link;
   return (
-    <Link href={href} className={`link-arrow ${className}`}>
+    <Comp href={external ? href : lp(lang, href)} className={`link-arrow ${className}`} {...(external ? { target: "_blank", rel: "noreferrer" } : {})}>
       {children}
       <ChevronRight size={16} strokeWidth={2} aria-hidden />
-    </Link>
+    </Comp>
   );
 }
 
-export function SectionHead({
-  eyebrow,
-  title,
-  lede,
-  action,
-  center = false,
-}: {
-  eyebrow?: string;
-  title: ReactNode;
-  lede?: ReactNode;
-  action?: ReactNode;
-  center?: boolean;
-}) {
+export function SectionHead({ eyebrow, title, lede, action, center = false }: { eyebrow?: string; title: ReactNode; lede?: ReactNode; action?: ReactNode; center?: boolean }) {
   return (
     <div className={center ? "center" : "section-head"} style={center ? { marginBottom: "clamp(28px,4vw,56px)" } : undefined}>
       <div className={center ? "mx-auto" : ""} style={{ maxWidth: 760 }}>
@@ -124,9 +131,19 @@ export function SectionHead({
   );
 }
 
-/* ---------------------------------------------------------------------------
- * Disclosure — native <details>, works without JavaScript.
- * ------------------------------------------------------------------------- */
+/** Smaller section header for data blocks within a page. */
+export function BlockHead({ eyebrow, title, action }: { eyebrow?: string; title: ReactNode; action?: ReactNode }) {
+  return (
+    <div className="section-head" style={{ marginBottom: 24 }}>
+      <div>
+        {eyebrow && <p className="eyebrow-f1">{eyebrow}</p>}
+        <h2 className="title-1 balance">{title}</h2>
+      </div>
+      {action}
+    </div>
+  );
+}
+
 export function Disclosure({ title, children, open = false, id }: { title: ReactNode; children: ReactNode; open?: boolean; id?: string }) {
   return (
     <details className="disclosure" open={open} id={id}>
@@ -141,10 +158,7 @@ export function Disclosure({ title, children, open = false, id }: { title: React
   );
 }
 
-/* ---------------------------------------------------------------------------
- * Data notices — make the provenance of information explicit.
- * ------------------------------------------------------------------------- */
-export function DataNotice({ children, title = "About this data" }: { children: ReactNode; title?: string }) {
+export function DataNotice({ children, title }: { children: ReactNode; title: string }) {
   return (
     <aside className="notice" aria-label={title}>
       <Info size={18} aria-hidden />
@@ -155,19 +169,16 @@ export function DataNotice({ children, title = "About this data" }: { children: 
   );
 }
 
-export function Pending({ title, children }: { title: string; children: ReactNode }) {
+export function Pending({ title, children, badge }: { title: string; children: ReactNode; badge?: string }) {
   return (
     <div className="pending">
-      <span className="badge">Arrives in Phase 2</span>
+      {badge && <span className="badge">{badge}</span>}
       <p className="pending-title">{title}</p>
-      <p>{children}</p>
+      <div>{children}</div>
     </div>
   );
 }
 
-/* ---------------------------------------------------------------------------
- * Spec sheet
- * ------------------------------------------------------------------------- */
 export function Specs({ rows }: { rows: [string, ReactNode][] }) {
   return (
     <dl className="specs">
@@ -181,16 +192,13 @@ export function Specs({ rows }: { rows: [string, ReactNode][] }) {
   );
 }
 
-/* ---------------------------------------------------------------------------
- * Milestones (vertical timeline)
- * ------------------------------------------------------------------------- */
-export function Milestones({ items, linkYears = false }: { items: { year: string; title: string; text: string }[]; linkYears?: boolean }) {
+export function Milestones({ items, linkYears = false, lang }: { items: { year: string; title: string; text: string }[]; linkYears?: boolean; lang: Lang }) {
   return (
     <ol className="milestones">
       {items.map((m, i) => (
         <li key={i} className="milestone">
           <p className="milestone-year">
-            {linkYears && /^\d{4}$/.test(m.year) && +m.year >= 1950 ? <Link href={`/seasons/${m.year}`}>{m.year}</Link> : m.year}
+            {linkYears && /^\d{4}$/.test(m.year) && +m.year >= 1950 && +m.year <= 2026 ? <Link href={lp(lang, `/seasons/${m.year}`)}>{m.year}</Link> : m.year}
           </p>
           <p className="milestone-title">{m.title}</p>
           <p className="milestone-text">{m.text}</p>
@@ -200,9 +208,6 @@ export function Milestones({ items, linkYears = false }: { items: { year: string
   );
 }
 
-/* ---------------------------------------------------------------------------
- * Page hero for section index pages
- * ------------------------------------------------------------------------- */
 export function PageIntro({
   crumbs,
   eyebrow,
@@ -210,6 +215,7 @@ export function PageIntro({
   lede,
   tone = "tone-paper",
   children,
+  lang,
 }: {
   crumbs: Crumb[];
   eyebrow?: string;
@@ -217,15 +223,20 @@ export function PageIntro({
   lede?: ReactNode;
   tone?: string;
   children?: ReactNode;
+  lang: Lang;
 }) {
   return (
-    <section className={`${tone}`} style={{ paddingTop: 28, paddingBottom: "clamp(40px,6vw,72px)" }}>
+    <section className={tone} style={{ paddingTop: 28, paddingBottom: "clamp(40px,6vw,72px)" }}>
       <div className="wrap">
-        <Breadcrumbs items={crumbs} />
+        <Breadcrumbs items={crumbs} lang={lang} />
         <div style={{ marginTop: "clamp(36px,6vw,72px)", maxWidth: 860 }}>
           {eyebrow && <p className="eyebrow-f1 rise">{eyebrow}</p>}
           <h1 className="display balance rise rise-2">{title}</h1>
-          {lede && <p className="lede mt-m pretty rise rise-3" style={{ maxWidth: 720 }}>{lede}</p>}
+          {lede && (
+            <p className="lede mt-m pretty rise rise-3" style={{ maxWidth: 720 }}>
+              {lede}
+            </p>
+          )}
         </div>
         {children && <div className="mt-l">{children}</div>}
       </div>
@@ -239,5 +250,29 @@ export function Stat({ value, label }: { value: ReactNode; label: ReactNode }) {
       <p className="stat-value">{value}</p>
       <p className="stat-label">{label}</p>
     </div>
+  );
+}
+
+/** Visible data status badge. */
+export function StatusBadge({ status, lang, title }: { status: string; lang: Lang; title?: string }) {
+  const t = getDict(lang).status;
+  const map: Record<string, [string, string]> = {
+    "cross-checked": [t.crossChecked, "status-ok"],
+    verified: [t.verified, "status-ok"],
+    official: [t.official, "status-ok"],
+    provisional: [t.provisional, "status-warn"],
+    "in-progress": [t.inProgress, "status-warn"],
+    incomplete: [t.incomplete, "status-warn"],
+    disputed: [t.disputed, "status-bad"],
+    "single-source": [t.singleSource, "status-neutral"],
+    editorial: [t.editorial, "status-neutral"],
+    scheduled: [t.scheduled, "status-neutral"],
+    completed: [t.completed, "status-ok"],
+  };
+  const [label, cls] = map[status] ?? [status, "status-neutral"];
+  return (
+    <span className={`badge badge-dot ${cls}`} title={title}>
+      {label}
+    </span>
   );
 }

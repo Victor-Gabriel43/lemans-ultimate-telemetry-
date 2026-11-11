@@ -25,7 +25,7 @@ const T = (name: string, slug?: string) => ({ name, slug });
 
 export const DRIVERS: Driver[] = [
   {
-    slug: "giuseppe-farina",
+    slug: "nino-farina",
     name: "Giuseppe Farina",
     firstName: "Giuseppe",
     lastName: "Farina",

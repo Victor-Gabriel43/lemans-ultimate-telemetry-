@@ -18,6 +18,8 @@ export type Era = {
   cars: string[]; // car slugs
   /** Short phrases that define the decade — used on cards. */
   themes: string[];
+  rivalries: { title: string; text: string }[];
+  regulationChanges: Milestone[];
 };
 
 export const ERAS: Era[] = [
@@ -52,9 +54,20 @@ export const ERAS: Era[] = [
       { year: "1958", title: "A championship for constructors", text: "The International Cup for F1 Manufacturers is introduced. Vanwall wins it; Mike Hawthorn becomes Britain's first world champion with Ferrari." },
       { year: "1959", title: "The rear-engined revolution", text: "Jack Brabham and Cooper win both championships with a mid-engined car, signalling the end of the front-engined era." },
     ],
-    drivers: ["giuseppe-farina", "juan-manuel-fangio", "alberto-ascari", "stirling-moss", "mike-hawthorn", "jack-brabham"],
+    drivers: ["nino-farina", "juan-manuel-fangio", "alberto-ascari", "stirling-moss", "mike-hawthorn", "jack-brabham"],
     teams: ["alfa-romeo", "ferrari", "maserati", "mercedes", "vanwall", "cooper"],
     cars: ["alfa-romeo-158", "mercedes-w196", "cooper-t51"],
+    rivalries: [
+      { title: "Fangio and Moss", text: "Team-mates at Mercedes-Benz in 1955 and rivals for the rest of the decade. Moss finished runner-up to Fangio three times." },
+      { title: "Hawthorn and Moss, 1958", text: "Two British drivers decided the title by a single point at the final race in Morocco; Moss's defence of Hawthorn earlier that year is remembered as an act of sportsmanship." },
+      { title: "Italy against Germany", text: "Alfa Romeo, Ferrari and Maserati faced the returning Mercedes-Benz in 1954 and 1955 — the first great battle of manufacturers." },
+    ],
+    regulationChanges: [
+      { year: "1950", title: "1.5 supercharged or 4.5 unsupercharged", text: "The first World Championship formula allowed either engine type." },
+      { year: "1952", title: "Formula Two rules", text: "With too few competitive Formula One cars, the championship ran to 2.0-litre Formula Two rules for two seasons." },
+      { year: "1954", title: "2.5-litre formula", text: "A new engine formula of 2.5 litres unsupercharged (or 750 cc supercharged) began." },
+      { year: "1958", title: "Commercial fuel and a constructors' cup", text: "Alcohol-based fuels gave way to aviation petrol, race distances were shortened, and a championship for manufacturers was introduced." },
+    ],
   },
   {
     id: "1960s",
@@ -90,6 +103,16 @@ export const ERAS: Era[] = [
     drivers: ["jim-clark", "graham-hill", "john-surtees", "jack-brabham", "denny-hulme", "jackie-stewart", "phil-hill"],
     teams: ["lotus", "cooper", "brm", "brabham", "ferrari", "matra"],
     cars: ["lotus-25", "lotus-49"],
+    rivalries: [
+      { title: "Clark and Graham Hill", text: "Lotus against BRM in 1962 — a title decided at the final race in South Africa — and team-mates at Lotus in 1967 and 1968." },
+      { title: "Brabham and Hulme, 1967", text: "The team owner and his own driver fought for the championship; Hulme won it." },
+      { title: "The garagistes against Ferrari", text: "Small British specialist teams challenged Ferrari's in-house engineering throughout the decade." },
+    ],
+    regulationChanges: [
+      { year: "1961", title: "1.5-litre engines", text: "Engine capacity was halved and roll-over protection was required for the first time." },
+      { year: "1966", title: "3-litre engines", text: "The 'return to power' formula: 3.0 litres unsupercharged or 1.5 litres supercharged." },
+      { year: "1969", title: "High wings restricted", text: "After failures of tall, suspension-mounted wings, the governing body restricted their height and mounting during the season." },
+    ],
   },
   {
     id: "1970s",
@@ -123,7 +146,17 @@ export const ERAS: Era[] = [
     ],
     drivers: ["jochen-rindt", "jackie-stewart", "emerson-fittipaldi", "niki-lauda", "james-hunt", "mario-andretti", "jody-scheckter"],
     teams: ["lotus", "tyrrell", "ferrari", "mclaren", "brabham", "renault"],
-    cars: ["lotus-72", "ferrari-312t", "tyrrell-p34", "lotus-79", "brabham-bt46b", "renault-rs01"],
+    cars: ["lotus-72c", "ferrari-312t", "tyrrell-p34", "lotus-79", "brabham-bt46b", "renault-rs01"],
+    rivalries: [
+      { title: "Lauda and Hunt, 1976", text: "Ferrari against McLaren in a season of crash, comeback and a title decided by one point in the rain at Fuji." },
+      { title: "Stewart and the field", text: "Jackie Stewart's titles of 1971 and 1973 came against Fittipaldi, Peterson and Cevert in a fiercely competitive era." },
+      { title: "Andretti and Peterson, 1978", text: "Team-mates in the dominant Lotus 79; the season ended in tragedy with Peterson's death at Monza." },
+    ],
+    regulationChanges: [
+      { year: "1973", title: "Deformable structures", text: "Crushable structures around the fuel tanks were required to reduce the risk of fire after impacts." },
+      { year: "1976", title: "Tall airboxes banned", text: "Tall engine air intakes above the driver's head were outlawed early in the season." },
+      { year: "1978", title: "The fan car withdrawn", text: "Brabham's fan-assisted BT46B raced once before being withdrawn amid controversy." },
+    ],
   },
   {
     id: "1980s",
@@ -158,6 +191,17 @@ export const ERAS: Era[] = [
     drivers: ["nelson-piquet", "alain-prost", "ayrton-senna", "niki-lauda", "keke-rosberg", "nigel-mansell", "gilles-villeneuve", "alan-jones"],
     teams: ["mclaren", "williams", "brabham", "ferrari", "lotus", "renault"],
     cars: ["mclaren-mp4-1", "mclaren-mp4-4"],
+    rivalries: [
+      { title: "Prost and Senna", text: "Team-mates at McLaren in 1988 and 1989. Their duel peaked with the collision at Suzuka in 1989 and continued into the 1990s." },
+      { title: "Piquet and Mansell", text: "Williams-Honda team-mates in 1986 and 1987 whose rivalry let Prost steal the 1986 title." },
+      { title: "FISA against FOCA", text: "The battle between the governing body and the teams' association over power and money shaped the start of the decade." },
+    ],
+    regulationChanges: [
+      { year: "1981", title: "Sliding skirts banned", text: "A minimum ground clearance was imposed to limit ground effect; teams fought to circumvent it." },
+      { year: "1983", title: "Flat bottoms", text: "Flat undersides between the wheels became mandatory, ending the ground-effect era." },
+      { year: "1984", title: "Refuelling banned and fuel limited", text: "In-race refuelling was prohibited and a fuel allowance per race introduced, then reduced in later years." },
+      { year: "1989", title: "Turbos banned", text: "After two years of restricted boost, only 3.5-litre naturally aspirated engines were allowed." },
+    ],
   },
   {
     id: "1990s",
@@ -192,6 +236,17 @@ export const ERAS: Era[] = [
     drivers: ["ayrton-senna", "alain-prost", "nigel-mansell", "michael-schumacher", "damon-hill", "jacques-villeneuve", "mika-hakkinen"],
     teams: ["williams", "mclaren", "benetton", "ferrari"],
     cars: ["williams-fw14b"],
+    rivalries: [
+      { title: "Senna and Prost, continued", text: "Rivals at McLaren and Ferrari, they collided again at Suzuka in 1990, with the championship at stake." },
+      { title: "Schumacher and Damon Hill", text: "Their collision in Adelaide decided the 1994 title; they fought again in 1995." },
+      { title: "Schumacher and Villeneuve, 1997", text: "A final-race collision at Jerez; Schumacher was excluded from the championship classification for causing it." },
+      { title: "Häkkinen and Schumacher", text: "McLaren against Ferrari from 1998, a rivalry built on mutual respect." },
+    ],
+    regulationChanges: [
+      { year: "1994", title: "Electronic aids banned, refuelling returns", text: "Active suspension and traction control were prohibited; after Imola, a wooden plank under the car and other safety measures followed during the season." },
+      { year: "1995", title: "3.0-litre engines", text: "Engine capacity was cut as part of the post-Imola safety package." },
+      { year: "1998", title: "Narrow cars and grooved tyres", text: "Cars became narrower and tyres carried grooves, both to reduce cornering speeds." },
+    ],
   },
   {
     id: "2000s",
@@ -226,6 +281,19 @@ export const ERAS: Era[] = [
     drivers: ["michael-schumacher", "fernando-alonso", "kimi-raikkonen", "lewis-hamilton", "jenson-button"],
     teams: ["ferrari", "renault", "mclaren", "brawn", "williams"],
     cars: ["ferrari-f2004", "brawn-bgp-001"],
+    rivalries: [
+      { title: "Schumacher and Häkkinen, 2000", text: "The decisive duel that returned the drivers' title to Ferrari." },
+      { title: "Alonso and Schumacher, 2006", text: "The young champion against the seven-time champion in Schumacher's last season before his first retirement." },
+      { title: "Hamilton and Alonso, 2007", text: "Team-mates at McLaren in a turbulent season; both lost the title to Räikkönen by a single point." },
+      { title: "Hamilton and Massa, 2008", text: "A title decided in the final corners at Interlagos." },
+    ],
+    regulationChanges: [
+      { year: "2003", title: "New points and one-lap qualifying", text: "Points extended to eighth place; qualifying became a single flying lap per driver." },
+      { year: "2005", title: "No tyre changes", text: "A single set of tyres had to last the whole race, unless damaged." },
+      { year: "2006", title: "V8 engines and knockout qualifying", text: "2.4-litre V8s replaced the V10s and three-part knockout qualifying arrived." },
+      { year: "2008", title: "Standard electronics", text: "A standard engine control unit was introduced and traction control banned." },
+      { year: "2009", title: "Slicks, KERS and new aerodynamics", text: "A major rewrite aimed at closer racing." },
+    ],
   },
   {
     id: "2010s",
@@ -259,7 +327,19 @@ export const ERAS: Era[] = [
     ],
     drivers: ["sebastian-vettel", "lewis-hamilton", "nico-rosberg", "fernando-alonso", "max-verstappen"],
     teams: ["red-bull", "mercedes", "ferrari", "mclaren"],
-    cars: ["mercedes-w05"],
+    cars: ["mercedes-f1-w05"],
+    rivalries: [
+      { title: "Vettel and Alonso", text: "Red Bull against Ferrari, with titles decided at the final race in 2010 and 2012." },
+      { title: "Hamilton and Rosberg", text: "Mercedes team-mates and childhood friends whose rivalry decided three titles from 2014 to 2016." },
+      { title: "Hamilton and Vettel", text: "Mercedes against Ferrari in 2017 and 2018 — four-time champions fighting for a fifth title." },
+    ],
+    regulationChanges: [
+      { year: "2010", title: "Refuelling banned, 25-point scale", text: "Cars started with all their fuel, and points were extended to tenth place." },
+      { year: "2011", title: "DRS and Pirelli", text: "The Drag Reduction System and a new single tyre supplier." },
+      { year: "2014", title: "Turbo-hybrid power units", text: "1.6-litre V6 turbo engines with two energy-recovery systems; fuel flow and fuel per race limited." },
+      { year: "2017", title: "Wider cars", text: "Wider bodywork and tyres made cars substantially faster." },
+      { year: "2018", title: "The halo", text: "Cockpit protection made mandatory." },
+    ],
   },
   {
     id: "2020s",
@@ -294,6 +374,17 @@ export const ERAS: Era[] = [
     drivers: ["max-verstappen", "lewis-hamilton", "lando-norris", "charles-leclerc", "oscar-piastri", "george-russell"],
     teams: ["red-bull", "mercedes", "mclaren", "ferrari", "aston-martin", "audi", "cadillac"],
     cars: ["red-bull-rb19"],
+    rivalries: [
+      { title: "Hamilton and Verstappen, 2021", text: "A season-long duel between Mercedes and Red Bull, decided on the final lap in Abu Dhabi." },
+      { title: "Verstappen and Norris", text: "Red Bull against a resurgent McLaren in 2024 and 2025." },
+      { title: "Norris and Piastri", text: "McLaren team-mates who fought each other for the 2025 title." },
+    ],
+    regulationChanges: [
+      { year: "2021", title: "Cost cap and sprints", text: "Financial Regulations limited team spending; sprint races were introduced at selected events." },
+      { year: "2022", title: "Ground effect returns", text: "Venturi-tunnel floors, simplified wings and 18-inch wheels." },
+      { year: "2025", title: "No fastest-lap point", text: "The bonus point for the fastest lap was removed." },
+      { year: "2026", title: "A new formula", text: "Active aerodynamics, new power units with a larger electrical share and no MGU-H, and fully sustainable fuel." },
+    ],
   },
 ];
 

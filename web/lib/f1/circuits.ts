@@ -196,7 +196,7 @@ export const CIRCUITS: Circuit[] = [
     landmarks: ["Tarzanbocht", "Hugenholtzbocht", "Scheivlak", "Arie Luyendykbocht"],
   },
   {
-    slug: "red-bull-ring",
+    slug: "spielberg",
     name: "Red Bull Ring",
     shortName: "Red Bull Ring",
     location: "Spielberg, Styria",
@@ -239,7 +239,7 @@ export const CIRCUITS: Circuit[] = [
     landmarks: ["Turn 1", "Turn 4"],
   },
   {
-    slug: "barcelona",
+    slug: "catalunya",
     name: "Circuit de Barcelona-Catalunya",
     shortName: "Barcelona",
     location: "Montmeló, Catalonia",
@@ -322,7 +322,7 @@ export const CIRCUITS: Circuit[] = [
     landmarks: ["Foro Sol stadium", "Peraltada"],
   },
   {
-    slug: "cota",
+    slug: "austin",
     name: "Circuit of the Americas",
     shortName: "Austin",
     location: "Austin, Texas",
@@ -404,7 +404,7 @@ export const CIRCUITS: Circuit[] = [
     landmarks: ["S Curves", "Degner", "Spoon", "130R", "Casio Triangle"],
   },
   {
-    slug: "singapore",
+    slug: "marina-bay",
     name: "Marina Bay Street Circuit",
     shortName: "Singapore",
     location: "Marina Bay",
@@ -533,7 +533,7 @@ export const CIRCUITS: Circuit[] = [
     landmarks: ["Hotel section", "Marina"],
   },
   {
-    slug: "albert-park",
+    slug: "melbourne",
     name: "Albert Park Circuit",
     shortName: "Melbourne",
     location: "Melbourne, Victoria",

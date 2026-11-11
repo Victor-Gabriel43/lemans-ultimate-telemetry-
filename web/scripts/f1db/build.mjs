@@ -55,6 +55,7 @@ const engineMfrs = readDir("engine-manufacturers");
 const tyres = readDir("tyre-manufacturers");
 const circuits = readDir("circuits");
 const grandsPrix = readDir("grands-prix");
+const entrantNames = Object.fromEntries(readDir("entrants").map((e) => [e.id, e.name]));
 
 /* ------------------------------------------------------------------ seasons */
 const years = fs
@@ -500,6 +501,7 @@ const index = {
   tyres: tyres.map((t) => ({ id: t.id, name: t.name })),
   circuits: circuitIndex,
   grandsPrix: gpIndex,
+  entrants: entrantNames,
 };
 fs.writeFileSync(path.join(OUT, "index.json"), JSON.stringify(index));
 
