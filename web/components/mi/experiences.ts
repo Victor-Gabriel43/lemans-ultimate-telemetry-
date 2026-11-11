@@ -4,6 +4,7 @@
  */
 export type Experience = {
   id: string;
+  href: string;
   n: string;
   short: string;
   title: string;
@@ -16,6 +17,7 @@ export type Experience = {
 export const EXPERIENCES: Experience[] = [
   {
     id: "racing-intelligence",
+    href: "/racing",
     n: "01",
     short: "Racing",
     title: "Racing",
@@ -26,6 +28,7 @@ export const EXPERIENCES: Experience[] = [
   },
   {
     id: "circuit-explorer",
+    href: "/circuits",
     n: "02",
     short: "Circuits",
     title: "Circuit",
@@ -36,6 +39,7 @@ export const EXPERIENCES: Experience[] = [
   },
   {
     id: "cinematic-editorial",
+    href: "/editorial",
     n: "03",
     short: "Editorial",
     title: "Cinematic",
@@ -46,6 +50,7 @@ export const EXPERIENCES: Experience[] = [
   },
   {
     id: "driver-intelligence",
+    href: "/drivers",
     n: "04",
     short: "Drivers",
     title: "Driver",
@@ -54,4 +59,10 @@ export const EXPERIENCES: Experience[] = [
     tone: "steel",
     tags: ["Profiles", "Rhythm", "Consistency"],
   },
+];
+
+/** Primary navigation: the four experiences + the season calendar. */
+export const NAV = [
+  ...EXPERIENCES.map((x) => ({ href: x.href, n: x.n, label: x.short })),
+  { href: "/calendar", n: "05", label: "Calendar" },
 ];

@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { EXPERIENCES } from "./experiences";
 import { ExperienceArt } from "./ExperienceArt";
@@ -103,7 +104,18 @@ export function Experiences() {
                     {t}
                   </span>
                 ))}
-                <span className="mi-label ml-2 text-text-dim">Coming soon</span>
+              </Reveal>
+              <Reveal delay={0.28}>
+                <Link
+                  href={x.href}
+                  className="group inline-flex items-center gap-3 rounded-full border border-border-strong py-2 pl-5 pr-2 text-sm transition-colors hover:border-brand hover:bg-brand hover:text-brand-fg"
+                >
+                  <span className="mi-roll">
+                    <span>Explore {x.title.toLowerCase()} {x.serif.toLowerCase()}</span>
+                    <span>Open →</span>
+                  </span>
+                  <span className="flex h-8 w-8 items-center justify-center rounded-full bg-brand text-brand-fg transition-transform group-hover:rotate-45">↗</span>
+                </Link>
               </Reveal>
             </article>
           ))}

@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Wordmark } from "./Brand";
-import { EXPERIENCES } from "./experiences";
+import { usePathname } from "next/navigation";
+import { NAV } from "./experiences";
 
 /**
  * Floating capsule navigation. Hides on scroll-down, returns on scroll-up,
@@ -13,6 +14,7 @@ export function SiteNav() {
   const [hidden, setHidden] = useState(false);
   const [compact, setCompact] = useState(false);
   const [open, setOpen] = useState(false);
+  const path = usePathname();
 
   useEffect(() => {
     let last = window.scrollY;
@@ -54,26 +56,33 @@ export function SiteNav() {
           </Link>
 
           <ul className="hidden items-center gap-7 lg:flex">
-            {EXPERIENCES.map((x) => (
-              <li key={x.id}>
-                <a href={`#${x.id}`} className="mi-link group flex items-baseline gap-1.5 text-[0.82rem] text-text/80 transition-colors hover:text-text">
-                  <span className="font-mono text-[0.6rem] text-text-dim transition-colors group-hover:text-brand">{x.n}</span>
-                  {x.short}
-                </a>
-              </li>
-            ))}
+            {NAV.map((x) => {
+              const active = path.startsWith(x.href);
+              return (
+                <li key={x.href}>
+                  <Link
+                    href={x.href}
+                    aria-current={active ? "page" : undefined}
+                    className={`mi-link group flex items-baseline gap-1.5 text-[0.82rem] transition-colors hover:text-text ${active ? "text-text" : "text-text/75"}`}
+                  >
+                    <span className={`font-mono text-[0.6rem] transition-colors group-hover:text-brand ${active ? "text-brand" : "text-text-dim"}`}>{x.n}</span>
+                    {x.label}
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
 
           <div className="flex items-center gap-2">
-            <a
-              href="#race-room"
+            <Link
+              href="/#race-room"
               className="group hidden items-center gap-2 rounded-full bg-brand px-4 py-2 text-[0.8rem] font-semibold text-brand-fg sm:flex"
             >
               <span className="mi-roll">
                 <span>Race Room</span>
                 <span>Enter →</span>
               </span>
-            </a>
+            </Link>
             <button
               type="button"
               onClick={() => setOpen((v) => !v)}
@@ -98,29 +107,29 @@ export function SiteNav() {
         aria-hidden={!open}
       >
         <ul className="flex flex-col">
-          {EXPERIENCES.map((x, i) => (
-            <li key={x.id} className="border-t border-border">
-              <a
-                href={`#${x.id}`}
+          {NAV.map((x, i) => (
+            <li key={x.href} className="border-t border-border">
+              <Link
+                href={x.href}
                 tabIndex={open ? 0 : -1}
                 onClick={() => setOpen(false)}
                 className="flex items-baseline justify-between py-4"
                 style={{ transitionDelay: `${0.1 + i * 0.05}s` }}
               >
-                <span className="mi-display text-[clamp(1.8rem,9vw,3rem)]">{x.short}</span>
+                <span className="mi-display text-[clamp(1.8rem,9vw,3rem)]">{x.label}</span>
                 <span className="font-mono text-xs text-brand">{x.n}</span>
-              </a>
+              </Link>
             </li>
           ))}
         </ul>
-        <a
-          href="#race-room"
+        <Link
+          href="/#race-room"
           tabIndex={open ? 0 : -1}
           onClick={() => setOpen(false)}
           className="mt-6 flex items-center justify-between rounded-full bg-brand px-6 py-4 font-semibold text-brand-fg"
         >
           Race Room <span aria-hidden>→</span>
-        </a>
+        </Link>
       </div>
     </>
   );

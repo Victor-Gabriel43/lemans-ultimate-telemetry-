@@ -57,7 +57,7 @@ export function Hero() {
           <ul className="hidden gap-8 md:flex">
             {EXPERIENCES.map((x) => (
               <li key={x.id}>
-                <a href={`#${x.id}`} className="mi-label flex gap-2 text-text-dim transition-colors hover:text-text">
+                <a href={x.href} className="mi-label flex gap-2 text-text-dim transition-colors hover:text-text">
                   <span className="text-brand">{x.n}</span>
                   {x.title} {x.serif}
                 </a>

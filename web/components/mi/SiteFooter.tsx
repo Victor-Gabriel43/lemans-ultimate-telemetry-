@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Mark } from "./Brand";
 import { EXPERIENCES } from "./experiences";
 
@@ -17,9 +18,9 @@ export function SiteFooter() {
             <ul className="mt-5 flex flex-col gap-3">
               {EXPERIENCES.map((x) => (
                 <li key={x.id}>
-                  <a href={`#${x.id}`} className="mi-link text-text-muted transition-colors hover:text-text">
+                  <Link href={x.href} className="mi-link text-text-muted transition-colors hover:text-text">
                     {x.title} {x.serif}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -28,13 +29,18 @@ export function SiteFooter() {
             <span className="mi-label text-text-dim">Tools</span>
             <ul className="mt-5 flex flex-col gap-3">
               <li>
-                <a href="#race-room" className="mi-link text-text-muted transition-colors hover:text-text">Race Room</a>
+                <Link href="/calendar" className="mi-link text-text-muted transition-colors hover:text-text">World Calendar</Link>
+              </li>
+              <li>
+                <Link href="/#race-room" className="mi-link text-text-muted transition-colors hover:text-text">Race Room</Link>
               </li>
             </ul>
           </div>
         </div>
-        <div className="flex items-center justify-between py-6">
-          <span className="mi-label text-text-dim">© 2026 Motorsport Intelligence</span>
+        <div className="flex items-center justify-between gap-6 py-6">
+          <span className="mi-label text-text-dim">
+            © 2026 Motorsport Intelligence · Data: Jolpica F1 API, Wikipedia (CC BY-SA), OpenStreetMap (ODbL), bacinger/f1-circuits (MIT). Not affiliated with Formula 1.
+          </span>
           <a href="#" className="mi-label text-text-dim transition-colors hover:text-brand">Back to top ↑</a>
         </div>
       </div>
