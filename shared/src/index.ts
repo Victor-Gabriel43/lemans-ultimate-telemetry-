@@ -239,6 +239,10 @@ export interface ClientToServerEvents {
   "schedule:remove": (payload: { roomId: string; rowId: string }) => void;
   "schedule:reorder": (payload: { roomId: string; rowId: string; direction: "up" | "down"; updatedBy: string }) => void;
 
+  "driver:add": (payload: { roomId: string; name: string }) => void;
+  "driver:update": (payload: { roomId: string; driverId: string; patch: Partial<Pick<Driver, "name" | "colorHex">> }) => void;
+  "driver:remove": (payload: { roomId: string; driverId: string }) => void;
+
   "fuel:log": (payload: Omit<FuelEntry, "id" | "roomId" | "createdAt"> & { roomId: string }) => void;
   "tire:newStint": (payload: Omit<TireEntry, "id" | "roomId" | "createdAt" | "ageLaps"> & { roomId: string }) => void;
   "damage:log": (payload: Omit<DamageEntry, "id" | "roomId" | "createdAt" | "repairedAt"> & { roomId: string }) => void;
@@ -266,6 +270,7 @@ export interface ServerToClientEvents {
   "room:state": (snapshot: RoomSnapshot) => void;
   "presence:update": (connectedUsers: ConnectedUser[]) => void;
   "schedule:changed": (scheduleRows: ScheduleRow[]) => void;
+  "driver:changed": (drivers: Driver[]) => void;
   "fuel:changed": (fuelLog: FuelEntry[]) => void;
   "tire:changed": (tireLog: TireEntry[]) => void;
   "damage:changed": (damageLog: DamageEntry[]) => void;
