@@ -13,21 +13,33 @@
  * componentes — o que muda aqui são os VALORES e a tipografia.
  */
 :root {
-  --bg: #0a0a0b; /* quase preto — fundo da aplicação */
-  --surface: #121316; /* grafite — painéis */
-  --surface-raised: #191a1e; /* cinza escuro — linhas em hover, campos */
-  --border-c: #26272c; /* divisores finos */
-  --border-strong: #3a3c44; /* borda de destaque / foco de célula */
-  --text: #f4f4f5; /* off-white — texto principal */
-  --text-muted: #8b8d95; /* labels, timestamps */
-  --text-dim: #5b5d66; /* texto terciário, placeholders */
+  /* Motorsport Intelligence — core palette. Token NAMES are stable so the
+     Race Room components keep working; values define the new identity. */
+  --bg: #0b0c0e; /* near-black */
+  --surface: #15171b; /* dark surface */
+  --surface-raised: #1d2025;
+  --border-c: #26292f;
+  --border-strong: #3a3e46;
+  --text: #f5f5f0; /* off-white */
+  --text-muted: #8e9097;
+  --text-dim: #5c5f66;
 
-  --brand: #2e9bff; /* azul — ações primárias, foco, "ao vivo" */
-  --brand-fg: #05070a;
+  --brand: #d2ff00; /* electric lime — restrained accent */
+  --brand-fg: #0b0c0e;
 
-  --status-ok: #30d158; /* verde — só uso semântico (tudo certo) */
-  --status-warning: #ff9f0a; /* âmbar — atenção */
-  --status-critical: #ff4032; /* vermelho — crítico */
+  --status-ok: #30d158;
+  --status-warning: #ff9f0a;
+  --status-critical: #ff4032;
+
+  /* Light "paper" sections */
+  --paper: #f5f5f0;
+  --paper-2: #ebeae3;
+  --paper-line: #d8d7cf;
+  --ink: #0b0c0e;
+  --ink-muted: #6a6b66;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-io: cubic-bezier(0.65, 0, 0.35, 1);
 }
 
 @theme inline {
@@ -44,7 +56,13 @@
   --color-status-ok: var(--status-ok);
   --color-status-warning: var(--status-warning);
   --color-status-critical: var(--status-critical);
-  --font-sans: var(--font-plex-sans);
+  --color-paper: var(--paper);
+  --color-paper-2: var(--paper-2);
+  --color-paper-line: var(--paper-line);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --font-sans: var(--font-archivo);
+  --font-serif: var(--font-instrument);
   --font-mono: var(--font-plex-mono);
 }
 
@@ -304,4 +322,237 @@ body {
 * {
   scrollbar-width: thin;
   scrollbar-color: var(--border-strong) transparent;
+}
+
+/* ===========================================================================
+ * MOTORSPORT INTELLIGENCE — visual foundation
+ * Type roles · reveal system · route transition · signature details.
+ * ========================================================================= */
+html {
+  scroll-behavior: smooth;
+}
+::selection {
+  background: var(--brand);
+  color: var(--brand-fg);
+}
+
+/* --- Type roles ---------------------------------------------------------- */
+.mi-display {
+  font-family: var(--font-archivo), system-ui, sans-serif;
+  font-weight: 800;
+  font-stretch: 125%;
+  font-variation-settings: "wdth" 125;
+  letter-spacing: -0.045em;
+  line-height: 0.86;
+  text-transform: uppercase;
+}
+.mi-condensed {
+  font-family: var(--font-archivo), system-ui, sans-serif;
+  font-stretch: 70%;
+  font-variation-settings: "wdth" 70;
+  text-transform: uppercase;
+}
+.mi-serif {
+  font-family: var(--font-instrument), Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  text-transform: none;
+}
+.mi-label {
+  font-family: var(--font-plex-mono), ui-monospace, monospace;
+  font-size: 0.6875rem;
+  line-height: 1;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.mi-outline {
+  color: transparent;
+  -webkit-text-stroke: 1px var(--stroke, rgba(245, 245, 240, 0.45));
+}
+
+/* --- Reveal system ------------------------------------------------------- */
+/* [data-reveal] elements are hidden until <Reveal>/useReveal adds .is-in.  */
+[data-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 28px, 0);
+  transition:
+    opacity 0.9s var(--ease-out),
+    transform 1.1s var(--ease-out);
+  transition-delay: var(--d, 0s);
+}
+[data-reveal].is-in {
+  opacity: 1;
+  transform: none;
+}
+/* Line mask: text slides up from behind a clipping edge. */
+.mi-line {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.06em;
+  margin-bottom: -0.06em;
+}
+.mi-line > span {
+  display: block;
+  transform: translate3d(0, 105%, 0);
+  transition: transform 1.15s var(--ease-out);
+  transition-delay: var(--d, 0s);
+}
+.is-in .mi-line > span,
+.mi-line.is-in > span {
+  transform: none;
+}
+/* Scale-in rule. */
+.mi-rule {
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 1.4s var(--ease-out) var(--d, 0s);
+}
+.is-in .mi-rule,
+.mi-rule.is-in {
+  transform: scaleX(1);
+}
+
+/* --- Route transition ---------------------------------------------------- */
+@keyframes mi-blade {
+  0% {
+    transform: translate3d(-101%, 0, 0);
+  }
+  45%,
+  55% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(101%, 0, 0);
+  }
+}
+/* Opacity only: a transform here would break fixed/sticky descendants. */
+@keyframes mi-route-in {
+  from {
+    opacity: 0;
+  }
+}
+.mi-route-blade {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+  background: var(--brand);
+  transform: translate3d(-101%, 0, 0);
+  animation: mi-blade 0.95s var(--ease-io) forwards;
+}
+.mi-route > :not(.mi-route-blade) {
+  animation: mi-route-in 0.8s var(--ease-out) 0.38s backwards;
+}
+
+/* --- Signature details --------------------------------------------------- */
+/* Film grain — gives flat colour fields a photographic texture. */
+.mi-grain::after {
+  content: "";
+  position: absolute;
+  inset: -50%;
+  pointer-events: none;
+  opacity: 0.07;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  animation: mi-grain 0.9s steps(4) infinite;
+}
+@keyframes mi-grain {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(-3%, 2%); }
+  50% { transform: translate(2%, -3%); }
+  75% { transform: translate(-2%, -1%); }
+  100% { transform: translate(0, 0); }
+}
+
+/* Marquee */
+@keyframes mi-marquee {
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+.mi-marquee {
+  display: flex;
+  width: max-content;
+  animation: mi-marquee var(--speed, 38s) linear infinite;
+}
+.mi-marquee-wrap:hover .mi-marquee {
+  animation-play-state: paused;
+}
+
+/* Link with sweeping underline */
+.mi-link {
+  position: relative;
+}
+.mi-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -3px;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.5s var(--ease-out);
+}
+.mi-link:hover::after,
+.mi-link:focus-visible::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* Pill button: label rolls vertically on hover. */
+.mi-roll {
+  display: inline-grid;
+  overflow: hidden;
+}
+.mi-roll > span {
+  grid-area: 1 / 1;
+  transition: transform 0.55s var(--ease-out);
+}
+.mi-roll > span:last-child {
+  transform: translate3d(0, 110%, 0);
+}
+.group:hover .mi-roll > span:first-child,
+.group:focus-visible .mi-roll > span:first-child {
+  transform: translate3d(0, -110%, 0);
+}
+.group:hover .mi-roll > span:last-child,
+.group:focus-visible .mi-roll > span:last-child {
+  transform: none;
+}
+
+/* Live dot */
+@keyframes mi-pulse {
+  0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--brand) 60%, transparent); }
+  100% { box-shadow: 0 0 0 10px transparent; }
+}
+.mi-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--brand);
+  animation: mi-pulse 1.8s var(--ease-out) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  [data-reveal],
+  .mi-line > span,
+  .mi-rule {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .mi-route-blade {
+    display: none;
+  }
+  .mi-route > :not(.mi-route-blade),
+  .mi-marquee,
+  .mi-grain::after,
+  .mi-dot {
+    animation: none !important;
+  }
 }
