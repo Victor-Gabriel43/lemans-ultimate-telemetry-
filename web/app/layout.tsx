@@ -1,7 +1,15 @@
 import type { Metadata } from "next";
-import { IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
+import { Inter, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 
+// Site F1 — Inter (próxima da SF Pro, com números tabulares de qualidade).
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+// RACEOPS (LMU Race Engineer) — mantém a tipografia original.
 const plexSans = IBM_Plex_Sans({
   variable: "--font-plex-sans",
   subsets: ["latin"],
@@ -15,20 +23,21 @@ const plexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "RACEOPS — Real-Time Endurance Race Control",
+  title: {
+    default: "Paddock — The Formula 1 Encyclopedia",
+    template: "%s · Paddock",
+  },
   description:
-    "Sala de estratégia colaborativa em tempo real para corridas de endurance no Le Mans Ultimate.",
+    "An editorial encyclopedia of Formula 1: history, seasons, drivers, teams, cars, circuits, regulations and the ladder of junior formulae.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
-      lang="pt-BR"
-      className={`${plexSans.variable} ${plexMono.variable} h-full antialiased`}
+      lang="en"
+      className={`${inter.variable} ${plexSans.variable} ${plexMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-bg text-text font-sans">
-        {children}
-      </body>
+      <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );
 }

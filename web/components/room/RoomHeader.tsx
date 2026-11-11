@@ -42,7 +42,7 @@ export function RoomHeader({
       <div className="mx-auto flex w-full max-w-[1600px] flex-col gap-3 px-4 py-2.5 lg:flex-row lg:items-stretch lg:gap-0">
         {/* Identidade + sala */}
         <div className="flex items-center gap-4 lg:pr-5">
-          <Link href="/" className="flex items-center gap-2" title="RACEOPS">
+          <Link href="/race-engineer" className="flex items-center gap-2" title="RACEOPS">
             <Radio size={16} className="text-brand" aria-hidden />
             <span className="font-mono text-sm font-semibold tracking-[0.18em]">RACEOPS</span>
           </Link>

@@ -77,7 +77,7 @@ export default function RoomLayout({ children }: { children: React.ReactNode }) 
           <p className="eyebrow text-status-critical">Falha ao entrar</p>
           <p className="text-sm text-text">{errorMessage}</p>
           <Link
-            href="/"
+            href="/race-engineer"
             className="text-xs uppercase tracking-wide text-brand transition-opacity hover:opacity-80"
           >
             Voltar à tela inicial
@@ -124,7 +124,7 @@ function CenteredShell({ code, children }: { code: string; children: React.React
   return (
     <div className="flex flex-1 flex-col">
       <header className="border-b border-border px-4 py-3">
-        <Link href="/" className="flex items-center gap-2" title="RACEOPS">
+        <Link href="/race-engineer" className="flex items-center gap-2" title="RACEOPS">
           <Radio size={16} className="text-brand" aria-hidden />
           <span className="font-mono text-sm font-semibold tracking-[0.18em]">RACEOPS</span>
           <span className="eyebrow ml-1">/ {code}</span>
