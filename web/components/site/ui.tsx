@@ -184,12 +184,14 @@ export function Specs({ rows }: { rows: [string, ReactNode][] }) {
 /* ---------------------------------------------------------------------------
  * Milestones (vertical timeline)
  * ------------------------------------------------------------------------- */
-export function Milestones({ items }: { items: { year: string; title: string; text: string }[] }) {
+export function Milestones({ items, linkYears = false }: { items: { year: string; title: string; text: string }[]; linkYears?: boolean }) {
   return (
     <ol className="milestones">
       {items.map((m, i) => (
         <li key={i} className="milestone">
-          <p className="milestone-year">{m.year}</p>
+          <p className="milestone-year">
+            {linkYears && /^\d{4}$/.test(m.year) && +m.year >= 1950 ? <Link href={`/seasons/${m.year}`}>{m.year}</Link> : m.year}
+          </p>
           <p className="milestone-title">{m.title}</p>
           <p className="milestone-text">{m.text}</p>
         </li>

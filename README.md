@@ -17,6 +17,15 @@ Painel de estratégia colaborativo em tempo real para corridas de endurance no L
 - **Exportação**: JSON completo da sala + CSV da escala final, gerados a partir do estado persistido no servidor.
 - Tudo em tempo real via Socket.IO — qualquer participante edita, todo mundo vê a atualização na hora, sem F5. Não há hierarquia de permissões: todo mundo pode editar tudo (decisão explícita de escopo da v1).
 
+## Paddock — Enciclopédia de Fórmula 1 (web)
+
+O `web` agora também hospeda **Paddock**, uma enciclopédia editorial de F1 com design inspirado na Apple, na raiz do site (`/`). O RACEOPS continua disponível em `/race-engineer` e `/room/[code]`.
+
+- Rotas: `/history`, `/seasons` (1950–2026), `/drivers`, `/teams`, `/cars`, `/circuits`, `/technology`, `/race-weekend`, `/categories`, `/learn`, `/search`, `/about` — cada uma com páginas de detalhe.
+- Conteúdo editorial em `web/lib/f1/*`; componentes em `web/components/site/*`; design system em `web/app/(site)/site.css`.
+- **Fase 1** (atual): design, arquitetura de informação e conteúdo editorial. Calendários, resultados, estatísticas e especificações detalhadas ficam para a **Fase 2** (dados verificados) e aparecem como placeholders identificados.
+- Fotos: registradas em `web/lib/f1/media.ts` com fonte, autor e licença. Sem imagem verificada, a página mostra uma placa tipográfica — nunca uma foto substituta.
+
 ## Stack
 
 - **shared**: TypeScript — tipos e lógica compartilhada entre `server` e `web` (`@lmu/shared`).

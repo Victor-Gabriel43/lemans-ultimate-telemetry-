@@ -38,8 +38,6 @@ export function SearchOverlay({ index, onClose }: { index: SearchEntry[]; onClos
     };
   }, []);
 
-  useEffect(() => setActive(0), [q]);
-
   useEffect(() => {
     listRef.current?.querySelector<HTMLElement>(`[data-idx="${active}"]`)?.scrollIntoView({ block: "nearest" });
   }, [active]);
@@ -65,7 +63,10 @@ export function SearchOverlay({ index, onClose }: { index: SearchEntry[]; onClos
           <input
             ref={inputRef}
             value={q}
-            onChange={(e) => setQ(e.target.value)}
+            onChange={(e) => {
+              setQ(e.target.value);
+              setActive(0);
+            }}
             placeholder="Search drivers, seasons, cars, circuits…"
             aria-label="Search query"
             aria-controls="search-results"
@@ -98,7 +99,10 @@ export function SearchOverlay({ index, onClose }: { index: SearchEntry[]; onClos
               </p>
               <div className="flex-row" style={{ gap: 8 }}>
                 {SUGGESTIONS.map((s) => (
-                  <button key={s} type="button" className="chip" onClick={() => setQ(s)}>
+                  <button key={s} type="button" className="chip" onClick={() => {
+                      setQ(s);
+                      setActive(0);
+                    }}>
                     {s}
                   </button>
                 ))}

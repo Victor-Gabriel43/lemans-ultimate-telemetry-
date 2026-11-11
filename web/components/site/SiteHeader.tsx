@@ -25,11 +25,14 @@ export function SiteHeader({ index }: { index: SearchEntry[] }) {
     setMobile(false);
   }, []);
 
-  // Close menus on navigation.
-  useEffect(() => {
-    closeAll();
+  // Close menus on navigation (state derived during render, no effect needed).
+  const [lastPath, setLastPath] = useState(pathname);
+  if (pathname !== lastPath) {
+    setLastPath(pathname);
+    setOpen(null);
+    setMobile(false);
     setSearching(false);
-  }, [pathname, closeAll]);
+  }
 
   // Keyboard: Esc closes; "/" or Cmd/Ctrl+K opens search.
   useEffect(() => {
