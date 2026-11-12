@@ -195,7 +195,7 @@ export default async function SeasonPage({ params }: PageProps<"/[lang]/seasons/
                       <td className="num">{r.round}</td>
                       <td className="num small">{formatDate(r.date, lang, { day: "numeric", month: "short" })}</td>
                       <td style={{ fontWeight: 600 }}>
-                        <Link href={lp(lang, `/seasons/${year}/${r.slug}`)}>{gpName(r.gp)}</Link>
+                        <Link href={lp(lang, `/seasons/${year}/${r.slug}`)}>{gpName(r.gp, lang)}</Link>
                         {r.sprint && <span className="badge" style={{ marginLeft: 6 }}>{S.sprint}</span>}
                       </td>
                       <td className="small">{c ? <Link href={lp(lang, `/circuits/${c.id}`)}>{c.name}</Link> : r.circuit}</td>

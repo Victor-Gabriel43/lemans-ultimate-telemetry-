@@ -2016,3 +2016,52 @@ a.card:hover {
   height: 18px;
   object-fit: contain;
 }
+
+/* History: decade numbers & key races */
+.decade-numbers {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 20px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding: 20px 0;
+}
+.decade-numbers > div {
+  display: grid;
+  gap: 4px;
+}
+.decade-numbers .num {
+  font-size: clamp(32px, 4vw, 44px);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+.decade-numbers span:not(.num) {
+  font-size: 14px;
+  color: var(--ink-3);
+}
+.key-races {
+  display: grid;
+  gap: clamp(40px, 6vw, 72px);
+  margin-top: 32px;
+}
+.key-race {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: clamp(24px, 4vw, 56px);
+  align-items: center;
+}
+.key-race:nth-child(even) .key-race-photo {
+  order: 2;
+}
+.key-race-photo .plate {
+  border-radius: 18px;
+}
+@media (max-width: 860px) {
+  .key-race {
+    grid-template-columns: 1fr;
+  }
+  .key-race:nth-child(even) .key-race-photo {
+    order: 0;
+  }
+}

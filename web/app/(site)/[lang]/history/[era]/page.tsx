@@ -7,8 +7,10 @@ import { fmt, getDict } from "@/lib/i18n/dict";
 import { ERAS } from "@/lib/f1/eras";
 import { era as getEra, eras, seasonHeadline } from "@/lib/f1/content";
 import { chassis, ctor, ctorName, db, driver } from "@/lib/f1/db";
-import { chassisPhoto } from "@/lib/f1/media";
-import { championChassis, winsInRange } from "@/lib/f1/derive";
+import { chassisPhoto, circuitPhoto } from "@/lib/f1/media";
+import { KEY_RACES } from "@/lib/f1/history-races";
+import { gpName, season as seasonData, circuit as getCircuit, formatDate } from "@/lib/f1/db";
+import { championChassis, raceHero, winsInRange } from "@/lib/f1/derive";
 import { CarCard, DriverCard } from "@/components/site/cards";
 import { BlockHead, Breadcrumbs, LinkArrow, Milestones, Plate } from "@/components/site/ui";
 import { LocalNav } from "@/components/site/LocalNav";
@@ -40,6 +42,20 @@ export default async function EraPage({ params }: PageProps<"/[lang]/history/[er
   const champCars = [...new Set(seasons.map((s) => championChassis(s.year)).filter(Boolean) as string[])];
   const heroPhoto = champCars.map((c) => chassisPhoto(c)).find(Boolean);
   const decadeLabel = era.decade;
+  const pt = lang === "pt";
+  const keyRaces = (KEY_RACES[era.slug] ?? [])
+    .map((k) => {
+      const r = seasonData(k.year)?.races.find((x) => x.slug === k.slug);
+      if (!r) return null;
+      const w = r.results.find((x) => x.pos === 1);
+      const hero = raceHero(k.year, k.slug, w);
+      const c = getCircuit(r.circuit);
+      return { ...k, r, w, photo: hero?.photo ?? (c ? circuitPhoto(c.id) : undefined), circuitName: c?.full ?? r.circuit };
+    })
+    .filter((x) => x !== null);
+  const racesHeld = seasons.reduce((n, s) => n + s.completed, 0);
+  const winnersCount = topDrivers.length;
+  const champions = [...new Set(seasons.map((s) => s.champion).filter(Boolean))].map((id) => driver(id)?.last ?? id);
   const titlesIn = (id: string, kind: "d" | "c") => seasons.filter((s) => (kind === "d" ? s.champion === id : s.constructorChampion === id)).map((s) => s.year);
 
   return (
@@ -50,6 +66,7 @@ export default async function EraPage({ params }: PageProps<"/[lang]/history/[er
         titleHref={`/history/${era.slug}`}
         links={[
           { label: t.history.sections.context, href: "#context" },
+          { label: pt ? "Corridas" : "Races", href: "#races" },
           { label: t.history.sections.seasons, href: "#seasons" },
           { label: t.history.sections.technology, href: "#technology" },
           { label: t.history.sections.regulations, href: "#regulations" },
@@ -83,6 +100,37 @@ export default async function EraPage({ params }: PageProps<"/[lang]/history/[er
           <p className="lede" style={{ color: "var(--ink)", fontWeight: 600 }}>
             {era.intro}
           </p>
+          <div className="decade-numbers mt-l">
+            <div>
+              <span className="num">{racesHeld}</span>
+              <span>{pt ? "Grandes Prêmios" : "Grands Prix"}</span>
+            </div>
+            <div>
+              <span className="num">{winnersCount}</span>
+              <span>{pt ? "pilotos vencedores" : "different winners"}</span>
+            </div>
+            {topDrivers[0] && (
+              <div>
+                <span className="num">{topDrivers[0][1]}</span>
+                <span>
+                  {pt ? "vitórias de" : "wins for"} {driver(topDrivers[0][0])?.name}
+                </span>
+              </div>
+            )}
+            {topCtors[0] && (
+              <div>
+                <span className="num">{topCtors[0][1]}</span>
+                <span>
+                  {pt ? "vitórias da" : "wins for"} {ctorName(topCtors[0][0])}
+                </span>
+              </div>
+            )}
+          </div>
+          {champions.length > 0 && (
+            <p className="small muted mt-s">
+              {pt ? "Campeões da década" : "Champions of the decade"}: {champions.join(" · ")}
+            </p>
+          )}
           <div className="prose mt-l">
             <h3 style={{ marginTop: 0 }}>{t.history.contextTitle}</h3>
             {era.context.map((p, i) => (
@@ -91,6 +139,40 @@ export default async function EraPage({ params }: PageProps<"/[lang]/history/[er
           </div>
         </div>
       </section>
+
+      {/* The races that defined the decade */}
+      {keyRaces.length > 0 && (
+        <section className="section tone-night" id="races">
+          <div className="wrap-wide">
+            <BlockHead eyebrow={pt ? "Corridas que definiram a década" : "The races that defined the decade"} title={pt ? "O que aconteceu na pista" : "What happened on track"} />
+            <div className="key-races">
+              {keyRaces.map((k) => (
+                <article key={`${k.year}-${k.slug}`} className="key-race">
+                  <Link href={lp(lang, `/seasons/${k.year}/${k.slug}`)} className="key-race-photo">
+                    <Plate linked lang={lang} alt={`${k.year} ${gpName(k.r.gp, lang)}`} photo={k.photo} tone="graphite" ratio="ratio-wide" flat glyph={String(k.year)} glyphSize="sm" />
+                  </Link>
+                  <div className="key-race-body">
+                    <p className="kicker">
+                      {k.year} · {gpName(k.r.gp, lang)} · {formatDate(k.r.date, lang)}
+                    </p>
+                    <h3 className="title-2 mt-xs">{k.title[lang]}</h3>
+                    <p className="mt-s" style={{ fontSize: 17, lineHeight: 1.6 }}>
+                      {k.text[lang]}
+                    </p>
+                    <p className="small muted mt-s">
+                      {k.circuitName}
+                      {k.w ? ` · ${pt ? "Vencedor" : "Winner"}: ${driver(k.w.d)?.name ?? k.w.d}` : ""}
+                    </p>
+                    <Link href={lp(lang, `/seasons/${k.year}/${k.slug}`)} className="link-arrow mt-s">
+                      {pt ? "Resultado completo" : "Full result"} <ChevronRight size={14} />
+                    </Link>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Important seasons — from the data */}
       <section className="section tone-off" id="seasons">

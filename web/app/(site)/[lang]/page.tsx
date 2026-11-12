@@ -110,7 +110,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
                   <p className="kicker">
                     {pt ? "Próxima corrida" : "Next race"} · {fmt(t.race.eyebrow, { y: cur.year, r: nextRace.round })}
                   </p>
-                  <p className="title-1">{gpName(nextRace.gp)}</p>
+                  <p className="title-1">{gpName(nextRace.gp, lang)}</p>
                   <p className="muted">
                     {formatDate(nextRace.date, lang)} · {nextCircuit.full}
                   </p>
@@ -159,7 +159,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
                   <p className="card-meta">
                     {formatDate(r.date, lang)} · {c?.name}
                   </p>
-                  <p className="card-title">{gpName(r.gp)}</p>
+                  <p className="card-title">{gpName(r.gp, lang)}</p>
                   <p className="small muted">{w ? `${pt ? "Vencedor" : "Winner"}: ${driver(w.d)?.name ?? w.d}` : pt ? "A disputar" : "Still to run"}</p>
                 </div>
               </Link>

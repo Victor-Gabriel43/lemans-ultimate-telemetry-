@@ -39,7 +39,7 @@ export default async function CarPage({ params }: PageProps<"/[lang]/cars/[slug]
       const w = r.results.find((x) => x.pos === 1 && x.c === ch.c);
       if (!w) continue;
       const used = sd.entrants.filter((e) => e.c === ch.c && e.drivers.some((x) => x.d === w.d)).flatMap((e) => e.chassis);
-      if (used.length === 1 && used[0] === ch.id) wins.push({ y, s: r.slug, gp: gpName(r.gp), d: w.d });
+      if (used.length === 1 && used[0] === ch.id) wins.push({ y, s: r.slug, gp: gpName(r.gp, lang), d: w.d });
     }
   }
   const siblings = chassisOf(ch.c).filter((x) => x.id !== ch.id);

@@ -11,9 +11,9 @@ import { raceHero } from "@/lib/f1/derive";
 import { circuitPhoto } from "@/lib/f1/media";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/seasons/[year]/[race]">): Promise<Metadata> {
-  const { year, race } = await params;
+  const { lang, year, race } = await params;
   const r = getRace(Number(year), race);
-  return r ? { title: `${gpName(r.gp)} ${year}`, description: r.name } : {};
+  return r ? { title: `${gpName(r.gp, lang as "pt" | "en")} ${year}`, description: r.name } : {};
 }
 
 export default async function RacePage({ params }: PageProps<"/[lang]/seasons/[year]/[race]">) {
@@ -33,19 +33,19 @@ export default async function RacePage({ params }: PageProps<"/[lang]/seasons/[y
   const winner = r.results.find((x) => x.pos === 1);
   const hero = raceHero(year, slug, winner);
   const heroPhoto = hero?.photo ?? (c ? circuitPhoto(c.id) : undefined);
-  const heroCaption = hero?.chassisId ? `${hero.label} · ${driver(winner!.d)?.name ?? ""}` : hero ? `${year} ${gpName(r.gp)}` : c?.full;
+  const heroCaption = hero?.chassisId ? `${hero.label} · ${driver(winner!.d)?.name ?? ""}` : hero ? `${year} ${gpName(r.gp, lang)}` : c?.full;
   const others = (c?.editions ?? []).filter((e) => !(e.y === year && e.s === slug) && !e.scheduled).slice(-8).reverse();
 
   return (
     <>
       <section className="tone-paper" style={{ paddingTop: 28 }}>
         <div className="wrap">
-          <Breadcrumbs lang={lang} items={[{ label: t.nav.seasons, href: "/seasons" }, { label: String(year), href: `/seasons/${year}` }, { label: gpName(r.gp) }]} />
+          <Breadcrumbs lang={lang} items={[{ label: t.nav.seasons, href: "/seasons" }, { label: String(year), href: `/seasons/${year}` }, { label: gpName(r.gp, lang) }]} />
           <div className="grid grid-2" style={{ padding: "clamp(40px,6vw,72px) 0", gap: "clamp(32px,6vw,80px)", alignItems: "center" }}>
             <div>
               <p className="eyebrow-f1">{fmt(t.race.eyebrow, { y: year, r: r.round })}</p>
               <h1 className="display balance" style={{ fontSize: "clamp(40px,6vw,80px)" }}>
-                {gpName(r.gp)}
+                {gpName(r.gp, lang)}
               </h1>
               <p className="lede mt-s">
                 {formatDate(r.date, lang)} · {c ? <Link href={lp(lang, `/circuits/${c.id}`)}>{c.full}</Link> : r.circuit}
@@ -63,7 +63,7 @@ export default async function RacePage({ params }: PageProps<"/[lang]/seasons/[y
           </div>
           {heroPhoto && (
             <div style={{ paddingBottom: "clamp(40px,6vw,72px)" }}>
-              <Plate lang={lang} alt={heroCaption ?? gpName(r.gp)} photo={heroPhoto} ratio="ratio-cinema" priority caption={hero?.chassisId ? <Link href={lp(lang, `/cars/${hero.chassisId}`)} className="inline-link">{heroCaption}</Link> : heroCaption} />
+              <Plate lang={lang} alt={heroCaption ?? gpName(r.gp, lang)} photo={heroPhoto} ratio="ratio-cinema" priority caption={hero?.chassisId ? <Link href={lp(lang, `/cars/${hero.chassisId}`)} className="inline-link">{heroCaption}</Link> : heroCaption} />
             </div>
           )}
         </div>
@@ -74,7 +74,7 @@ export default async function RacePage({ params }: PageProps<"/[lang]/seasons/[y
           <div className="grid grid-2" style={{ gap: "clamp(32px,6vw,96px)", alignItems: "start" }}>
             <Specs
               rows={[
-                [t.race.officialName, r.name ?? gpName(r.gp)],
+                [t.race.officialName, r.name ?? gpName(r.gp, lang)],
                 [t.common.circuit, c ? <Link key="c" href={lp(lang, `/circuits/${c.id}`)} className="inline-link">{c.full}</Link> : r.circuit],
                 [t.common.length, r.length ? `${formatNumber(r.length, lang, 3)} km` : "—"],
                 [t.common.laps, r.laps ? String(r.laps) : "—"],
@@ -182,7 +182,7 @@ export default async function RacePage({ params }: PageProps<"/[lang]/seasons/[y
                 <span className="caption" style={{ display: "block" }}>
                   {t.race.prevRace}
                 </span>
-                <span className="title-3">{gpName(prev.gp)}</span>
+                <span className="title-3">{gpName(prev.gp, lang)}</span>
               </span>
             </Link>
           ) : (
@@ -196,7 +196,7 @@ export default async function RacePage({ params }: PageProps<"/[lang]/seasons/[y
                 <span className="caption" style={{ display: "block" }}>
                   {t.race.nextRace}
                 </span>
-                <span className="title-3">{gpName(next.gp)}</span>
+                <span className="title-3">{gpName(next.gp, lang)}</span>
               </span>
               <ChevronRight size={20} />
             </Link>

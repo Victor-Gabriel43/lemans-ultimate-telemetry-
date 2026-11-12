@@ -46,7 +46,7 @@ export default async function DriverPage({ params }: PageProps<"/[lang]/drivers/
   const wins = d.winList.map((k) => {
     const [y, s] = k.split("/");
     const r = race(Number(y), s);
-    return { y: Number(y), s, name: r ? gpName(r.gp) : s };
+    return { y: Number(y), s, name: r ? gpName(r.gp, lang) : s };
   });
 
   return (

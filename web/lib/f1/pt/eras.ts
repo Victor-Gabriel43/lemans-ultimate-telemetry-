@@ -5,8 +5,8 @@ type EraText = Pick<Era, "name" | "tagline" | "themes" | "intro" | "context" | "
 /** Portuguese (Brazil) text of the history chapters. */
 export const ERAS_PT: Record<string, EraText> = {
   "1950s": {
-    name: "Os anos fundadores",
-    tagline: "Gigantes de motor dianteiro, circuitos abertos e o nascimento de um campeonato mundial.",
+    name: "Fangio e os carros de motor dianteiro",
+    tagline: "Farina vence o primeiro campeonato, Fangio conquista cinco títulos e, no fim da década, a Cooper põe o motor atrás do piloto.",
     themes: ["Motor dianteiro", "Fabricantes do pré-guerra", "Os cinco títulos de Fangio"],
     intro:
       "O Campeonato Mundial de Pilotos de Fórmula 1 da FIA começou em Silverstone, em 13 de maio de 1950. Durante uma década, foi um campeonato de carros pesados com motor dianteiro, circuitos com pouca proteção e pilotos que muitas vezes eram amadores ricos ou profissionais experientes do pré-guerra.",
@@ -42,8 +42,8 @@ export const ERAS_PT: Record<string, EraText> = {
     ],
   },
   "1960s": {
-    name: "Os garagistas",
-    tagline: "Pequenas equipes britânicas, monocoques e o motor que mudou tudo.",
+    name: "Clark, Lotus e os garagistas",
+    tagline: "Pequenas equipes britânicas derrotam a Ferrari, a Lotus cria o monocoque, Jim Clark vence 25 corridas e chega o motor Cosworth DFV.",
     themes: ["Motor traseiro", "Chassi monocoque", "Cosworth DFV"],
     intro:
       "Os anos 1960 pertenceram a engenheiros que construíam carros leves de motor traseiro em pequenas oficinas — as equipes que Enzo Ferrari chamava, com desdém, de garagistas. Lotus, Cooper, BRM e Brabham transformaram a engenharia britânica no centro da Fórmula 1.",
@@ -78,8 +78,8 @@ export const ERAS_PT: Record<string, EraText> = {
     ],
   },
   "1970s": {
-    name: "Asas, cunhas e efeito solo",
-    tagline: "A aerodinâmica assume o comando, a segurança vira causa e a Fórmula 1 se torna global.",
+    name: "Stewart, Lauda, Hunt e o efeito solo",
+    tagline: "Stewart briga por segurança, Lauda volta do fogo, Hunt é campeão por um ponto e a Lotus transforma o carro numa asa.",
     themes: ["Carros em cunha", "Campanhas de segurança", "Efeito solo"],
     intro:
       "Nos anos 1970 a Fórmula 1 tornou-se um esporte global da televisão e um laboratório aerodinâmico. Os carros ganharam asas, pontões laterais e, por fim, assoalhos com efeito solo, enquanto pilotos como Jackie Stewart obrigavam o esporte a encarar seu terrível histórico de segurança.",
@@ -113,8 +113,8 @@ export const ERAS_PT: Record<string, EraText> = {
     ],
   },
   "1980s": {
-    name: "Os anos turbo",
-    tagline: "Fibra de carbono, potência extraordinária e as grandes rivalidades.",
+    name: "Turbos, Senna e Prost",
+    tagline: "Motores turbo com mais de mil cavalos em classificação, o chassi de fibra de carbono e Senna contra Prost dentro da McLaren.",
     themes: ["Motores turbo", "Chassi de fibra de carbono", "Prost e Senna"],
     intro:
       "Os anos 1980 começaram com um conflito político e terminaram com a rivalidade mais famosa da Fórmula 1. No meio vieram os chassis de fibra de carbono, os motores turbo com potências inéditas em configuração de classificação e a ascensão de McLaren, Williams e Honda.",
@@ -149,8 +149,8 @@ export const ERAS_PT: Record<string, EraText> = {
     ],
   },
   "1990s": {
-    name: "Eletrônica e um acerto de contas",
-    tagline: "Suspensão ativa, a tragédia de Ímola e a era moderna da segurança.",
+    name: "Senna, Ímola e Schumacher",
+    tagline: "A eletrônica domina e é proibida, Senna morre em Ímola e Michael Schumacher começa a reescrever os recordes.",
     themes: ["Auxílios eletrônicos", "Ímola 1994", "A ascensão de Schumacher"],
     intro:
       "O início dos anos 1990 produziu os carros tecnologicamente mais sofisticados que a Fórmula 1 já tinha visto, cheios de auxílios eletrônicos. Então, em 1994, as mortes de Roland Ratzenberger e Ayrton Senna em Ímola forçaram uma revisão profunda da segurança, que molda o esporte até hoje.",
@@ -185,8 +185,8 @@ export const ERAS_PT: Record<string, EraText> = {
     ],
   },
   "2000s": {
-    name: "A era das montadoras",
-    tagline: "A dinastia da Ferrari, a guerra de pneus e uma temporada de regras radicais.",
+    name: "Schumacher, Ferrari e as montadoras",
+    tagline: "Cinco títulos seguidos de Schumacher com a Ferrari, a chegada de Alonso e Hamilton e o ano improvável da Brawn.",
     themes: ["Domínio da Ferrari", "Equipes de montadoras", "Do V10 ao V8"],
     intro:
       "Os anos 2000 começaram com a parceria piloto-equipe mais vitoriosa que o esporte já tinha visto — Michael Schumacher e Ferrari — e foram moldados por montadoras que compraram ou criaram equipes inteiras, gastando em níveis inéditos.",
@@ -223,8 +223,8 @@ export const ERAS_PT: Record<string, EraText> = {
     ],
   },
   "2010s": {
-    name: "A revolução híbrida",
-    tagline: "A maestria aerodinâmica da Red Bull e, depois, os motores de corrida mais eficientes já construídos.",
+    name: "Vettel, Hamilton e a era híbrida",
+    tagline: "Quatro títulos seguidos de Vettel com a Red Bull e, depois, a Mercedes híbrida de Hamilton vencendo quase tudo.",
     themes: ["Os quatro títulos da Red Bull", "Unidades de potência turbo-híbridas", "Dinastia Mercedes"],
     intro:
       "Os anos 2010 foram divididos por uma revolução técnica. Red Bull e Sebastian Vettel dominaram os últimos anos da era V8 com excelência aerodinâmica; depois, em 2014, a Fórmula 1 adotou as unidades de potência turbo-híbridas, e a Mercedes construiu uma dinastia.",
@@ -260,8 +260,8 @@ export const ERAS_PT: Record<string, EraText> = {
     ],
   },
   "2020s": {
-    name: "Teto de gastos e novas regras",
-    tagline: "O efeito solo volta, os orçamentos são limitados e 2026 reinicia o esporte.",
+    name: "Verstappen, McLaren e a nova F1",
+    tagline: "Verstappen domina com a Red Bull, a McLaren volta ao topo e, em 2026, Antonelli é campeão com carros e motores totalmente novos.",
     themes: ["Teto de gastos", "Volta do efeito solo", "Regulamento de 2026"],
     intro:
       "A década atual começou com uma temporada encurtada pela pandemia e trouxe as reformas estruturais mais importantes da história da Fórmula 1: um teto de gastos, a volta da aerodinâmica de efeito solo em 2022 e um regulamento totalmente novo de carro e unidade de potência em 2026.",

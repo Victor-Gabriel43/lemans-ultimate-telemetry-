@@ -46,7 +46,7 @@ export default async function CircuitPage({ params }: PageProps<"/[lang]/circuit
   const winCount = new Map<string, number>();
   held.forEach((e) => e.w && winCount.set(e.w, (winCount.get(e.w) ?? 0) + 1));
   const topWinners = [...winCount.entries()].sort((a, b) => b[1] - a[1]).slice(0, 5);
-  const gpNames = [...new Set(held.map((e) => gpName(e.gp)))];
+  const gpNames = [...new Set(held.map((e) => gpName(e.gp, lang)))];
   const region = continentOf(c.country);
   const nearby = db()
     .circuits.filter((x) => x.id !== c.id && continentOf(x.country) === region)
@@ -99,10 +99,10 @@ export default async function CircuitPage({ params }: PageProps<"/[lang]/circuit
                   [CI.location, `${c.place}, ${countryName(c.country, lang)}`],
                   [t.common.circuit, `${CI.typeLong[c.type]}${c.dir ? ` · ${CI.direction[c.dir]}` : ""}`],
                   [t.common.length, c.length ? `${formatNumber(c.length, lang, 3)} km${c.turns ? ` · ${c.turns} ${t.common.turns.toLowerCase()}` : ""}` : "—"],
-                  [t.common.firstGrandPrix, held[0] ? <Link key="f" href={lp(lang, `/seasons/${held[0].y}/${held[0].s}`)} className="inline-link">{held[0].y} · {gpName(held[0].gp)}</Link> : "—"],
-                  [t.common.lastGrandPrix, held.length ? <Link key="l" href={lp(lang, `/seasons/${held[held.length - 1].y}/${held[held.length - 1].s}`)} className="inline-link">{held[held.length - 1].y} · {gpName(held[held.length - 1].gp)}</Link> : "—"],
+                  [t.common.firstGrandPrix, held[0] ? <Link key="f" href={lp(lang, `/seasons/${held[0].y}/${held[0].s}`)} className="inline-link">{held[0].y} · {gpName(held[0].gp, lang)}</Link> : "—"],
+                  [t.common.lastGrandPrix, held.length ? <Link key="l" href={lp(lang, `/seasons/${held[held.length - 1].y}/${held[held.length - 1].s}`)} className="inline-link">{held[held.length - 1].y} · {gpName(held[held.length - 1].gp, lang)}</Link> : "—"],
                   [t.common.grandPrix, gpNames.join(" · ")],
-                  ...(scheduled.length ? ([[t.status.scheduled, scheduled.map((e) => `${e.y} · ${gpName(e.gp)}`).join(", ")]] as [string, string][]) : []),
+                  ...(scheduled.length ? ([[t.status.scheduled, scheduled.map((e) => `${e.y} · ${gpName(e.gp, lang)}`).join(", ")]] as [string, string][]) : []),
                 ]}
               />
               {topWinners.length > 0 && (
@@ -220,7 +220,7 @@ export default async function CircuitPage({ params }: PageProps<"/[lang]/circuit
                         <Link href={lp(lang, `/seasons/${e.y}`)}>{e.y}</Link>
                       </td>
                       <td>
-                        <Link href={lp(lang, `/seasons/${e.y}/${e.s}`)}>{gpName(e.gp)}</Link>
+                        <Link href={lp(lang, `/seasons/${e.y}/${e.s}`)}>{gpName(e.gp, lang)}</Link>
                         {e.name && <span className="caption" style={{ display: "block" }}>{e.name}</span>}
                       </td>
                       <td className="small num">{li >= 0 ? `${li + 1}${c.layouts[li].length ? ` · ${formatNumber(c.layouts[li].length, lang, 3)} km` : ""}` : "—"}</td>

@@ -81,7 +81,7 @@ export function searchIndex(lang: Lang): SearchEntry[] {
   for (const s of i.seasons) {
     const sd = season(s.year);
     for (const r of sd?.races ?? []) {
-      add({ kind: "Race", title: `${gpName(r.gp)} ${s.year}`, subtitle: `${t.common.round} ${r.round} · ${r.date}`, href: `/seasons/${s.year}/${r.slug}` }, `${r.name ?? ""} ${r.gp}`, 0);
+      add({ kind: "Race", title: `${gpName(r.gp, lang)} ${s.year}`, subtitle: `${t.common.round} ${r.round} · ${r.date}`, href: `/seasons/${s.year}/${r.slug}` }, `${r.name ?? ""} ${r.gp}`, 0);
     }
   }
   for (const a of techArticles(lang)) {
