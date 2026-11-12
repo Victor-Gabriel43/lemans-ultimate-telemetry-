@@ -208,7 +208,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
             <div className="tile">
               <div className="tile-body">
                 <StatusBadge lang={lang} status={cur.status === "completed" ? "cross-checked" : "provisional"} />
-                <p className="kicker mt-s">{cur.status === "completed" ? t.seasons.champion : t.home.currentLeader}</p>
+                <p className="kicker mt-s">{cur.status === "completed" ? t.seasons.champion : cur.champion ? t.seasons.clinchedChampion : t.home.currentLeader}</p>
                 <p className="title-2">{leader ? <Link href={lp(lang, `/drivers/${leader.id}`)}>{leader.name}</Link> : "—"}</p>
                 <p className="small muted">
                   {curData.driverStandings[0]?.pts} {t.common.points.toLowerCase()}

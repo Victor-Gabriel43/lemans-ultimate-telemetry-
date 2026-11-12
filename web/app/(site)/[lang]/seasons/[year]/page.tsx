@@ -136,7 +136,7 @@ export default async function SeasonPage({ params }: PageProps<"/[lang]/seasons/
             <div className="grid grid-2 keep-2" style={{ gap: 16 }}>
               <div className="tile" style={{ background: "var(--paper-2)" }}>
                 <div className="tile-body">
-                  <p className="kicker">{live ? S.leaderProvisional : S.champion}</p>
+                  <p className="kicker">{live ? (champ ? S.clinchedChampion : S.leaderProvisional) : S.champion}</p>
                   <p className="title-2">{(champ ?? leader) ? <Link href={lp(lang, `/drivers/${(champ ?? leader)!.id}`)}>{(champ ?? leader)!.name}</Link> : "—"}</p>
                   <p className="small muted">
                     {sd.driverStandings[0]?.pts} {t.common.points.toLowerCase()}
@@ -145,7 +145,7 @@ export default async function SeasonPage({ params }: PageProps<"/[lang]/seasons/
               </div>
               <div className="tile" style={{ background: "var(--paper-2)" }}>
                 <div className="tile-body">
-                  <p className="kicker">{S.constructorChampion}</p>
+                  <p className="kicker">{live && !cchamp && year >= 1958 ? `${S.constructorChampion} · ${S.leaderProvisional}` : S.constructorChampion}</p>
                   <p className="title-2">
                     {year < 1958 ? S.notAwarded : (cchamp ?? ctor(sum.constructorLeader)) ? <Link href={lp(lang, `/teams/${(cchamp ?? ctor(sum.constructorLeader))!.id}`)}>{(cchamp ?? ctor(sum.constructorLeader))!.name}</Link> : "—"}
                   </p>

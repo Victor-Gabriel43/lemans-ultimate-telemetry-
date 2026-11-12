@@ -71,6 +71,8 @@ export type SeasonSummary = {
   champion?: string;
   constructorChampion?: string;
   leader?: string;
+  /** Title(s) mathematically decided before the season ended. */
+  clinched?: boolean;
   constructorLeader?: string;
   drivers: number;
   constructors: number;

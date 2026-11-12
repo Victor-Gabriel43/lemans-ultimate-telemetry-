@@ -291,7 +291,7 @@ for (const year of years) {
       dy.pos = s.position;
       dy.pts = s.points;
     }
-    if (status === "completed") ds(s.driverId).points += s.points;
+    ds(s.driverId).points += s.points; // includes the season in progress
   }
   for (const s of cStand) {
     const cy = cs(s.constructorId).seasons.get(year);
@@ -300,8 +300,19 @@ for (const year of years) {
       cy.pts = s.points;
     }
   }
-  const champD = status === "completed" ? dStand.find((s) => s.position === 1) : undefined;
-  const champC = status === "completed" ? cStand.find((s) => s.position === 1) : undefined;
+  // A title is decided when the leader's margin exceeds the most points the
+  // runner-up could still score (every remaining event counted as a sprint weekend).
+  const remaining = races.length - completedRaces;
+  const flp = year >= 2019 && year <= 2024 ? 1 : 0;
+  const decided = (stand, perEvent) => {
+    const [a, b] = [...stand].sort((x, y) => x.position - y.position);
+    if (!a) return undefined;
+    if (status === "completed") return a;
+    return b && a.points - b.points > remaining * perEvent ? a : undefined;
+  };
+  const champD = decided(dStand, 25 + 8 + flp);
+  const champC = decided(cStand, 25 + 18 + 8 + 7 + flp);
+  const clinched = status !== "completed" && (champD || champC) ? true : undefined;
   if (champD) {
     ds(champD.driverId).titles.push(year);
     // constructor the champion drove for (most races that year)
@@ -330,6 +341,7 @@ for (const year of years) {
       completed: completedRaces,
       champion: champD?.driverId,
       constructorChampion: champC?.constructorId,
+      clinched,
       leader: status !== "completed" ? dStand.find((s) => s.position === 1)?.driverId : undefined,
       constructorLeader: status !== "completed" ? cStand.find((s) => s.position === 1)?.constructorId : undefined,
       drivers: new Set(entrants.flatMap((e) => e.drivers.filter((x) => !x.test).map((x) => x.d))).size,
