@@ -204,12 +204,11 @@
   "remote": "https://upload.wikimedia.org/wikipedia/commons/f/fc/Mercedes-AMG_Petronas_F1_Team_logo_%282026%29.svg"
  },
  "red-bull": {
-  "file": "Red Bull Racing - 2005 Logo.png",
-  "src": "/media/logos/red-bull.png",
-  "license": "Public domain",
-  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Red_Bull_Racing_-_2005_Logo.png",
-  "curated": true,
-  "remote": "https://upload.wikimedia.org/wikipedia/commons/9/9f/Red_Bull_Racing_-_2005_Logo.png"
+  "file": "Red_Bull_Racing_Logo_2026.svg",
+  "src": "/media/logos/red-bull.svg",
+  "license": "Trademark of its owner; non-free logo from English Wikipedia, shown only to identify the team",
+  "sourceUrl": "https://en.wikipedia.org/wiki/File:Red_Bull_Racing_Logo_2026.svg",
+  "curated": true
  },
  "aston-martin": {
   "file": "Aston Martin F1 Team logo 2024.jpg",
@@ -256,5 +255,12 @@
   "sourceUrl": "https://commons.wikimedia.org/wiki/File:Brawn_GP_logo.svg",
   "curated": true,
   "remote": "https://upload.wikimedia.org/wikipedia/commons/2/24/Brawn_GP_logo.svg"
+ },
+ "ferrari": {
+  "file": "Scuderia_Ferrari_HP_logo_24.svg (shield only)",
+  "src": "/media/logos/ferrari.svg",
+  "license": "Trademark of its owner; non-free logo from English Wikipedia, shown only to identify the team",
+  "sourceUrl": "https://en.wikipedia.org/wiki/File:Scuderia_Ferrari_HP_logo_24.svg",
+  "curated": true
  }
 }
