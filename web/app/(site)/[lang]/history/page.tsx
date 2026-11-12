@@ -65,7 +65,7 @@ export default async function HistoryPage({ params }: PageProps<"/[lang]/history
           <SectionHead
             eyebrow={t.history.momentsEyebrow}
             title={fmt(t.history.momentsTitle, { n: moments.length })}
-            lede={t.history.momentsLede}
+            lede={fmt(t.history.momentsLede, { n: moments.length })}
             action={
               <LinkArrow lang={lang} href="/seasons">
                 {t.nav.seasons}

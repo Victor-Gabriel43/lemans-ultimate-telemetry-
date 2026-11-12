@@ -1803,3 +1803,168 @@ a.card:hover {
 .lang-switch:hover { color: var(--ink); border-color: var(--ink-3); }
 .gnav-link { padding: 0 8px; }
 @media (max-width: 1240px) { .gnav-link { padding: 0 6px; font-size: 12px; } }
+
+/* ------------------------------------------------------------------ Home */
+.home-hero {
+  position: relative;
+  min-height: min(92svh, 920px);
+  display: flex;
+  align-items: flex-end;
+  background: #000;
+  color: #fff;
+  overflow: hidden;
+}
+.home-hero-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 62% 50%;
+}
+.home-hero-shade {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(0, 0, 0, 0.82) 0%, rgba(0, 0, 0, 0.55) 38%, rgba(0, 0, 0, 0) 68%),
+    linear-gradient(180deg, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0) 25%, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 0.7) 100%);
+}
+.home-hero-content {
+  position: relative;
+  padding-top: 120px;
+  padding-bottom: clamp(48px, 7vw, 96px);
+}
+.home-hero-content .eyebrow-f1 {
+  color: rgba(255, 255, 255, 0.8);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 13px;
+}
+.home-hero-title {
+  font-size: clamp(40px, 6.2vw, 92px);
+  line-height: 0.98;
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  max-width: 11ch;
+  margin-top: 12px;
+}
+.home-hero-sub {
+  font-size: clamp(17px, 1.6vw, 21px);
+  line-height: 1.45;
+  max-width: 46ch;
+  margin-top: 18px;
+  color: rgba(255, 255, 255, 0.86);
+}
+.home-hero .btn-ghost {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.5);
+}
+.home-hero-credit {
+  position: absolute;
+  right: 16px;
+  bottom: 10px;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.6);
+}
+.home-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.photo-card {
+  display: flex;
+  flex-direction: column;
+  border-radius: 22px;
+  overflow: hidden;
+  background: var(--paper-2);
+  transition: transform 0.25s ease;
+}
+.tone-night .photo-card {
+  background: #1d1d1f;
+}
+.photo-card:hover {
+  transform: translateY(-3px);
+}
+.photo-card .plate {
+  border-radius: 0;
+}
+.photo-card-body {
+  padding: 22px 24px 26px;
+  display: grid;
+  gap: 6px;
+}
+.standings-mini {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.standings-mini li {
+  display: grid;
+  grid-template-columns: 36px 1fr auto;
+  align-items: baseline;
+  padding: 11px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  font-size: 18px;
+}
+.standings-mini li:first-child .name {
+  font-weight: 700;
+}
+.standings-mini .pos {
+  color: rgba(255, 255, 255, 0.5);
+}
+.standings-mini .pts {
+  font-weight: 600;
+}
+.decade-tile {
+  position: relative;
+  display: block;
+  aspect-ratio: 4 / 5;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #2c2c2e;
+}
+.decade-tile img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+.decade-tile:hover img {
+  transform: scale(1.05);
+}
+.decade-tile::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 40%, rgba(0, 0, 0, 0.85) 100%);
+}
+.decade-tile-text {
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 16px;
+  z-index: 1;
+  display: grid;
+  gap: 4px;
+  color: #fff;
+}
+.decade-tile-year {
+  font-size: clamp(24px, 2.6vw, 34px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.decade-tile-names {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+@media (max-width: 680px) {
+  .home-hero { min-height: 88svh; }
+  .home-hero-img { object-position: 70% 40%; }
+  .home-hero-shade { background: linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.15) 25%, rgba(0,0,0,0.75) 50%, rgba(0,0,0,0.92) 100%); }
+  .home-hero-img { object-position: 72% 20%; height: 60%; }
+}

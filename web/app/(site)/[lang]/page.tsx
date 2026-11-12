@@ -1,19 +1,15 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { ArrowRight, BookOpen, Flag, Gauge, Layers, Map, Scale, Trophy, Users, Wrench } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { lp, type Lang } from "@/lib/i18n/config";
 import { fmt, getDict } from "@/lib/i18n/dict";
-import { chassis, circuit, countryName, ctor, db, driver, formatDate, gpName, season } from "@/lib/f1/db";
+import { chassis, chassisName, circuit, ctor, db, driver, formatDate, gpName, season } from "@/lib/f1/db";
 import { eras } from "@/lib/f1/content";
-import { CATEGORIES } from "@/lib/f1/categories";
-import { LESSONS } from "@/lib/f1/learn";
-import { EraTimeline } from "@/components/site/EraTimeline";
-import { CarCard, CircuitCard, DriverCard } from "@/components/site/cards";
-import { LinkArrow, Plate, SectionHead, Stat, StatusBadge } from "@/components/site/ui";
-import { teamColor } from "@/lib/f1/content";
-import { eraHero, seasonHero } from "@/lib/f1/derive";
-import { chassisPhoto } from "@/lib/f1/media";
+import { eraHero } from "@/lib/f1/derive";
+import { chassisPhoto, circuitPhoto, driverPhoto, photo } from "@/lib/f1/media";
 import { sized } from "@/lib/f1/img";
+import { DriverCard } from "@/components/site/cards";
+import { Plate } from "@/components/site/ui";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]">): Promise<Metadata> {
   const { lang } = await params;
@@ -21,468 +17,264 @@ export async function generateMetadata({ params }: PageProps<"/[lang]">): Promis
   return { title: { absolute: `Paddock — ${t.meta.tagline}` } };
 }
 
-const FEATURED_DRIVERS = ["juan-manuel-fangio", "jim-clark", "niki-lauda", "ayrton-senna", "michael-schumacher", "lewis-hamilton", "max-verstappen", "lando-norris"];
-const FEATURED_CARS = ["lotus-25", "lotus-49", "lotus-79", "mclaren-mp4-4", "williams-fw14b", "brawn-bgp-001", "mercedes-f1-w05", "red-bull-rb19"];
-const FEATURED_CIRCUITS = ["silverstone", "monaco", "monza", "spa-francorchamps", "suzuka", "interlagos"];
+const LEGENDS = ["juan-manuel-fangio", "jim-clark", "jackie-stewart", "niki-lauda", "alain-prost", "ayrton-senna", "michael-schumacher", "sebastian-vettel", "lewis-hamilton", "max-verstappen"];
 
-const STORIES: { year: number; href: string; car?: string; tone: "red" | "navy" | "gold" | "silver"; title: { pt: string; en: string }; text: { pt: string; en: string } }[] = [
-  {
-    year: 1976,
-    href: "/seasons/1976",
-    tone: "red",
-    title: { pt: "Lauda, Hunt e um ponto", en: "Lauda, Hunt and one point" },
-    text: { pt: "Um acidente, uma volta por cima em seis semanas e um título decidido na chuva de Fuji.", en: "A crash, a comeback in six weeks and a title decided in the rain at Fuji." },
-  },
-  {
-    year: 1988,
-    href: "/cars/mclaren-mp4-4",
-    car: "mclaren-mp4-4",
-    tone: "gold",
-    title: { pt: "Quinze em dezesseis", en: "Fifteen out of sixteen" },
-    text: { pt: "Senna, Prost e o McLaren-Honda MP4/4: a temporada mais dominante da era turbo.", en: "Senna, Prost and the McLaren-Honda MP4/4: the most dominant season of the turbo era." },
-  },
-  {
-    year: 1994,
-    href: "/history/1990s",
-    tone: "navy",
-    title: { pt: "Ímola e a era da segurança", en: "Imola and the safety era" },
-    text: { pt: "O fim de semana que obrigou a Fórmula 1 a repensar a segurança de carros e circuitos.", en: "The weekend that forced Formula One to rethink the safety of cars and circuits." },
-  },
-  {
-    year: 2009,
-    href: "/cars/brawn-bgp-001",
-    car: "brawn-bgp-001",
-    tone: "silver",
-    title: { pt: "A equipe que quase não existiu", en: "The team that almost never was" },
-    text: { pt: "Salva semanas antes da temporada, a Brawn GP venceu os dois títulos com o difusor duplo.", en: "Rescued weeks before the season, Brawn GP won both titles with its double diffuser." },
-  },
+const ICONIC_CARS: { id: string; line: { pt: string; en: string } }[] = [
+  { id: "mclaren-mp4-4", line: { pt: "1988 · Senna e Prost venceram 15 das 16 corridas.", en: "1988 · Senna and Prost won 15 of the 16 races." } },
+  { id: "ferrari-f2004", line: { pt: "2004 · 15 vitórias em 18 corridas e o sétimo título de Schumacher.", en: "2004 · 15 wins from 18 races and Schumacher's seventh title." } },
+  { id: "red-bull-rb19", line: { pt: "2023 · 21 vitórias em 22 corridas.", en: "2023 · 21 wins from 22 races." } },
+  { id: "williams-fw14b", line: { pt: "1992 · Suspensão ativa e o título de Nigel Mansell.", en: "1992 · Active suspension and Nigel Mansell's title." } },
+  { id: "lotus-79", line: { pt: "1978 · O carro-asa de Mario Andretti.", en: "1978 · Mario Andretti's wing car." } },
+  { id: "mercedes-f1-w05", line: { pt: "2014 · O primeiro campeão da era híbrida.", en: "2014 · The first champion of the hybrid era." } },
 ];
+
+function decadeLabel(start: number, lang: Lang) {
+  const d = String(start).slice(2, 4);
+  return lang === "pt" ? `Anos ${d}` : `The '${d}s`;
+}
 
 export default async function Home({ params }: PageProps<"/[lang]">) {
   const { lang: l } = await params;
   const lang = l as Lang;
+  const pt = lang === "pt";
   const t = getDict(lang);
   const i = db();
-  const completed = i.seasons.filter((s) => s.status === "completed");
-  const champions = new Set(completed.map((s) => s.champion)).size;
-  const starters = i.drivers.filter((d) => d.st.starts > 0).length;
-  const racesHeld = i.seasons.reduce((n, s) => n + s.completed, 0);
   const cur = i.seasons[i.seasons.length - 1];
   const curData = season(cur.year)!;
-  const lastRace = [...curData.races].reverse().find((r) => r.status === "completed");
-  const nextRace = curData.races.find((r) => r.status === "scheduled");
+  const standings = curData.driverStandings;
+  const champ = driver(cur.champion);
   const leader = driver(cur.leader ?? cur.champion);
-  const cLeader = ctor(cur.constructorLeader ?? cur.constructorChampion);
-  const grid = [...new Set(curData.entrants.map((e) => e.c))].map((id) => ctor(id)!).filter(Boolean);
+  const first = standings[0];
+  const second = standings[1];
+  const secondDriver = driver(second?.d);
+  const remaining = cur.rounds - cur.completed;
+  const wins = curData.races.filter((r) => r.results.some((x) => x.pos === 1 && x.d === first?.d)).length;
+  const nextRace = curData.races.find((r) => !r.results.length);
+  const nextCircuit = nextRace ? circuit(nextRace.circuit) : undefined;
+  const hero = photo("home-hero");
+  const raceShot = photo("home-race");
   const E = eras(lang);
-  const lastDone = [...i.seasons].reverse().find((s) => s.status === "completed")?.year ?? 2025;
-  const homeHero = seasonHero(lastDone);
+  const cLead = ctor(cur.constructorChampion ?? cur.constructorLeader);
+  const championsCount = new Set(i.seasons.map((s) => s.champion).filter(Boolean)).size;
+
+  const headline = champ ? (pt ? `${champ.last} é campeão do mundo.` : `${champ.last} is world champion.`) : pt ? `${leader?.last ?? ""} lidera ${cur.year}.` : `${leader?.last ?? ""} leads ${cur.year}.`;
+  const sub = champ
+    ? pt
+      ? `${champ.name} garantiu matematicamente o título de ${cur.year}: ${first.pts} pontos, ${first.pts - second.pts} à frente de ${secondDriver?.name}, com ${remaining} ${remaining === 1 ? "etapa" : "etapas"} ainda por disputar. ${wins} vitórias em ${cur.completed} corridas.`
+      : `${champ.name} has mathematically secured the ${cur.year} title: ${first.pts} points, ${first.pts - second.pts} clear of ${secondDriver?.name}, with ${remaining} ${remaining === 1 ? "round" : "rounds"} still to run. ${wins} wins from ${cur.completed} races.`
+    : pt
+      ? `${first?.pts} pontos depois de ${cur.completed} de ${cur.rounds} etapas.`
+      : `${first?.pts} points after ${cur.completed} of ${cur.rounds} rounds.`;
 
   return (
     <>
-      {/* Hero */}
-      <section className="tone-night" style={{ paddingTop: "clamp(56px,9vw,112px)", overflow: "hidden" }}>
-        <div className="wrap center">
-          <p className="eyebrow-f1 rise">{t.home.eyebrow}</p>
-          <h1 className="display balance rise rise-2" style={{ fontSize: "clamp(48px, 9vw, 112px)" }}>
-            {fmt(t.home.title1, { n: completed.length })}
-            <br />
-            <span className="gradient-ink">{t.home.title2}</span>
-          </h1>
-          <p className="lede mx-auto mt-m pretty rise rise-3" style={{ maxWidth: 680 }}>
-            {t.home.lede}
+      {/* Hero — full-bleed photograph */}
+      <section className="home-hero">
+        {hero && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={hero.src} alt={pt ? "Kimi Antonelli com a Mercedes no GP da Holanda de 2026" : "Kimi Antonelli in the Mercedes at the 2026 Dutch Grand Prix"} className="home-hero-img" fetchPriority="high" />
+        )}
+        <div className="home-hero-shade" aria-hidden />
+        <div className="wrap-wide home-hero-content">
+          <p className="eyebrow-f1">
+            {pt ? `Temporada ${cur.year}` : `${cur.year} season`} · {champ ? (pt ? "Título decidido" : "Title decided") : pt ? "Em andamento" : "In progress"}
           </p>
-          <div className="flex-row mt-m rise rise-3" style={{ justifyContent: "center" }}>
-            <Link href={lp(lang, "/history")} className="btn btn-red">
-              {t.home.ctaHistory}
+          <h1 className="home-hero-title balance">{headline}</h1>
+          <p className="home-hero-sub pretty">{sub}</p>
+          <div className="flex-row mt-m" style={{ gap: 10 }}>
+            <Link href={lp(lang, `/seasons/${cur.year}`)} className="btn btn-red">
+              {pt ? `A temporada ${cur.year}` : `The ${cur.year} season`}
             </Link>
-            <Link href={lp(lang, "/learn")} className="btn btn-ghost">
-              {t.home.ctaLearn}
-            </Link>
-          </div>
-        </div>
-        <div className="wrap-wide" style={{ marginTop: "clamp(48px,7vw,88px)" }}>
-          <Plate
-            lang={lang}
-            alt={homeHero?.label ?? "Formula 1, 1950–2026"}
-            photo={homeHero?.photo}
-            tone="red"
-            ratio="ratio-cinema"
-            priority
-            tag="1950 — 2026"
-            glyph={<span style={{ fontSize: "clamp(72px,16vw,240px)" }}>F1</span>}
-            className="rise rise-3"
-            caption={homeHero?.chassisId ? <Link href={lp(lang, `/cars/${homeHero.chassisId}`)} className="inline-link">{homeHero.label}</Link> : undefined}
-          />
-        </div>
-        <div style={{ height: "clamp(56px,8vw,96px)" }} />
-      </section>
-
-      {/* What is F1 */}
-      <section className="section tone-paper">
-        <div className="wrap">
-          <div className="grid grid-2" style={{ gap: "clamp(32px,6vw,96px)", alignItems: "start" }}>
-            <div>
-              <p className="eyebrow-f1">{t.home.whatEyebrow}</p>
-              <h2 className="headline balance">{t.home.whatTitle}</h2>
-            </div>
-            <div className="prose">
-              <p>{t.home.whatP1}</p>
-              <p>{t.home.whatP2}</p>
-              <p>
-                <LinkArrow lang={lang} href="/learn/what-is-formula-1">
-                  {t.home.whatLink}
-                </LinkArrow>
-              </p>
-            </div>
-          </div>
-          <div className="stat-row mt-xl">
-            <Stat value={completed.length} label={t.home.statSeasons} />
-            <Stat value={champions} label={t.home.statChampions} />
-            <Stat value={starters} label={t.home.statDrivers} />
-            <Stat value={racesHeld} label={t.home.statRaces} />
-          </div>
-        </div>
-      </section>
-
-      {/* History */}
-      <section className="section tone-off" id="history">
-        <div className="wrap">
-          <SectionHead
-            eyebrow={t.home.historyEyebrow}
-            title={t.home.historyTitle}
-            lede={t.home.historyLede}
-            action={
-              <LinkArrow lang={lang} href="/history">
-                {t.home.historyLink}
-              </LinkArrow>
-            }
-          />
-          <EraTimeline
-            eras={E.map((e) => {
-              const h = eraHero(e.start, e.end);
-              return { id: e.id, slug: e.slug, decade: e.decade, start: e.start, end: e.end, name: e.name, tagline: e.tagline, intro: e.intro, themes: e.themes, tone: e.tone, photo: h ? { src: sized(h.photo.src, 960), credit: h.photo.credit, license: h.photo.license, label: h.label } : undefined };
-            })}
-            lang={lang}
-            labels={{ read: t.history.readDecade, seasons: t.history.seasonsLink, prev: t.common.previous, next: t.common.next, tablist: t.history.eyebrow }}
-          />
-        </div>
-      </section>
-
-      {/* Featured stories */}
-      <section className="section tone-paper">
-        <div className="wrap-wide">
-          <SectionHead eyebrow={t.home.storiesEyebrow} title={t.home.storiesTitle} />
-          <div className="grid grid-4 keep-2">
-            {STORIES.map((s) => (
-              <Link key={s.year} href={lp(lang, s.href)} className="card">
-                <Plate linked lang={lang} alt={s.title[lang]} photo={(s.car ? chassisPhoto(s.car) : undefined) ?? seasonHero(s.year)?.photo} tone={s.tone} ratio="ratio-photo" flat tag={String(s.year)} glyph={s.year} glyphSize="sm" />
-                <div className="card-body">
-                  <p className="card-title">{s.title[lang]}</p>
-                  <p className="small muted pretty">{s.text[lang]}</p>
-                </div>
+            {(champ ?? leader) && (
+              <Link href={lp(lang, `/drivers/${(champ ?? leader)!.id}`)} className="btn btn-ghost">
+                {pt ? "Perfil do piloto" : "Driver profile"}
               </Link>
-            ))}
+            )}
           </div>
         </div>
+        {hero && (
+          <a className="home-hero-credit" href={hero.sourceUrl} target="_blank" rel="noreferrer">
+            {fmt(t.common.photoCredit, { credit: hero.credit, license: hero.license })}
+          </a>
+        )}
       </section>
 
-      {/* Current season */}
-      <section className="section tone-night">
-        <div className="wrap">
-          <SectionHead
-            eyebrow={t.home.currentEyebrow}
-            title={
-              <>
-                {cur.year}. <span style={{ color: "var(--on-night-2)" }}>{t.home.currentTitle.replace(/^\d{4}\.\s*/, "")}</span>
-              </>
-            }
-            lede={t.home.currentLede}
-            action={
-              <LinkArrow lang={lang} href={`/seasons/${cur.year}`}>
-                {t.home.currentLink}
-              </LinkArrow>
-            }
-          />
-          <div className="grid grid-4">
-            <div className="tile">
-              <div className="tile-body">
-                <StatusBadge lang={lang} status={cur.status === "completed" ? "cross-checked" : "provisional"} />
-                <p className="kicker mt-s">{cur.status === "completed" ? t.seasons.champion : cur.champion ? t.seasons.clinchedChampion : t.home.currentLeader}</p>
-                <p className="title-2">{leader ? <Link href={lp(lang, `/drivers/${leader.id}`)}>{leader.name}</Link> : "—"}</p>
-                <p className="small muted">
-                  {curData.driverStandings[0]?.pts} {t.common.points.toLowerCase()}
-                </p>
-              </div>
-            </div>
-            <div className="tile">
-              <div className="tile-body">
-                <p className="kicker">{t.home.currentConstructorLeader}</p>
-                <p className="title-2">{cLeader ? <Link href={lp(lang, `/teams/${cLeader.id}`)}>{cLeader.name}</Link> : "—"}</p>
-                <p className="small muted">
-                  {curData.constructorStandings[0]?.pts} {t.common.points.toLowerCase()}
-                </p>
-              </div>
-            </div>
-            <div className="tile">
-              <div className="tile-body">
-                <p className="kicker">{t.home.currentLast}</p>
-                {lastRace ? (
-                  <>
-                    <p className="title-3">
-                      <Link href={lp(lang, `/seasons/${cur.year}/${lastRace.slug}`)}>{gpName(lastRace.gp)}</Link>
-                    </p>
-                    <p className="small muted">
-                      {formatDate(lastRace.date, lang)} · {t.common.winner}: {driver(lastRace.results.find((r) => r.pos === 1)?.d)?.name}
-                    </p>
-                  </>
-                ) : (
-                  <p className="muted">—</p>
-                )}
-              </div>
-            </div>
-            <div className="tile">
-              <div className="tile-body">
-                <p className="kicker">{t.home.currentNext}</p>
-                {nextRace ? (
-                  <>
-                    <p className="title-3">
-                      <Link href={lp(lang, `/seasons/${cur.year}/${nextRace.slug}`)}>{gpName(nextRace.gp)}</Link>
-                    </p>
-                    <p className="small muted">
-                      {formatDate(nextRace.date, lang)} · {circuit(nextRace.circuit)?.place}
-                    </p>
-                  </>
-                ) : (
-                  <p className="muted">—</p>
-                )}
-                <p className="caption mt-xs" style={{ color: "var(--on-night-2)" }}>
-                  {fmt(t.home.currentProgress, { done: cur.completed, total: cur.rounds })}
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Drivers */}
-      <section className="section tone-paper">
+      {/* Next race + standings */}
+      <section className="section tone-night" style={{ paddingTop: "clamp(48px,6vw,72px)" }}>
         <div className="wrap-wide">
-          <SectionHead
-            eyebrow={t.home.driversEyebrow}
-            title={t.home.driversTitle}
-            lede={fmt(t.home.driversLede, { n: i.drivers.length })}
-            action={
-              <LinkArrow lang={lang} href="/drivers">
-                {t.home.driversLink}
-              </LinkArrow>
-            }
-          />
-        </div>
-        <div className="rail" aria-label={t.home.driversEyebrow}>
-          {FEATURED_DRIVERS.map((id) => (
-            <DriverCard key={id} d={driver(id)!} lang={lang} />
-          ))}
-        </div>
-      </section>
-
-      {/* Teams — the current grid */}
-      <section className="section-tight tone-off">
-        <div className="wrap-wide">
-          <SectionHead
-            eyebrow={t.home.teamsEyebrow}
-            title={t.home.teamsTitle}
-            lede={fmt(t.home.teamsLede, { n: i.constructors.length })}
-            action={
-              <LinkArrow lang={lang} href="/teams">
-                {t.home.teamsLink}
-              </LinkArrow>
-            }
-          />
-          <ul className="grid" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: 12 }}>
-            {grid.map((c) => (
-              <li key={c.id}>
-                <Link href={lp(lang, `/teams/${c.id}`)} className="card" style={{ flexDirection: "row", alignItems: "center", gap: 12, padding: "16px 18px", height: "100%" }}>
-                  <span style={{ width: 6, alignSelf: "stretch", borderRadius: 4, background: teamColor(c.id) ?? "var(--line)" }} aria-hidden />
-                  <span>
-                    <span style={{ display: "block", fontWeight: 600 }}>{c.name}</span>
-                    <span className="caption">
-                      {countryName(c.country, lang)} · {t.common.since} {c.first_}
-                    </span>
-                  </span>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
-
-      {/* Cars */}
-      <section className="section tone-paper">
-        <div className="wrap-wide">
-          <SectionHead
-            eyebrow={t.home.carsEyebrow}
-            title={t.home.carsTitle}
-            lede={t.home.carsLede}
-            action={
-              <LinkArrow lang={lang} href="/teams">
-                {t.nav.teams}
-              </LinkArrow>
-            }
-          />
-        </div>
-        <div className="rail" aria-label={t.home.carsEyebrow}>
-          {FEATURED_CARS.map((id) => (
-            <CarCard key={id} ch={chassis(id)!} lang={lang} />
-          ))}
-        </div>
-      </section>
-
-      {/* Circuits */}
-      <section className="section tone-off">
-        <div className="wrap-wide">
-          <SectionHead
-            eyebrow={t.home.circuitsEyebrow}
-            title={t.home.circuitsTitle}
-            lede={fmt(t.home.circuitsLede, { n: i.circuits.length })}
-            action={
-              <LinkArrow lang={lang} href="/circuits">
-                {t.home.circuitsLink}
-              </LinkArrow>
-            }
-          />
-          <div className="grid grid-3">
-            {FEATURED_CIRCUITS.map((id) => (
-              <CircuitCard key={id} c={circuit(id)!} lang={lang} />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Weekend + Engineering/Regulations */}
-      <section className="section tone-paper">
-        <div className="wrap-wide">
-          <div className="grid grid-2">
-            <Link href={lp(lang, "/race-weekend")} className="tile tile-link tile-dark" style={{ minHeight: 400 }}>
-              <div className="tile-body" style={{ justifyContent: "space-between" }}>
-                <div>
-                  <p className="eyebrow-f1" style={{ color: "#ff5a4f" }}>
-                    {t.home.weekendEyebrow}
+          <div className="grid grid-2" style={{ gap: "clamp(24px,4vw,48px)", alignItems: "start" }}>
+            {nextRace && nextCircuit ? (
+              <Link href={lp(lang, `/seasons/${cur.year}/${nextRace.slug}`)} className="photo-card">
+                <Plate linked lang={lang} alt={nextCircuit.full} photo={circuitPhoto(nextCircuit.id)} tone="red" ratio="ratio-wide" flat glyph={nextCircuit.name} glyphSize="sm" />
+                <div className="photo-card-body">
+                  <p className="kicker">
+                    {pt ? "Próxima corrida" : "Next race"} · {fmt(t.race.eyebrow, { y: cur.year, r: nextRace.round })}
                   </p>
-                  <p className="title-1 balance">{t.home.weekendTitle}</p>
-                  <p className="muted mt-s">{t.home.weekendText}</p>
+                  <p className="title-1">{gpName(nextRace.gp)}</p>
+                  <p className="muted">
+                    {formatDate(nextRace.date, lang)} · {nextCircuit.full}
+                  </p>
                 </div>
-                <Flag size={32} strokeWidth={1.5} aria-hidden />
-              </div>
-            </Link>
-            <Link href={lp(lang, "/regulations")} className="tile tile-link" style={{ minHeight: 400, background: "var(--paper-2)" }}>
-              <div className="tile-body" style={{ justifyContent: "space-between" }}>
-                <div>
-                  <p className="eyebrow-f1">{t.home.engEyebrow}</p>
-                  <p className="title-1 balance">{t.home.engTitle}</p>
-                  <p className="muted mt-s">{t.home.engText}</p>
-                </div>
-                <Scale size={32} strokeWidth={1.5} color="var(--red)" aria-hidden />
-              </div>
-            </Link>
+              </Link>
+            ) : (
+              raceShot && <Plate lang={lang} alt="Formula 1" photo={raceShot} ratio="ratio-wide" />
+            )}
+            <div>
+              <p className="kicker">{pt ? "Classificação de pilotos" : "Drivers' standings"}</p>
+              <ol className="standings-mini mt-s">
+                {standings.slice(0, 8).map((s) => (
+                  <li key={s.d}>
+                    <span className="num pos">{s.pos}</span>
+                    <Link href={lp(lang, `/drivers/${s.d}`)} className="name">
+                      {driver(s.d)?.name ?? s.d}
+                    </Link>
+                    <span className="num pts">{s.pts}</span>
+                  </li>
+                ))}
+              </ol>
+              <Link href={lp(lang, `/seasons/${cur.year}#drivers`)} className="link-arrow mt-s">
+                {pt ? "Classificação completa" : "Full standings"} <ArrowRight size={14} />
+              </Link>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Ladder */}
-      <section className="section tone-off">
-        <div className="wrap">
-          <SectionHead center eyebrow={t.home.ladderEyebrow} title={t.home.ladderTitle} lede={t.home.ladderLede} />
-          <ol className="grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: 12 }}>
-            {[...CATEGORIES]
-              .sort((a, b) => a.ladderStep - b.ladderStep)
-              .map((c) => (
-                <li key={c.slug}>
-                  <Link href={lp(lang, `/categories/${c.slug}`)} className="tile tile-link" style={{ background: c.colorSoft, height: "100%" }}>
-                    <div className="tile-body" style={{ padding: 20 }}>
-                      <span className="kicker" style={{ color: "var(--ink-2)" }}>
-                        {fmt(t.home.step, { n: c.ladderStep })}
-                      </span>
-                      <span style={{ fontSize: 40, fontWeight: 800, letterSpacing: "-0.04em", color: c.color, lineHeight: 1 }}>{c.short}</span>
-                      <span className="small" style={{ fontWeight: 600 }}>
-                        {c.name}
-                      </span>
-                    </div>
-                  </Link>
-                </li>
-              ))}
-          </ol>
-          <p className="center mt-m">
-            <LinkArrow lang={lang} href="/categories">
-              {t.home.ladderLink}
-            </LinkArrow>
-          </p>
-        </div>
-      </section>
-
-      {/* Learn */}
+      {/* The calendar, circuit by circuit */}
       <section className="section tone-paper">
-        <div className="wrap">
-          <SectionHead
-            eyebrow={t.home.learnEyebrow}
-            title={t.home.learnTitle}
-            lede={t.home.learnLede}
-            action={
-              <LinkArrow lang={lang} href="/learn">
-                {t.home.learnLink}
-              </LinkArrow>
-            }
-          />
-          <div className="grid grid-3">
-            {(["Beginner", "Intermediate", "Advanced"] as const).map((level) => (
-              <div key={level} className="tile" style={{ background: "var(--paper-2)" }}>
-                <div className="tile-body">
-                  <span className={`badge ${level === "Beginner" ? "badge-red" : ""}`} style={{ alignSelf: "flex-start" }}>
-                    {t.learn.levels[level]}
-                  </span>
-                  <ul style={{ marginTop: 10 }}>
-                    {LESSONS.filter((x) => x.level === level)
-                      .slice(0, 3)
-                      .map((x) => (
-                        <li key={x.slug} style={{ borderTop: "1px solid var(--line-soft)" }}>
-                          <Link href={lp(lang, `/learn/${x.slug}`)} className="flex-row space-between" style={{ padding: "12px 0", flexWrap: "nowrap" }}>
-                            <span style={{ fontWeight: 600 }}>{x.title[lang]}</span>
-                            <span className="caption">{x.minutes} min</span>
-                          </Link>
-                        </li>
-                      ))}
-                  </ul>
-                  <LinkArrow lang={lang} href={`/learn?level=${level}`} className="mt-xs">
-                    {t.learn.levels[level]}
-                  </LinkArrow>
+        <div className="wrap-wide home-head">
+          <h2 className="headline">{pt ? `O calendário ${cur.year}` : `The ${cur.year} calendar`}</h2>
+          <Link href={lp(lang, "/circuits")} className="link-arrow">
+            {pt ? "Todos os circuitos" : "All circuits"} <ArrowRight size={14} />
+          </Link>
+        </div>
+        <div className="rail mt-m">
+          {curData.races.map((r) => {
+            const c = circuit(r.circuit);
+            const w = r.results.find((x) => x.pos === 1);
+            return (
+              <Link key={r.slug} href={lp(lang, `/seasons/${cur.year}/${r.slug}`)} className="card">
+                <Plate linked lang={lang} alt={c?.full ?? r.circuit} photo={c ? circuitPhoto(c.id) : undefined} tone="graphite" ratio="ratio-photo" flat tag={`R${r.round}`} glyph={c?.name ?? ""} glyphSize="sm" />
+                <div className="card-body">
+                  <p className="card-meta">
+                    {formatDate(r.date, lang)} · {c?.name}
+                  </p>
+                  <p className="card-title">{gpName(r.gp)}</p>
+                  <p className="small muted">{w ? `${pt ? "Vencedor" : "Winner"}: ${driver(w.d)?.name ?? w.d}` : pt ? "A disputar" : "Still to run"}</p>
                 </div>
-              </div>
-            ))}
+              </Link>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* Iconic cars */}
+      <section className="section tone-off">
+        <div className="wrap-wide">
+          <div className="home-head">
+            <h2 className="headline">{pt ? "Os carros que mudaram tudo" : "The cars that changed everything"}</h2>
+            <Link href={lp(lang, "/teams")} className="link-arrow">
+              {pt ? "Todas as equipes e seus carros" : "Every team and its cars"} <ArrowRight size={14} />
+            </Link>
+          </div>
+          <div className="grid grid-3 mt-m">
+            {ICONIC_CARS.map(({ id, line }) => {
+              const ch = chassis(id);
+              if (!ch) return null;
+              return (
+                <Link key={id} href={lp(lang, `/cars/${id}`)} className="card">
+                  <Plate linked lang={lang} alt={chassisName(id)} photo={chassisPhoto(id)} tone="graphite" ratio="ratio-wide" flat glyph={ch.name} glyphSize="sm" />
+                  <div className="card-body">
+                    <p className="card-title">{chassisName(id)}</p>
+                    <p className="small muted">{line[lang]}</p>
+                  </div>
+                </Link>
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* Explore */}
-      <section className="section-tight tone-off">
-        <div className="wrap">
-          <p className="kicker">{t.home.exploreKicker}</p>
-          <div className="grid grid-4 keep-2 mt-s">
+      {/* Champions */}
+      <section className="section tone-paper">
+        <div className="wrap-wide home-head">
+          <h2 className="headline">{pt ? "Campeões" : "Champions"}</h2>
+          <Link href={lp(lang, "/drivers?filter=champions")} className="link-arrow">
+            {pt ? `Os ${championsCount} campeões` : `All ${championsCount} champions`} <ArrowRight size={14} />
+          </Link>
+        </div>
+        <div className="rail mt-m">
+          {[...(champ ? [champ.id] : []), ...LEGENDS.slice().reverse()]
+            .map((id) => driver(id))
+            .filter((d) => d && driverPhoto(d.id))
+            .map((d) => (
+              <DriverCard key={d!.id} d={d!} lang={lang} />
+            ))}
+        </div>
+      </section>
+
+      {/* Decades */}
+      <section className="section tone-night">
+        <div className="wrap-wide">
+          <div className="home-head">
+            <h2 className="headline">{pt ? "De 1950 até hoje" : "From 1950 to today"}</h2>
+            <Link href={lp(lang, "/history")} className="link-arrow">
+              {pt ? "A história completa" : "The full history"} <ArrowRight size={14} />
+            </Link>
+          </div>
+          <div className="grid grid-4 keep-2 mt-m">
+            {E.map((e) => {
+              const h = eraHero(e.start, e.end);
+              const champs = [...new Set(i.seasons.filter((s) => s.year >= e.start && s.year <= e.end && s.champion).map((s) => driver(s.champion)?.last))].slice(0, 4);
+              return (
+                <Link key={e.id} href={lp(lang, `/history/${e.slug}`)} className="decade-tile">
+                  {h && (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={sized(h.photo.src, 500)} alt={h.label} loading="lazy" decoding="async" />
+                  )}
+                  <div className="decade-tile-text">
+                    <span className="decade-tile-year">{decadeLabel(e.start, lang)}</span>
+                    <span className="decade-tile-names">{champs.join(" · ")}</span>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Engineering & regulations */}
+      <section className="section tone-paper">
+        <div className="wrap-wide">
+          <div className="grid grid-2" style={{ gap: 24 }}>
             {[
-              { icon: BookOpen, label: t.nav.history, href: "/history" },
-              { icon: Flag, label: t.nav.seasons, href: "/seasons" },
-              { icon: Trophy, label: t.nav.drivers, href: "/drivers" },
-              { icon: Users, label: t.nav.teams, href: "/teams" },
-              { icon: Wrench, label: t.nav.weekend, href: "/race-weekend" },
-              { icon: Map, label: t.nav.circuits, href: "/circuits" },
-              { icon: Gauge, label: t.nav.engineering, href: "/engineering" },
-              { icon: Layers, label: t.nav.regulations, href: "/regulations" },
+              { href: "/engineering", title: pt ? "Como funciona um F1" : "How an F1 car works", text: pt ? "Aerodinâmica, motor híbrido, pneus, freios e segurança — com os carros que mudaram cada área." : "Aerodynamics, hybrid engines, tyres, brakes and safety — with the cars that changed each one.", car: "lotus-79" },
+              { href: "/regulations", title: pt ? "O regulamento, artigo por artigo" : "The rulebook, article by article", text: pt ? "Os documentos oficiais da FIA desde 2018, com busca e comparação entre versões." : "The official FIA documents since 2018, searchable and comparable between versions.", car: "red-bull-rb19" },
             ].map((x) => (
-              <Link key={x.href} href={lp(lang, x.href)} className="card" style={{ flexDirection: "row", alignItems: "center", gap: 14, padding: "18px 20px" }}>
-                <x.icon size={22} strokeWidth={1.7} color="var(--red)" aria-hidden />
-                <span style={{ fontWeight: 600 }}>{x.label}</span>
-                <ArrowRight size={16} style={{ marginLeft: "auto", color: "var(--ink-3)" }} aria-hidden />
+              <Link key={x.href} href={lp(lang, x.href)} className="photo-card">
+                <Plate linked lang={lang} alt={x.title} photo={chassisPhoto(x.car)} tone="graphite" ratio="ratio-wide" flat />
+                <div className="photo-card-body">
+                  <p className="title-1">{x.title}</p>
+                  <p className="muted">{x.text}</p>
+                </div>
               </Link>
             ))}
+          </div>
+          <div className="flex-row mt-l" style={{ gap: 10 }}>
+            <Link href={lp(lang, "/race-weekend")} className="chip">
+              {t.nav.weekend}
+            </Link>
+            <Link href={lp(lang, "/categories")} className="chip">
+              {t.nav.categories}
+            </Link>
+            <Link href={lp(lang, "/learn")} className="chip">
+              {t.nav.learn}
+            </Link>
+            {cLead && (
+              <Link href={lp(lang, `/teams/${cLead.id}`)} className="chip">
+                {cLead.name}
+              </Link>
+            )}
           </div>
         </div>
       </section>

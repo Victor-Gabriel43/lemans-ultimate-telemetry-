@@ -18,6 +18,9 @@ function registry(): Resolved {
   if (!cache) {
     const p = path.join(process.cwd(), "data", "media", "resolved.json");
     cache = fs.existsSync(p) ? (JSON.parse(fs.readFileSync(p, "utf8")) as Resolved) : {};
+    // Hand-picked photographs (scripts/media + manual review) take precedence.
+    const c = path.join(process.cwd(), "data", "media", "curated.json");
+    if (fs.existsSync(c)) Object.assign(cache, JSON.parse(fs.readFileSync(c, "utf8")) as Resolved);
   }
   return cache;
 }
