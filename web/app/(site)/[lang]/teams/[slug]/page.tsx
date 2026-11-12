@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 import { lp, type Lang } from "@/lib/i18n/config";
 import { fmt, getDict } from "@/lib/i18n/dict";
 import { chassis, chassisOf, countryName, ctor, driver, engineMfrName } from "@/lib/f1/db";
-import { chassisPhoto } from "@/lib/f1/media";
+import { chassisPhoto, teamLogo } from "@/lib/f1/media";
 import { teamEditorial } from "@/lib/f1/content";
 import { BlockHead, Breadcrumbs, DataNotice, Milestones, Plate, Specs, Stat } from "@/components/site/ui";
 import { toneFor } from "@/components/site/cards";
@@ -48,7 +48,14 @@ export default async function TeamPage({ params }: PageProps<"/[lang]/teams/[slu
         <div className="wrap" style={{ position: "relative" }}>
           <Breadcrumbs lang={lang} items={[{ label: t.nav.teams, href: "/teams" }, { label: c.name }]} />
           <div style={{ padding: "clamp(56px,9vw,120px) 0 clamp(40px,6vw,72px)", maxWidth: 860 }}>
-            <div className="cat-bar" style={{ ["--cat" as string]: color, marginBottom: 20 }} />
+            {teamLogo(c.id) ? (
+              <div className="team-hero-logo">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={teamLogo(c.id)!.src} alt={`${c.name} logo`} />
+              </div>
+            ) : (
+              <div className="cat-bar" style={{ ["--cat" as string]: color, marginBottom: 20 }} />
+            )}
             <p className="eyebrow-f1">
               {countryName(c.country, lang)} · {c.first_}–{c.active ? t.common.present : c.last_}
             </p>

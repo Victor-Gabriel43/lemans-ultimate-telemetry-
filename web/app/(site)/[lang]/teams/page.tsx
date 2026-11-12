@@ -3,9 +3,8 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { lp, type Lang } from "@/lib/i18n/config";
 import { fmt, getDict } from "@/lib/i18n/dict";
-import { chassisOf, countryName, ctorName, db } from "@/lib/f1/db";
-import { chassisPhoto } from "@/lib/f1/media";
-import { sized } from "@/lib/f1/img";
+import { countryName, ctorName, db } from "@/lib/f1/db";
+import { teamLogo } from "@/lib/f1/media";
 import { teamEditorial } from "@/lib/f1/content";
 import { TeamBrowser, type TeamRow } from "@/components/site/TeamBrowser";
 import { PageIntro } from "@/components/site/ui";
@@ -34,13 +33,7 @@ export default async function TeamsPage({ params }: PageProps<"/[lang]/teams">) 
       color: ed?.color,
       summary: ed && !ed.isAlias ? ed.summary : undefined,
       lineage: (c.chronology ?? []).map((x) => ctorName(x.c)).join(" "),
-      photo: (() => {
-        const best = chassisOf(c.id)
-          .sort((a, b) => (b.wins ?? 0) - (a.wins ?? 0) || b.years[0] - a.years[0])
-          .map((ch) => ({ ch, p: chassisPhoto(ch.id) }))
-          .find((x) => x.p);
-        return best ? { src: sized(best.p!.src, 500), credit: best.p!.credit, license: best.p!.license, label: best.ch.full ?? best.ch.name } : undefined;
-      })(),
+      logo: teamLogo(c.id)?.src,
     };
   });
   const ranked = i.constructors.filter((c) => c.titles.length).sort((a, b) => b.titles.length - a.titles.length);

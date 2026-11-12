@@ -31,7 +31,7 @@ OUT = os.path.join(ROOT, "data", "media", "resolved.json")
 UA = {"User-Agent": "PaddockEncyclopedia/0.3 (educational F1 encyclopedia)"}
 API = "https://api.openverse.org/v1/images/"
 LICENCES = {"by": "CC BY", "by-sa": "CC BY-SA", "cc0": "CC0", "pdm": "Public domain"}
-BAD = re.compile(r"\b(helmet|model|lego|toy|diecast|die-cast|scale|1:\d+|statue|sculpture|poster|autograph|signature|signed|card|replica|kart|grave|tomb|museum shop|sticker|livery concept)\b", re.I)
+BAD = re.compile(r"\b(helmet|model|lego|toy|diecast|die-cast|scale|1:\d+|statue|sculpture|poster|autograph|signature|signed|card|replica|kart|grave|tomb|museum shop|sticker|livery concept|montagem|montage|collage|composite)\b", re.I)
 MULTI = re.compile(r"\b(and|und|et|e|y)\b|&|,|\bwith\b|\bvs\.?\b", re.I)
 
 
@@ -127,7 +127,7 @@ def main():
         score = champion * 8000 + ch.get("wins", 0) * 100 + len(ch.get("years", [])) * 5
         if score < 5:
             continue
-        tasks.append((score, sid, f"{brand} {model}", lambda t, b=brand, m=model: norm(m) in norm(t) and norm(b.split()[0]) in norm(t)))
+        tasks.append((score, sid, f"{brand} {model}", lambda t, b=brand, m=model: norm(m) in norm(t) and norm(b.split()[0]) in norm(t) and not re.search(r"&|\bvs\.?\b|\band\b", t, re.I)))
     tasks.sort(key=lambda x: -x[0])
     print(len(tasks), "subjects without a photo; budget", budget, file=sys.stderr)
 

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { lp, type Lang } from "@/lib/i18n/config";
 import { fmt, getDict } from "@/lib/i18n/dict";
 import { chassisName, countryName, ctor, ctorName, driver as getDriver, type Chassis, type Circuit, type Constructor, type Driver, type Result, type Pos } from "@/lib/f1/db";
-import { chassisPhoto, circuitPhoto, driverPhoto } from "@/lib/f1/media";
+import { chassisPhoto, circuitPhoto, driverPhoto, teamLogo } from "@/lib/f1/media";
 import { carEditorial, circuitEditorial, driverEditorial, teamEditorial } from "@/lib/f1/content";
 import type { Tone } from "@/lib/f1/types";
 import { Plate } from "./ui";
@@ -49,6 +49,16 @@ export function TeamCard({ c, lang }: { c: Constructor; lang: Lang }) {
   return (
     <Link href={lp(lang, `/teams/${c.id}`)} className="card">
       <div style={{ height: 6, background: ed?.color ?? "var(--line)" }} aria-hidden />
+      <div className="team-logo-box">
+        {teamLogo(c.id) ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={teamLogo(c.id)!.src} alt={`${c.name} logo`} loading="lazy" decoding="async" />
+        ) : (
+          <span className="team-logo-fallback" style={{ color: ed?.color ?? "var(--ink)" }}>
+            {c.name}
+          </span>
+        )}
+      </div>
       <div className="card-body" style={{ paddingTop: 22 }}>
         <p className="card-meta">
           {countryName(c.country, lang)} · {c.first_}–{c.active ? t.common.present : c.last_}

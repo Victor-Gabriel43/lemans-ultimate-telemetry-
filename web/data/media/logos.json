@@ -1,0 +1,260 @@
+{
+ "alpine": {
+  "file": "Alpine F1 Team Logo.svg",
+  "src": "/media/logos/alpine.png",
+  "license": "Public domain",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Alpine_F1_Team_Logo.svg",
+  "width": 482,
+  "height": 442,
+  "remote": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Alpine_F1_Team_Logo.svg/960px-Alpine_F1_Team_Logo.svg.png"
+ },
+ "ats-wheels": {
+  "file": "Ats logo 2009.svg",
+  "src": "/media/logos/ats-wheels.png",
+  "license": "Public domain",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Ats_logo_2009.svg",
+  "width": 758,
+  "height": 208,
+  "remote": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Ats_logo_2009.svg/960px-Ats_logo_2009.svg.png"
+ },
+ "audi": {
+  "file": "Audif1.com logo17 (cropped).svg",
+  "src": "/media/logos/audi.png",
+  "license": "Public domain",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Audif1.com_logo17_(cropped).svg",
+  "width": 616,
+  "height": 569,
+  "remote": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Audif1.com_logo17_%28cropped%29.svg/960px-Audif1.com_logo17_%28cropped%29.svg.png"
+ },
+ "bmw": {
+  "file": "Logo BMW Group 2021.svg",
+  "src": "/media/logos/bmw.png",
+  "license": "Public domain",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Logo_BMW_Group_2021.svg",
+  "width": 512,
+  "height": 267,
+  "remote": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Logo_BMW_Group_2021.svg/960px-Logo_BMW_Group_2021.svg.png"
+ },
+ "brp": {
+  "file": "British Racing Partnership logo.png",
+  "src": "https://upload.wikimedia.org/wikipedia/commons/3/38/British_Racing_Partnership_logo.png",
+  "license": "Public domain",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:British_Racing_Partnership_logo.png",
+  "width": 112,
+  "height": 54
+ },
+ "bugatti": {
+  "file": "Bugatti Logo.png",
+  "src": "/media/logos/bugatti.png",
+  "license": "Public domain",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Bugatti_Logo.png",
+  "width": 1035,
+  "height": 528,
+  "remote": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Bugatti_Logo.png/960px-Bugatti_Logo.png"
+ },
+ "caterham": {
+  "file": "Caterham F1 Team logo (2014).svg",
+  "src": "/media/logos/caterham.png",
+  "license": "Public domain",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Caterham_F1_Team_logo_(2014).svg",
+  "width": 500,
+  "height": 88,
+  "remote": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Caterham_F1_Team_logo_%282014%29.svg/960px-Caterham_F1_Team_logo_%282014%29.svg.png"
+ },
+ "dallara": {
+  "file": "Dallara logo.svg",
+  "src": "/media/logos/dallara.png",
+  "license": "Public domain",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Dallara_logo.svg",
+  "width": 105,
+  "height": 19,
+  "remote": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Dallara_logo.svg/960px-Dallara_logo.svg.png"
+ },
+ "de-tomaso": {
+  "file": "Detomaso automobili logo.png",
+  "src": "/media/logos/de-tomaso.png",
+  "license": "Public domain",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Detomaso_automobili_logo.png",
+  "width": 252,
+  "height": 434,
+  "remote": "https://upload.wikimedia.org/wikipedia/commons/e/e4/Detomaso_automobili_logo.png"
+ },
+ "emw": {
+  "file": "Eisenacher Motorenwerk.svg",
+  "src": "/media/logos/emw.png",
+  "license": "CC BY-SA 4.0",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Eisenacher_Motorenwerk.svg",
+  "width": 600,
+  "height": 600,
+  "remote": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Eisenacher_Motorenwerk.svg/960px-Eisenacher_Motorenwerk.svg.png"
+ },
+ "gordini": {
+  "file": "Gordini Logo.svg",
+  "src": "/media/logos/gordini.png",
+  "license": "Public domain",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Gordini_Logo.svg",
+  "width": 272,
+  "height": 131,
+  "remote": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Gordini_Logo.svg/960px-Gordini_Logo.svg.png"
+ },
+ "haas": {
+  "file": "TGR Haas F1 Team Logo (2026).svg",
+  "src": "/media/logos/haas.png",
+  "license": "Public domain",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:TGR_Haas_F1_Team_Logo_(2026).svg",
+  "width": 512,
+  "height": 469,
+  "remote": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/TGR_Haas_F1_Team_Logo_%282026%29.svg/960px-TGR_Haas_F1_Team_Logo_%282026%29.svg.png"
+ },
+ "maserati": {
+  "file": "Maserati logo 2.svg",
+  "src": "/media/logos/maserati.png",
+  "license": "Public domain",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Maserati_logo_2.svg",
+  "width": 371,
+  "height": 151,
+  "remote": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Maserati_logo_2.svg/960px-Maserati_logo_2.svg.png"
+ },
+ "mclaren": {
+  "file": "McLaren Racing logo.png",
+  "src": "/media/logos/mclaren.png",
+  "license": "Public domain",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:McLaren_Racing_logo.png",
+  "width": 1280,
+  "height": 384,
+  "remote": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/McLaren_Racing_logo.png/960px-McLaren_Racing_logo.png"
+ },
+ "osella": {
+  "file": "Osella.svg",
+  "src": "/media/logos/osella.png",
+  "license": "Public domain",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Osella.svg",
+  "width": 380,
+  "height": 569,
+  "remote": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Osella.svg/960px-Osella.svg.png"
+ },
+ "penske": {
+  "file": "Team Penske logo.svg",
+  "src": "/media/logos/penske.png",
+  "license": "Public domain",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Team_Penske_logo.svg",
+  "width": 189,
+  "height": 57,
+  "remote": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Team_Penske_logo.svg/960px-Team_Penske_logo.svg.png"
+ },
+ "prost": {
+  "file": "Prost Grand Prix Formula One Logo.png",
+  "src": "/media/logos/prost.png",
+  "license": "CC BY-SA 4.0",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Prost_Grand_Prix_Formula_One_Logo.png",
+  "width": 1200,
+  "height": 566,
+  "remote": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Prost_Grand_Prix_Formula_One_Logo.png/960px-Prost_Grand_Prix_Formula_One_Logo.png"
+ },
+ "racing-point": {
+  "file": "BWT Racing Point Logo.svg",
+  "src": "/media/logos/racing-point.png",
+  "license": "Public domain",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:BWT_Racing_Point_Logo.svg",
+  "width": 504,
+  "height": 307,
+  "remote": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/BWT_Racing_Point_Logo.svg/960px-BWT_Racing_Point_Logo.svg.png"
+ },
+ "sauber": {
+  "file": "Logo Sauber F1.png",
+  "src": "/media/logos/sauber.png",
+  "license": "Public domain",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Logo_Sauber_F1.png",
+  "curated": true,
+  "remote": "https://upload.wikimedia.org/wikipedia/commons/e/ea/Logo_Sauber_F1.png"
+ },
+ "stewart": {
+  "file": "Stewart-logo.jpg",
+  "src": "/media/logos/stewart.jpg",
+  "license": "Public domain",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Stewart-logo.jpg",
+  "width": 530,
+  "height": 313,
+  "remote": "https://upload.wikimedia.org/wikipedia/commons/f/f2/Stewart-logo.jpg"
+ },
+ "veritas": {
+  "file": "Veritas logo.png",
+  "src": "/media/logos/veritas.png",
+  "license": "Public domain",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Veritas_logo.png",
+  "width": 446,
+  "height": 627,
+  "remote": "https://upload.wikimedia.org/wikipedia/commons/1/17/Veritas_logo.png"
+ },
+ "williams": {
+  "file": "Atlassian Williams F1 Team logo.svg",
+  "src": "/media/logos/williams.png",
+  "license": "Public domain",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Atlassian_Williams_F1_Team_logo.svg",
+  "width": 500,
+  "height": 257,
+  "remote": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Atlassian_Williams_F1_Team_logo.svg/960px-Atlassian_Williams_F1_Team_logo.svg.png"
+ },
+ "mercedes": {
+  "file": "Mercedes-AMG Petronas F1 Team logo (2026).svg",
+  "src": "/media/logos/mercedes.svg",
+  "license": "Public domain",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Mercedes-AMG_Petronas_F1_Team_logo_(2026).svg",
+  "curated": true,
+  "remote": "https://upload.wikimedia.org/wikipedia/commons/f/fc/Mercedes-AMG_Petronas_F1_Team_logo_%282026%29.svg"
+ },
+ "red-bull": {
+  "file": "Red Bull Racing - 2005 Logo.png",
+  "src": "/media/logos/red-bull.png",
+  "license": "Public domain",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Red_Bull_Racing_-_2005_Logo.png",
+  "curated": true,
+  "remote": "https://upload.wikimedia.org/wikipedia/commons/9/9f/Red_Bull_Racing_-_2005_Logo.png"
+ },
+ "aston-martin": {
+  "file": "Aston Martin F1 Team logo 2024.jpg",
+  "src": "/media/logos/aston-martin.jpg",
+  "license": "CC BY 4.0",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Aston_Martin_F1_Team_logo_2024.jpg",
+  "curated": true,
+  "remote": "https://upload.wikimedia.org/wikipedia/commons/0/03/Aston_Martin_F1_Team_logo_2024.jpg"
+ },
+ "cadillac": {
+  "file": "Cadillac Formula 1 Team logo.png",
+  "src": "/media/logos/cadillac.png",
+  "license": "CC0",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Cadillac_Formula_1_Team_logo.png",
+  "curated": true,
+  "remote": "https://upload.wikimedia.org/wikipedia/commons/d/d8/Cadillac_Formula_1_Team_logo.png"
+ },
+ "tyrrell": {
+  "file": "Tyrrell Racing logo.svg",
+  "src": "https://upload.wikimedia.org/wikipedia/commons/7/7d/Tyrrell_Racing_logo.svg",
+  "license": "Public domain",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Tyrrell_Racing_logo.svg",
+  "curated": true
+ },
+ "renault": {
+  "file": "Renault F1 Team logo 2019.png",
+  "src": "/media/logos/renault.png",
+  "license": "Public domain",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Renault_F1_Team_logo_2019.png",
+  "curated": true,
+  "remote": "https://upload.wikimedia.org/wikipedia/commons/4/49/Renault_F1_Team_logo_2019.png"
+ },
+ "toyota": {
+  "file": "Panasonic Toyota Racing logo.svg",
+  "src": "https://upload.wikimedia.org/wikipedia/commons/0/0e/Panasonic_Toyota_Racing_logo.svg",
+  "license": "Public domain",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Panasonic_Toyota_Racing_logo.svg",
+  "curated": true
+ },
+ "brawn": {
+  "file": "Brawn GP logo.svg",
+  "src": "/media/logos/brawn.svg",
+  "license": "Public domain",
+  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Brawn_GP_logo.svg",
+  "curated": true,
+  "remote": "https://upload.wikimedia.org/wikipedia/commons/2/24/Brawn_GP_logo.svg"
+ }
+}

@@ -39,3 +39,18 @@ export function allPhotos() {
     .filter(([, r]) => r.status === "ok")
     .map(([id]) => ({ id, ...photo(id)! }));
 }
+
+/* ---------------------------------------------------------------------------
+ * Team logos (data/media/logos.json, from Wikidata P154 + manual review).
+ * Logos are trademarks of their owners, shown only to identify each team.
+ * ------------------------------------------------------------------------- */
+export type Logo = { src: string; license: string; sourceUrl: string };
+let logoCache: Record<string, Logo> | null = null;
+export function teamLogo(constructorId?: string): Logo | undefined {
+  if (!constructorId) return undefined;
+  if (!logoCache) {
+    const p = path.join(process.cwd(), "data", "media", "logos.json");
+    logoCache = fs.existsSync(p) ? (JSON.parse(fs.readFileSync(p, "utf8")) as Record<string, Logo>) : {};
+  }
+  return logoCache[constructorId];
+}

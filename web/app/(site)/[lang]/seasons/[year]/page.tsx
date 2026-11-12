@@ -5,7 +5,7 @@ import { lp, type Lang } from "@/lib/i18n/config";
 import { fmt, getDict } from "@/lib/i18n/dict";
 import { chassis, chassisName, circuit, ctor, ctorName, db, driver, engine, engineMfrName, entrantName, formatDate, gpName, season, seasonStatus, tyreName } from "@/lib/f1/db";
 import { eraForYear, pointsFor, pointsNotes, seasonHeadline } from "@/lib/f1/content";
-import { chassisPhoto, driverPhoto } from "@/lib/f1/media";
+import { chassisPhoto, driverPhoto, teamLogo } from "@/lib/f1/media";
 import { championChassis, seasonHero } from "@/lib/f1/derive";
 import { docsForYear } from "@/lib/f1/regs";
 import { CarCard } from "@/components/site/cards";
@@ -280,7 +280,11 @@ export default async function SeasonPage({ params }: PageProps<"/[lang]/seasons/
                         <tr key={`${s.c}-${s.e}`}>
                           <td className={`pos-cell ${s.pos === 1 ? "pos-1" : ""}`}>{s.pos}</td>
                           <td>
-                            <Link href={lp(lang, `/teams/${s.c}`)} style={{ fontWeight: s.pos <= 3 ? 600 : 400 }}>
+                            <Link href={lp(lang, `/teams/${s.c}`)} style={{ fontWeight: s.pos <= 3 ? 600 : 400, display: "inline-flex", alignItems: "center", gap: 10 }}>
+                              {year >= 2000 && teamLogo(s.c) && (
+                                // eslint-disable-next-line @next/next/no-img-element
+                                <img src={teamLogo(s.c)!.src} alt="" className="table-logo" loading="lazy" />
+                              )}
                               {ctorName(s.c)}
                             </Link>
                           </td>
